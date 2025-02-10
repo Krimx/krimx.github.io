@@ -50,6 +50,8 @@ const _v = new THREE.Vector3();
 
 const controls = new OrbitControls(camera, renderer.domElement);
 controls.mouseButtons.LEFT = THREE.MOUSE.PAN;
+controls.enableZoom = false;
+controls.enableRotate = false;
 
 controls.addEventListener('change',(event)=>{
   _v.copy(controls.target);
@@ -80,28 +82,30 @@ const ground = new BasicMesh(
   {castShadow: false, id: "ground"}
 );
 
-const block = new BasicMesh(
-  scene,
-  {geometry: new THREE.BoxGeometry(10, 10, 10), material: blockMat},
-  {x:0, y:5, z:0},
-  {x:0, y:0, z:0},
-  {x:1, y:1, z:1},
-  {interactables: interactableMeshes, id: "block", title: "move it move it"}
-);
-
-const roadScale = 10;
-const road = new BasicMesh(
-  scene,
-  {filepath: "/recs/road.glb"},
-  {x:0, y:1, z:0},
-  {x:0, y:0, z:0},
-  {x:roadScale, y:roadScale, z:roadScale},
-  {id: "block"}
-);
-
-interactableObjects.push(block);
-
 //Custom Meshes
+// const roadScale = 10;
+// const road = new BasicMesh(
+//   scene,
+//   {filepath: "/recs/road.glb"},
+//   {x:0, y:1, z:0},
+//   {x:0, y:0, z:0},
+//   {x:roadScale, y:roadScale, z:roadScale},
+//   {id: "road"}
+// );
+
+const houseScale = 10;
+const modernHouse1 = new BasicMesh(
+  scene,
+  {filepath: "/recs/modern.glb"},
+  // {x:-23, y:0, z:-20},
+  {x:0, y:0, z:0},
+  {x:0, y:Math.PI, z:0},
+  {x:houseScale, y:houseScale, z:houseScale},
+  {id: "modernHouse", title: "AHHHHHHHHHHHH", interactables: interactableMeshes}
+);
+interactableObjects.push(modernHouse1);
+console.log("modernHouse1:", modernHouse1);
+console.log("interactableMeshes:", interactableMeshes);
 
 //Lights
 const factor = 50;
@@ -151,29 +155,58 @@ window.addEventListener("mousemove", (event) => {
     document.body.style.cursor = "pointer";
     hoveredID = "";
   }
-
+  if (intersects.length == 0) {
+    hoveredID = "";
+  }
 
   //Iterate over all interactable obejcts to do stuff accoding to given conditions
   interactableObjects.forEach(obj => {
-    //If no interactables, run some resets (could be optimized but there wont be that much to iterate over)
-    if (intersects.length == 0) {
-      document.body.style.cursor = "default"; // Reset cursor
-      obj.hideTitle();
-      zoomCamera(hoveredID == "" ? 1 : cameraZoomAmount, cameraZoomTime);
-    }
-    else {
-      //If there is something being hovered but its not this one, run some resets
-      if (intersects[0].object != obj.mesh) {
+    //Check if custom mesh or not by checking if there is userdata (there wont be userdata if it is a standard geometry)
+    if (obj.mesh.userData) {
+      //If no interactables, run some resets (could be optimized but there wont be that much to iterate over)
+      if (intersects.length == 0) {
+        document.body.style.cursor = "default"; // Reset cursor
         obj.hideTitle();
         zoomCamera(hoveredID == "" ? 1 : cameraZoomAmount, cameraZoomTime);
       }
       else {
-        //If cursor is hovering over this one, do stuff accordingly
-        obj.showTitle(obj.getScreenPosition(camera, renderer).x, obj.getHighestScreenPixel(camera, renderer).y);
-        hoveredID = obj.id;
-        zoomCamera(hoveredID == "" ? 1 : cameraZoomAmount, cameraZoomTime);
+        //If there is something being hovered but its not this one, run some resets
+        if (intersects[0].object.userData.parentObject != obj.mesh) {
+          obj.hideTitle();
+          zoomCamera(hoveredID == "" ? 1 : cameraZoomAmount, cameraZoomTime);
+        }
+        else {
+          //If cursor is hovering over this one, do stuff accordingly
+          obj.showTitle(obj.getScreenPosition(camera, renderer).x, obj.getHighestScreenPixel(camera, renderer).y);
+          hoveredID = obj.id;
+          zoomCamera(hoveredID == "" ? 1 : cameraZoomAmount, cameraZoomTime);
+        }
       }
     }
+    else {
+      //If no interactables, run some resets (could be optimized but there wont be that much to iterate over)
+      if (intersects.length == 0) {
+        document.body.style.cursor = "default"; // Reset cursor
+        obj.hideTitle();
+        zoomCamera(hoveredID == "" ? 1 : cameraZoomAmount, cameraZoomTime);
+      }
+      else {
+        //If there is something being hovered but its not this one, run some resets
+        if (intersects[0].object != obj.mesh) {
+          obj.hideTitle();
+          zoomCamera(hoveredID == "" ? 1 : cameraZoomAmount, cameraZoomTime);
+        }
+        else {
+          //If cursor is hovering over this one, do stuff accordingly
+          obj.showTitle(obj.getScreenPosition(camera, renderer).x, obj.getHighestScreenPixel(camera, renderer).y, {ratio: renderer.pixelRatio});
+          hoveredID = obj.id;
+          zoomCamera(hoveredID == "" ? 1 : cameraZoomAmount, cameraZoomTime);
+        }
+      }
+    }
+
+    console.log(hoveredID);
+    
   });
 
   //Dont ask, i need to keep it for later. If i forget to remove it and it stays commented out, dw abt it

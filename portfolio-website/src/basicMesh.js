@@ -10,8 +10,13 @@ class BasicMesh {
         if (meshStuff.geometry != null && meshStuff.material != null) {
             this.mesh = new THREE.Mesh(this.geo, this.mat);
             this.initializeMeshProperties(pos, rot, scale, params);
+            if (params.interactables) params.interactables.push(this.mesh);
             scene.add(this.mesh);
         }
+
+        //GLTF handles meshes differently due to how its loading is asynchronous and what it pushes to interactables is not the same as what it puches when it is just a normal geometry
+        //When looking at the mesh in your object, make sure to check accordingly if what you are checking is gltf or what is loaded in the above block of code
+        //I will be making improvements to this class as time goes on so check with me for any important updates (ill let you know but point still stands)
 
         //if a filepath is clarified, load a mesh from the .glb file (MUST BE .glb!!!!!!!)
         if (meshStuff.filepath != null) {
@@ -20,7 +25,19 @@ class BasicMesh {
                 this.mesh = gltf.scene;
                 scene.add(this.mesh);
                 this.initializeMeshProperties(pos, rot, scale, params);
-                console.log(this.mesh.scale);
+                
+                if (params.interactables != null) {
+                    // Ensure all child meshes store a reference to this parent object
+                    gltf.scene.traverse((child) => {
+                        if (child.isMesh) {
+                            params.interactables.push(child);
+                            child.userData.parentObject = this.mesh; // Attach reference to BasicMesh instance
+                        }
+                    });
+
+                    console.log("Loaded Mesh:", this.mesh);
+                    console.log("Updated Interactable Meshes:", params.interactables);
+                }
             });
         }
     }
@@ -40,7 +57,7 @@ class BasicMesh {
     
         this.showingTitle = false;
     
-        if (params.interactables) params.interactables.push(this.mesh);
+        
     
         this.title = params.title || "";
         this.id = params.id || "";
@@ -100,60 +117,52 @@ class BasicMesh {
     }
 
     //This function came directly from ChatGPT. I don't know how it works. I don't wanna know how it works.
-    getScreenPosition(camera, renderer) {
-      // Get the mesh's world position
-      const vector = new THREE.Vector3();
-      this.mesh.getWorldPosition(vector);
+    getScreenPosition(camera, renderer, pixelRatio = {ratio:1}) {
+        const vector = new THREE.Vector3();
+        this.mesh.getWorldPosition(vector);
+        vector.project(camera);
     
-      // Project the position into normalized device coordinates (NDC)
-      vector.project(camera);
+        // Use window.innerWidth and window.innerHeight instead of renderer.domElement.width
+        const widthHalf = window.innerWidth / 2;
+        const heightHalf = window.innerHeight / 2;
     
-      // Convert NDC to screen coordinates
-      const widthHalf = renderer.domElement.width / 2;
-      const heightHalf = renderer.domElement.height / 2;
-    
-      return {
-          x: (vector.x * widthHalf) + widthHalf,  // Convert from -1 to 1 range to pixel space
-          y: -(vector.y * heightHalf) + heightHalf  // Invert Y because screen coordinates are flipped
-      };
+        return {
+            x: (vector.x * widthHalf) + widthHalf,
+            y: -(vector.y * heightHalf) + heightHalf
+        };
     }
     
     //This too
     getHighestScreenPixel(camera, renderer) {
-      // Compute the bounding box of the mesh
-      const bbox = new THREE.Box3().setFromObject(this.mesh);
+        const bbox = new THREE.Box3().setFromObject(this.mesh);
+        const points = [
+            new THREE.Vector3(bbox.min.x, bbox.min.y, bbox.min.z),
+            new THREE.Vector3(bbox.min.x, bbox.min.y, bbox.max.z),
+            new THREE.Vector3(bbox.min.x, bbox.max.y, bbox.min.z),
+            new THREE.Vector3(bbox.min.x, bbox.max.y, bbox.max.z),
+            new THREE.Vector3(bbox.max.x, bbox.min.y, bbox.min.z),
+            new THREE.Vector3(bbox.max.x, bbox.min.y, bbox.max.z),
+            new THREE.Vector3(bbox.max.x, bbox.max.y, bbox.min.z),
+            new THREE.Vector3(bbox.max.x, bbox.max.y, bbox.max.z),
+        ];
     
-      // Get the 8 corner points of the bounding box
-      const points = [
-          new THREE.Vector3(bbox.min.x, bbox.min.y, bbox.min.z),
-          new THREE.Vector3(bbox.min.x, bbox.min.y, bbox.max.z),
-          new THREE.Vector3(bbox.min.x, bbox.max.y, bbox.min.z),
-          new THREE.Vector3(bbox.min.x, bbox.max.y, bbox.max.z),
-          new THREE.Vector3(bbox.max.x, bbox.min.y, bbox.min.z),
-          new THREE.Vector3(bbox.max.x, bbox.min.y, bbox.max.z),
-          new THREE.Vector3(bbox.max.x, bbox.max.y, bbox.min.z),
-          new THREE.Vector3(bbox.max.x, bbox.max.y, bbox.max.z),
-      ];
+        let highestY = Infinity;
+        let highestPixel = { x: 0, y: 0 };
     
-      let highestY = Infinity;
-      let highestPixel = { x: 0, y: 0 };
+        points.forEach(point => {
+            const screenPos = point.clone().project(camera);
     
-      // Convert each point to screen space
-      points.forEach(point => {
-          const screenPos = point.clone().project(camera);
+            // Use window.innerWidth and window.innerHeight instead of renderer.domElement dimensions
+            const x = (screenPos.x * 0.5 + 0.5) * window.innerWidth;
+            const y = (1 - (screenPos.y * 0.5 + 0.5)) * window.innerHeight; 
     
-          // Convert NDC (-1 to 1) to screen pixels
-          const x = (screenPos.x * 0.5 + 0.5) * renderer.domElement.width;
-          const y = (1 - (screenPos.y * 0.5 + 0.5)) * renderer.domElement.height; // Invert Y
+            if (y < highestY) {
+                highestY = y;
+                highestPixel = { x, y };
+            }
+        });
     
-          // Check if this is the highest pixel (smallest y-value in screen space)
-          if (y < highestY) {
-              highestY = y;
-              highestPixel = { x, y };
-          }
-      });
-    
-      return highestPixel;
+        return highestPixel;
     }
 }
 
