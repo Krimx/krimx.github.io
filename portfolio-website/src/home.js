@@ -13,7 +13,8 @@ let aspect = scr.width / scr.height;
 let frustum = 40;
 let hoveredID = "";
 const cameraZoomTime = 500;
-const cameraZoomAmount = 1.05;
+const cameraZoomAmount = 0.85;
+const cameraZoomBase = 0.8;
 let zooming = false;
 let zoomTween = null;
 
@@ -25,12 +26,18 @@ const raycaster = new THREE.Raycaster();
 const interactableMeshes = [];
 const interactableObjects = [];
 const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x202020);
 
 //Camera
-const camera = new THREE.OrthographicCamera(-frustum * aspect,frustum * aspect,frustum,-frustum, 0.1, 150);
+const camera = new THREE.OrthographicCamera(-frustum * aspect, frustum * aspect, frustum, -frustum, 0.1, 200);
 // const camera = new THREE.PerspectiveCamera(90, scr.width / scr.height, 0.1, 500);
 camera.position.set(30,30,30);
 camera.lookAt(0,0,0);
+camera.zoom = cameraZoomBase;
+camera.left = -frustum * aspect / camera.zoom;
+camera.right = frustum * aspect / camera.zoom;
+camera.top = frustum / camera.zoom;
+camera.bottom = -frustum / camera.zoom / aspect;
 camera.updateProjectionMatrix();
 scene.add(camera);
 
@@ -40,7 +47,7 @@ const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 renderer.setSize(scr.width, scr.height);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFShadowMap;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 renderer.setPixelRatio(2);
 
 //OrbitControls used for panning
@@ -79,7 +86,7 @@ const ground = new BasicMesh(
   {x:0, y:0, z:0},
   {x:-Math.PI / 2, y:0, z:0},
   {x:1000, y:1000, z:1},
-  {castShadow: false, id: "ground"}
+  {castShadow: false, id: "ground", receiveShadow: true}
 );
 
 //Custom Meshes
@@ -101,7 +108,7 @@ const modernHouse1 = new BasicMesh(
   {x:0, y:0, z:0},
   {x:0, y:Math.PI, z:0},
   {x:houseScale, y:houseScale, z:houseScale},
-  {id: "modernHouse", title: "Modern House Fuckery", interactables: interactableMeshes}
+  {id: "modernHouse", title: "About", interactables: interactableMeshes}
 );
 interactableObjects.push(modernHouse1);
 
@@ -112,23 +119,31 @@ const cuteLilHouse = new BasicMesh(
   {x:20, y:0, z:-46},
   {x:0, y:Math.PI / 2, z:0},
   {x:houseScale, y:houseScale, z:houseScale},
-  {id: "cuteLilHouse", title: "Bitch", interactables: interactableMeshes}
+  {id: "cuteLilHouse", title: "Projects", interactables: interactableMeshes}
 );
 interactableObjects.push(cuteLilHouse);
 
 //Lights
 const factor = 50;
-const sun1 = new BasicSun(scene, {x:20 * factor, y:100 * factor, z:-20 * factor}, 0xFFFFEC, 1, 20);
-const sun2 = new BasicSun(scene, {x:19 * factor, y:100 * factor, z:-19 * factor}, 0xFFFFEC, 1, 20);
-const sun3 = new BasicSun(scene, {x:-5 * factor, y:100 * factor, z:5   * factor}, 0xFFFFEC, 2, 20);
+const sunFrust = 1000;
+const sun1 = new BasicSun(scene, {x:20 * factor, y:100 * factor, z:-20 * factor}, 0xFFFFEC, 1, sunFrust);
+const sun2 = new BasicSun(scene, {x:19 * factor, y:100 * factor, z:-19 * factor}, 0xFFFFEC, 1, sunFrust);
+const sun3 = new BasicSun(scene, {x:-5 * factor, y:100 * factor, z:5   * factor}, 0xFFFFEC, 2, sunFrust);
 
 //Render loop
 function loop() {
   requestAnimationFrame(loop);
+  renderer.clear();
+
   controls.update();
 
   camera.updateProjectionMatrix();
   renderer.render(scene, camera);
+
+  console.log(`Camera Bounds - Left: ${camera.left}, Right: ${camera.right}, Top: ${camera.top}, Bottom: ${camera.bottom}`);
+  console.log(`Camera Zoom: ${camera.zoom}`);
+  console.log(`Canvas Size: ${renderer.domElement.width} x ${renderer.domElement.height}`);
+  console.log("--------")
 }
 loop();
 
@@ -139,10 +154,10 @@ window.addEventListener("resize", () => {
 
   aspect = scr.width / scr.height;
 
-  camera.left = -frustum * aspect;
-  camera.right = frustum * aspect;
-  camera.top = frustum;
-  camera.bottom = -frustum;
+  camera.left = -frustum * aspect / camera.zoom;
+  camera.right = frustum * aspect / camera.zoom;
+  camera.top = frustum / camera.zoom;
+  camera.bottom = -frustum / camera.zoom / aspect;
   
   camera.updateProjectionMatrix();
   renderer.setSize(scr.width, scr.height);
@@ -176,19 +191,19 @@ window.addEventListener("mousemove", (event) => {
       if (intersects.length == 0) {
         document.body.style.cursor = "default"; // Reset cursor
         obj.hideTitle();
-        zoomCamera(hoveredID == "" ? 1 : cameraZoomAmount, cameraZoomTime);
+        zoomCamera(hoveredID == "" ? cameraZoomBase : cameraZoomAmount, cameraZoomTime);
       }
       else {
         //If there is something being hovered but its not this one, run some resets
         if (intersects[0].object.userData.parentObject != obj.mesh) {
           obj.hideTitle();
-          zoomCamera(hoveredID == "" ? 1 : cameraZoomAmount, cameraZoomTime);
+          zoomCamera(hoveredID == "" ? cameraZoomBase : cameraZoomAmount, cameraZoomTime);
         }
         else {
           //If cursor is hovering over this one, do stuff accordingly
           obj.showTitle(obj.getScreenPosition(camera, renderer).x, obj.getHighestScreenPixel(camera, renderer).y);
           hoveredID = obj.id;
-          zoomCamera(hoveredID == "" ? 1 : cameraZoomAmount, cameraZoomTime);
+          zoomCamera(hoveredID == "" ? cameraZoomBase : cameraZoomAmount, cameraZoomTime);
         }
       }
     }

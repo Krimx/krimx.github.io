@@ -32,12 +32,24 @@ class BasicMesh {
                         if (child.isMesh) {
                             params.interactables.push(child);
                             child.userData.parentObject = this.mesh; // Attach reference to BasicMesh instance
+
+                            // Enable shadows on all sub-meshes
+                            child.castShadow = params.castShadow !== undefined ? params.castShadow : true;
+                            child.receiveShadow = params.receiveShadow !== undefined ? params.receiveShadow : true;
+
+                            console.log(this.id);
+                            console.log(`Mesh: ${child.name}, CastShadow: ${child.castShadow}, ReceiveShadow: ${child.receiveShadow}`);
+                            console.log("-------");
                         }
                     });
 
-                    console.log("Loaded Mesh:", this.mesh);
-                    console.log("Updated Interactable Meshes:", params.interactables);
+                    // console.log("Loaded Mesh:", this.mesh);
+                    // console.log("Updated Interactable Meshes:", params.interactables);
                 }
+
+                // console.log("Passed");
+                // console.log(this.mesh);
+                // console.log("-------------");
             });
         }
     }
