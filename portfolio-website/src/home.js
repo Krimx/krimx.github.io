@@ -96,16 +96,25 @@ const ground = new BasicMesh(
 const houseScale = 10;
 const modernHouse1 = new BasicMesh(
   scene,
-  {filepath: "/recs/modern.glb"},
+  {filepath: "/recs/modernHouse1.glb"},
   // {x:-23, y:0, z:-20},
   {x:0, y:0, z:0},
   {x:0, y:Math.PI, z:0},
   {x:houseScale, y:houseScale, z:houseScale},
-  {id: "modernHouse", title: "AHHHHHHHHHHHH", interactables: interactableMeshes}
+  {id: "modernHouse", title: "Modern House Fuckery", interactables: interactableMeshes}
 );
 interactableObjects.push(modernHouse1);
-console.log("modernHouse1:", modernHouse1);
-console.log("interactableMeshes:", interactableMeshes);
+
+const cuteLilHouse = new BasicMesh(
+  scene,
+  {filepath: "/recs/cuteLilHouse.glb"},
+  // {x:-23, y:0, z:-20},
+  {x:20, y:0, z:-46},
+  {x:0, y:Math.PI / 2, z:0},
+  {x:houseScale, y:houseScale, z:houseScale},
+  {id: "cuteLilHouse", title: "Bitch", interactables: interactableMeshes}
+);
+interactableObjects.push(cuteLilHouse);
 
 //Lights
 const factor = 50;
@@ -204,14 +213,15 @@ window.addEventListener("mousemove", (event) => {
         }
       }
     }
-
-    console.log(hoveredID);
-    
   });
 
   //Dont ask, i need to keep it for later. If i forget to remove it and it stays commented out, dw abt it
   // if (intersects.length == 0) hoveredID = ""; 
 });
+
+window.addEventListener("mousedown", () => {
+  if (hoveredID == "modernHouse") window.location.href = "/test.html"
+})
 
 //Code from chatgpt uses gsap to animate changing camera zoom amount
 function zoomCamera(targetZoom, duration) {
