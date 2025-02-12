@@ -236,6 +236,7 @@ window.addEventListener("mousemove", (event) => {
 
 window.addEventListener("mousedown", () => {
   if (hoveredID == "modernHouse") window.location.href = "/test.html"
+  if (hoveredID == "cuteLilHouse") window.location.href = "/projects.html"
 })
 
 //Code from chatgpt uses gsap to animate changing camera zoom amount
