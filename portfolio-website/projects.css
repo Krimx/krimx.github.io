@@ -5,6 +5,10 @@
     border-collapse: collapse;
 }
 
+body,html {
+    background-color: #efefef;
+}
+
 .table {
     width: 100%;
     height: auto;

@@ -7,7 +7,8 @@ class FlipCard extends HTMLElement {
 
         // Get attributes from element
         const frontImage = this.getAttribute("front-image") || "";
-        const backText = this.getAttribute("back-text") || "Back Side";
+        const backTitle = this.getAttribute("back-title") || "Title";
+        const backBody = this.getAttribute("back-body") || "Body text goes here.";
         const cardHeight = this.getAttribute("card-height") || "auto";
 
         // Define the template
@@ -32,34 +33,56 @@ class FlipCard extends HTMLElement {
                 }
 
                 .card-front, .card-back {
-                    width: 100%;
-                    height: 100%;
                     position: absolute;
                     backface-visibility: hidden;
                     display: flex;
+                    flex-direction: column;
                     justify-content: center;
                     align-items: center;
-                    font-size: 20px;
-                    font-weight: bold;
+                    box-sizing: border-box;
+                    text-align: center;
                 }
 
                 .card-front {
-                    background-color: white;
+                    width: 100%;
+                    height: 100%;
                 }
 
                 .card-front img {
                     width: 100%;
                     height: 100%;
                     object-fit: cover;
+                    border-radius: 10px;
                 }
 
                 .card-back {
-                    background-color: #3498db;
-                    color: white;
+                    width: 95%;
+                    height: 95%;
+                    margin: 2.5%;
+                    background-color: white;
+                    -webkit-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+                    -moz-box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
+                    box-shadow: 0px 0px 5px 0px rgba(0,0,0,0.75);
                     transform: rotateY(180deg);
                     display: flex;
-                    justify-content: center;
+                    justify-content: start;
                     align-items: center;
+                    padding: 2rem;
+                    border: 2px solid black;
+                    border-radius: 10px;
+                }
+
+                .card-back h2 {
+                    margin: 0;
+                    margin-bottom: 2rem;
+                    margin-top: 1rem;
+                    font-size: 24px;
+                    font-weight: bold;
+                }
+
+                .card-back p {
+                    margin-top: 10px;
+                    font-size: 16px;
                 }
             </style>
 
@@ -69,7 +92,8 @@ class FlipCard extends HTMLElement {
                         <img src="${frontImage}" alt="Front Image">
                     </div>
                     <div class="card-back">
-                        <p>${backText}</p>
+                        <h2>${backTitle}</h2>
+                        <p>${backBody}</p>
                     </div>
                 </div>
             </div>

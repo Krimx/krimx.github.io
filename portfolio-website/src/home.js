@@ -126,9 +126,10 @@ interactableObjects.push(cuteLilHouse);
 //Lights
 const factor = 50;
 const sunFrust = 1000;
-const sun1 = new BasicSun(scene, {x:20 * factor, y:100 * factor, z:-20 * factor}, 0xFFFFEC, 1, sunFrust);
-const sun2 = new BasicSun(scene, {x:19 * factor, y:100 * factor, z:-19 * factor}, 0xFFFFEC, 1, sunFrust);
-const sun3 = new BasicSun(scene, {x:-5 * factor, y:100 * factor, z:5   * factor}, 0xFFFFEC, 2, sunFrust);
+const sun1 = new BasicSun(scene, {x:20  * factor, y:100 * factor, z:-20 * factor}, 0xFFFFEC, 1, sunFrust);
+const sun2 = new BasicSun(scene, {x:19  * factor, y:100 * factor, z:-19 * factor}, 0xFFFFEC, 1, sunFrust);
+const sun3 = new BasicSun(scene, {x:-5  * factor, y:100 * factor, z:5   * factor}, 0xFFFFEC, 2, sunFrust);
+const sun4 = new BasicSun(scene, {x:-10 * factor, y:100 * factor, z:20  * factor}, 0xFFFFEC, 2, sunFrust);
 
 //Render loop
 function loop() {
@@ -139,11 +140,6 @@ function loop() {
 
   camera.updateProjectionMatrix();
   renderer.render(scene, camera);
-
-  console.log(`Camera Bounds - Left: ${camera.left}, Right: ${camera.right}, Top: ${camera.top}, Bottom: ${camera.bottom}`);
-  console.log(`Camera Zoom: ${camera.zoom}`);
-  console.log(`Canvas Size: ${renderer.domElement.width} x ${renderer.domElement.height}`);
-  console.log("--------")
 }
 loop();
 
@@ -234,11 +230,6 @@ window.addEventListener("mousemove", (event) => {
   // if (intersects.length == 0) hoveredID = ""; 
 });
 
-window.addEventListener("mousedown", () => {
-  if (hoveredID == "modernHouse") window.location.href = "/test.html"
-  if (hoveredID == "cuteLilHouse") window.location.href = "/projects.html"
-})
-
 //Code from chatgpt uses gsap to animate changing camera zoom amount
 function zoomCamera(targetZoom, duration) {
   if (zoomTween) {
@@ -257,4 +248,18 @@ function zoomCamera(targetZoom, duration) {
   });
 
   zooming = true;
+}
+
+window.addEventListener("mousedown", () => {
+  if (hoveredID == "modernHouse") fadeToPage("home");
+  if (hoveredID == "cuteLilHouse") fadeToPage("projects");
+})
+
+function fadeToPage(page) {
+  const fadeOverlay = document.getElementById("fadeOverlay");
+      fadeOverlay.style.opacity = "1"; // Start fade to black
+      setTimeout(() => {
+        window.location.href = "/" + page + ".html";
+            }, 1000); // Match the transition time (1s)
+  
 }
