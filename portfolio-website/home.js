@@ -259,7 +259,7 @@ function fadeToPage(page) {
   const fadeOverlay = document.getElementById("fadeOverlay");
       fadeOverlay.style.opacity = "1"; // Start fade to black
       setTimeout(() => {
-        window.location.href = "/" + page + ".html";
+        window.location.href = "3d_Portfolio-Website/" + page + ".html";
             }, 1000); // Match the transition time (1s)
   
 }
