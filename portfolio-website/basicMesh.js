@@ -21,36 +21,45 @@ class BasicMesh {
         //if a filepath is clarified, load a mesh from the .glb file (MUST BE .glb!!!!!!!)
         if (meshStuff.filepath != null) {
             const loader = new GLTFLoader();
-            loader.load(meshStuff.filepath, (gltf) => {
-                this.mesh = gltf.scene;
-                scene.add(this.mesh);
-                this.initializeMeshProperties(pos, rot, scale, params);
-                
-                if (params.interactables != null) {
-                    // Ensure all child meshes store a reference to this parent object
-                    gltf.scene.traverse((child) => {
-                        if (child.isMesh) {
-                            params.interactables.push(child);
-                            child.userData.parentObject = this.mesh; // Attach reference to BasicMesh instance
-
-                            // Enable shadows on all sub-meshes
-                            child.castShadow = params.castShadow !== undefined ? params.castShadow : true;
-                            child.receiveShadow = params.receiveShadow !== undefined ? params.receiveShadow : true;
-
-                            console.log(this.id);
-                            console.log(`Mesh: ${child.name}, CastShadow: ${child.castShadow}, ReceiveShadow: ${child.receiveShadow}`);
-                            console.log("-------");
-                        }
-                    });
-
-                    // console.log("Loaded Mesh:", this.mesh);
-                    // console.log("Updated Interactable Meshes:", params.interactables);
+            loader.load(
+                meshStuff.filepath,
+                (gltf) => {
+                    this.mesh = gltf.scene;
+                    
+                    if (!this.mesh) {
+                        console.error(`Failed to load model: ${meshStuff.filepath}`);
+                        return;
+                    }
+            
+                    scene.add(this.mesh);
+                    
+                    // Ensure properties exist before setting them
+                    this.initializeMeshProperties(pos, rot, scale, params);
+            
+                    if (params.interactables) {
+                        this.mesh.traverse((child) => {
+                            if (child.isMesh) {
+                                if (!params.interactables) params.interactables = [];
+                                params.interactables.push(child);
+            
+                                // Ensure userData exists before accessing it
+                                child.userData = child.userData || {};
+                                child.userData.parentObject = this.mesh; 
+            
+                                // Enable shadows
+                                child.castShadow = params.castShadow ?? true;
+                                child.receiveShadow = params.receiveShadow ?? true;
+            
+                                console.log(`Mesh Loaded: ${child.name}`);
+                            }
+                        });
+                    }
+                },
+                undefined,
+                (error) => {
+                    console.error(`Error loading model: ${meshStuff.filepath}`, error);
                 }
-
-                // console.log("Passed");
-                // console.log(this.mesh);
-                // console.log("-------------");
-            });
+            );
         }
     }
 
