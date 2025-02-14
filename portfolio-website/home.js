@@ -103,7 +103,7 @@ const ground = new BasicMesh(
 const houseScale = 10;
 const modernHouse1 = new BasicMesh(
   scene,
-  {filepath: "${import.meta.env.BASE_URL}recs/models/modernHouse1.glb"},
+  {filepath: "/recs/models/modernHouse1.glb"},
   // {x:-23, y:0, z:-20},
   {x:0, y:0, z:0},
   {x:0, y:Math.PI, z:0},
@@ -114,7 +114,7 @@ interactableObjects.push(modernHouse1);
 
 const cuteLilHouse = new BasicMesh(
   scene,
-  {filepath: "${import.meta.env.BASE_URL}recs/models/cuteLilHouse.glb"},
+  {filepath: "$/recs/models/cuteLilHouse.glb"},
   // {x:-23, y:0, z:-20},
   {x:20, y:0, z:-46},
   {x:0, y:Math.PI / 2, z:0},
