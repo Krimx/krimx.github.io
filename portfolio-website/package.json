@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "deploy": "gh-pages -d dist --cname public/CNAME"
+    "deploy": "main -d dist --cname public/CNAME"
   },
   "devDependencies": {
     "gh-pages": "^6.3.0",
