@@ -1,3 +1,4 @@
+import '../css/header.css'
 import '../css/style.css'
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
@@ -122,6 +123,16 @@ const cuteLilHouse = new BasicMesh(
   {id: "cuteLilHouse", title: "Projects", interactables: interactableMeshes}
 );
 interactableObjects.push(cuteLilHouse);
+
+const joovieScale = 4;
+const joovie = new BasicMesh(
+  scene,
+  {filepath: "./recs/models/joovie.glb"},
+  {x:20, y:6, z:0},
+  {x:0, y:0, z:0},
+  {x:joovieScale, y:joovieScale, z:joovieScale},
+  {id: "joovie"}
+);
 
 //Lights
 const factor = 50;
@@ -251,7 +262,7 @@ function zoomCamera(targetZoom, duration) {
 }
 
 window.addEventListener("mousedown", () => {
-  if (hoveredID == "modernHouse") fadeToPage("home");
+  if (hoveredID == "modernHouse") fadeToPage("about");
   if (hoveredID == "cuteLilHouse") fadeToPage("projects");
 })
 
