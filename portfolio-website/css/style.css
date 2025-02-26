@@ -10,6 +10,7 @@ body,html {
 
 .webgl {
   z-index: 1;
+  position: absolute;
   width: 100vw;
   height: 100vh;
 }
@@ -61,4 +62,7 @@ body,html {
 
 .header {
   position: absolute;
+}
+.header-links > a {
+  color: white;
 }

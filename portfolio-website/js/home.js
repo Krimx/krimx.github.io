@@ -18,6 +18,9 @@ const cameraZoomAmount = 0.85;
 const cameraZoomBase = 0.8;
 let zooming = false;
 let zoomTween = null;
+const lookAtTarget = new THREE.Vector3(0,100,0);
+const lookAtGroundRotation = new THREE.Vector3(-.785, .615, .524);
+const lookAtSkyRotation = new THREE.Vector3(1.166, .375, -.707);
 
 //Raycaster stuff
 const mouse = new THREE.Vector2();
@@ -27,20 +30,22 @@ const raycaster = new THREE.Raycaster();
 const interactableMeshes = [];
 const interactableObjects = [];
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x202020);
+scene.background = new THREE.Color(0x000000);
 
 //Camera
 const camera = new THREE.OrthographicCamera(-frustum * aspect, frustum * aspect, frustum, -frustum, 0.1, 200);
 // const camera = new THREE.PerspectiveCamera(90, scr.width / scr.height, 0.1, 500);
 camera.position.set(30,30,30);
+// camera.rotation.set(lookAtSkyRotation.x, lookAtSkyRotation.y, lookAtSkyRotation.z);
 camera.lookAt(0,0,0);
 camera.zoom = cameraZoomBase;
 camera.left = -frustum * aspect / camera.zoom;
 camera.right = frustum * aspect / camera.zoom;
-camera.top = frustum / camera.zoom;
-camera.bottom = -frustum / camera.zoom / aspect;
+camera.top = frustum * aspect;
+camera.bottom = -frustum / aspect;
 camera.updateProjectionMatrix();
 scene.add(camera);
+console.log(camera.rotation);
 
 //Renderer
 const canvas = document.querySelector('.webgl');
@@ -56,27 +61,10 @@ const minPan = new THREE.Vector3(-1000,0,-1000);
 const maxPan = new THREE.Vector3(1000,0,1000);
 const _v = new THREE.Vector3(); 
 
-const controls = new OrbitControls(camera, renderer.domElement);
-controls.mouseButtons.LEFT = THREE.MOUSE.PAN;
-controls.enableZoom = false;
-controls.enableRotate = false;
-
-controls.addEventListener('change',(event)=>{
-  _v.copy(controls.target);
-  controls.target.clamp(minPan,maxPan);
-  _v.sub(controls.target);
-  camera.position.sub(_v);
-})
-
 //Materials
 const grassMat = new THREE.MeshStandardMaterial({
   color: "#75d327",
   roughness: 0.9,
-  side: THREE.DoubleSide,
-});
-const blockMat = new THREE.MeshStandardMaterial({
-  color: "#27d3c9",
-  roughness: 0.1,
   side: THREE.DoubleSide,
 });
 
@@ -89,17 +77,6 @@ const ground = new BasicMesh(
   {x:1000, y:1000, z:1},
   {castShadow: false, id: "ground", receiveShadow: true}
 );
-
-//Custom Meshes
-// const roadScale = 10;
-// const road = new BasicMesh(
-//   scene,
-//   {filepath: "/recs/road.glb"},
-//   {x:0, y:1, z:0},
-//   {x:0, y:0, z:0},
-//   {x:roadScale, y:roadScale, z:roadScale},
-//   {id: "road"}
-// );
 
 const houseScale = 10;
 const modernHouse1 = new BasicMesh(
@@ -146,8 +123,6 @@ const sun4 = new BasicSun(scene, {x:-10 * factor, y:100 * factor, z:20  * factor
 function loop() {
   requestAnimationFrame(loop);
   renderer.clear();
-
-  controls.update();
 
   camera.updateProjectionMatrix();
   renderer.render(scene, camera);
@@ -261,10 +236,30 @@ function zoomCamera(targetZoom, duration) {
   zooming = true;
 }
 
-window.addEventListener("mousedown", () => {
-  if (hoveredID == "modernHouse") fadeToPage("about");
-  if (hoveredID == "cuteLilHouse") fadeToPage("projects");
-})
+window.addEventListener("mouseup", () => {
+  //Makes camera look up into sky when about house is clicked
+  let lookAtPoint = new THREE.Vector4(0,0,0,30);
+  if (hoveredID == "modernHouse") {
+    document.getElementById("objectTitle").remove();
+    gsap.to(lookAtPoint, {
+      x: 0,
+      y: 100,
+      z: 0,
+      w: 70,
+      duration: 2,
+      ease: "back.in(1.5)",
+      onUpdate: () => {
+        camera.lookAt(lookAtPoint.x, lookAtPoint.y, lookAtPoint.z);
+        camera.position.y = lookAtPoint.w;
+        camera.updateProjectionMatrix();
+        renderer.render(scene, camera);
+      }
+    });
+  }
+  if (hoveredID == "cuteLilHouse") {
+    // fadeToPage("projects");
+  }
+});
 
 function fadeToPage(page) {
   const fadeOverlay = document.getElementById("fadeOverlay");
