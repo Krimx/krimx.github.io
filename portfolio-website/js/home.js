@@ -5,6 +5,7 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import gsap from "gsap";
 import {BasicMesh} from "./basicMesh";
 import {BasicSun} from "./basicSun";
+import * as Content from "./contentLoader.js";
 
 let scr = {
   width: window.innerWidth,
@@ -18,9 +19,11 @@ const cameraZoomAmount = 0.85;
 const cameraZoomBase = 0.8;
 let zooming = false;
 let zoomTween = null;
-const lookAtTarget = new THREE.Vector3(0,100,0);
-const lookAtGroundRotation = new THREE.Vector3(-.785, .615, .524);
-const lookAtSkyRotation = new THREE.Vector3(1.166, .375, -.707);
+const cameraBasePosition = new THREE.Vector3(30,30,30);
+const cameraSkyPosition = new THREE.Vector3(30,100,30);
+const lookAtSkyPoint = new THREE.Vector3(0,100,0);
+const lookAtGroundPoint = new THREE.Vector3(0,0,0);
+let lookingAt = "ground";
 
 //Raycaster stuff
 const mouse = new THREE.Vector2();
@@ -35,8 +38,7 @@ scene.background = new THREE.Color(0x000000);
 //Camera
 const camera = new THREE.OrthographicCamera(-frustum * aspect, frustum * aspect, frustum, -frustum, 0.1, 200);
 // const camera = new THREE.PerspectiveCamera(90, scr.width / scr.height, 0.1, 500);
-camera.position.set(30,30,30);
-// camera.rotation.set(lookAtSkyRotation.x, lookAtSkyRotation.y, lookAtSkyRotation.z);
+camera.position.set(cameraBasePosition.x, cameraBasePosition.y, cameraBasePosition.z);
 camera.lookAt(0,0,0);
 camera.zoom = cameraZoomBase;
 camera.left = -frustum * aspect / camera.zoom;
@@ -238,14 +240,15 @@ function zoomCamera(targetZoom, duration) {
 
 window.addEventListener("mouseup", () => {
   //Makes camera look up into sky when about house is clicked
-  let lookAtPoint = new THREE.Vector4(0,0,0,30);
   if (hoveredID == "modernHouse") {
+    let lookAtPoint = new THREE.Vector4(lookAtGroundPoint.x, lookAtGroundPoint.y, lookAtGroundPoint.z, cameraBasePosition.y);
     document.getElementById("objectTitle").remove();
+    lookingAt = "sky";
     gsap.to(lookAtPoint, {
-      x: 0,
-      y: 100,
-      z: 0,
-      w: 70,
+      x: lookAtSkyPoint.x,
+      y: lookAtSkyPoint.y,
+      z: lookAtSkyPoint.z,
+      w: cameraSkyPosition.y,
       duration: 2,
       ease: "back.in(1.5)",
       onUpdate: () => {
@@ -253,6 +256,9 @@ window.addEventListener("mouseup", () => {
         camera.position.y = lookAtPoint.w;
         camera.updateProjectionMatrix();
         renderer.render(scene, camera);
+      },
+      onComplete: () => {
+        Content.loadAboutContent();
       }
     });
   }
@@ -268,4 +274,25 @@ function fadeToPage(page) {
         window.location.href = "" + page + ".html";
             }, 1000); // Match the transition time (1s)
   
+}
+
+window.lookBackDown = function() {
+  if (lookingAt == "sky") {
+    let lookAtPoint = new THREE.Vector4(lookAtSkyPoint.x, lookAtSkyPoint.y, lookAtSkyPoint.z, cameraSkyPosition.y);
+    lookingAt = "sky";
+    gsap.to(lookAtPoint, {
+      x: lookAtGroundPoint.x,
+      y: lookAtGroundPoint.y,
+      z: lookAtGroundPoint.z,
+      w: cameraBasePosition.y,
+      duration: 2,
+      ease: "back.out(1.5)",
+      onUpdate: () => {
+        camera.lookAt(lookAtPoint.x, lookAtPoint.y, lookAtPoint.z);
+        camera.position.y = lookAtPoint.w;
+        camera.updateProjectionMatrix();
+        renderer.render(scene, camera);
+      }
+    });
+  }
 }
