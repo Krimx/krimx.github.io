@@ -1,5 +1,5 @@
 import '../css/header.css'
-import '../css/style.css'
+import '../css/home.css'
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import gsap from "gsap";
@@ -33,21 +33,20 @@ const raycaster = new THREE.Raycaster();
 const interactableMeshes = [];
 const interactableObjects = [];
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x000000);
+scene.background = new THREE.Color(0x00000f);
 
 //Camera
-const camera = new THREE.OrthographicCamera(-frustum * aspect, frustum * aspect, frustum, -frustum, 0.1, 200);
+const camera = new THREE.OrthographicCamera(-frustum * aspect, frustum * aspect, frustum, -frustum / aspect, -50, 400);
 // const camera = new THREE.PerspectiveCamera(90, scr.width / scr.height, 0.1, 500);
 camera.position.set(cameraBasePosition.x, cameraBasePosition.y, cameraBasePosition.z);
 camera.lookAt(0,0,0);
 camera.zoom = cameraZoomBase;
 camera.left = -frustum * aspect / camera.zoom;
 camera.right = frustum * aspect / camera.zoom;
-camera.top = frustum * aspect;
-camera.bottom = -frustum / aspect;
+camera.top = frustum / camera.zoom;
+camera.bottom = -frustum / camera.zoom;
 camera.updateProjectionMatrix();
 scene.add(camera);
-console.log(camera.rotation);
 
 //Renderer
 const canvas = document.querySelector('.webgl');
@@ -102,6 +101,26 @@ const cuteLilHouse = new BasicMesh(
   {id: "cuteLilHouse", title: "Projects", interactables: interactableMeshes}
 );
 interactableObjects.push(cuteLilHouse);
+
+const treeScale = 2;
+const tree = new BasicMesh(
+  scene,
+  {filepath: "./recs/models/tree.glb"},
+  {x:20, y:6, z:0},
+  {x:0, y:0, z:0},
+  {x:treeScale, y:treeScale, z:treeScale},
+  {id: "tree"}
+);
+
+const forestScale = 2;
+const forest = new BasicMesh(
+  scene,
+  {filepath: "./recs/models/forest.glb"},
+  {x:-150, y:10, z:-70},
+  {x:0, y:.5, z:0},
+  {x:forestScale, y:forestScale, z:forestScale},
+  {id: "forest"}
+);
 
 const joovieScale = 4;
 const joovie = new BasicMesh(
@@ -228,6 +247,10 @@ function zoomCamera(targetZoom, duration) {
     zoom: targetZoom,
     duration: duration / 1000, // gsap uses seconds
     onUpdate: () => {
+      camera.left = -frustum * aspect / camera.zoom;
+      camera.right = frustum * aspect / camera.zoom;
+      camera.top = frustum / camera.zoom;
+      camera.bottom = -frustum / camera.zoom;
       camera.updateProjectionMatrix();
     },
     onComplete: () => {
@@ -241,26 +264,7 @@ function zoomCamera(targetZoom, duration) {
 window.addEventListener("mouseup", () => {
   //Makes camera look up into sky when about house is clicked
   if (hoveredID == "modernHouse") {
-    let lookAtPoint = new THREE.Vector4(lookAtGroundPoint.x, lookAtGroundPoint.y, lookAtGroundPoint.z, cameraBasePosition.y);
-    document.getElementById("objectTitle").remove();
-    lookingAt = "sky";
-    gsap.to(lookAtPoint, {
-      x: lookAtSkyPoint.x,
-      y: lookAtSkyPoint.y,
-      z: lookAtSkyPoint.z,
-      w: cameraSkyPosition.y,
-      duration: 2,
-      ease: "back.in(1.5)",
-      onUpdate: () => {
-        camera.lookAt(lookAtPoint.x, lookAtPoint.y, lookAtPoint.z);
-        camera.position.y = lookAtPoint.w;
-        camera.updateProjectionMatrix();
-        renderer.render(scene, camera);
-      },
-      onComplete: () => {
-        Content.loadAboutContent();
-      }
-    });
+    lookUpToSky();
   }
   if (hoveredID == "cuteLilHouse") {
     // fadeToPage("projects");
@@ -276,23 +280,48 @@ function fadeToPage(page) {
   
 }
 
+function lookUpToSky() {
+  let lookAtPoint = new THREE.Vector4(lookAtGroundPoint.x, lookAtGroundPoint.y, lookAtGroundPoint.z, cameraBasePosition.y);
+  document.getElementById("objectTitle").remove();
+  lookingAt = "sky";
+  gsap.to(lookAtPoint, {
+    x: lookAtSkyPoint.x,
+    y: lookAtSkyPoint.y,
+    z: lookAtSkyPoint.z,
+    w: cameraSkyPosition.y,
+    duration: 1.3,
+    ease: "back.in(1.0)",
+    onUpdate: () => {
+      camera.lookAt(lookAtPoint.x, lookAtPoint.y, lookAtPoint.z);
+      camera.position.y = lookAtPoint.w;
+      camera.updateProjectionMatrix();
+      renderer.render(scene, camera);
+    },
+    onComplete: () => {
+      Content.loadAboutContent();
+    }
+  });
+}
 window.lookBackDown = function() {
   if (lookingAt == "sky") {
-    let lookAtPoint = new THREE.Vector4(lookAtSkyPoint.x, lookAtSkyPoint.y, lookAtSkyPoint.z, cameraSkyPosition.y);
-    lookingAt = "sky";
-    gsap.to(lookAtPoint, {
-      x: lookAtGroundPoint.x,
-      y: lookAtGroundPoint.y,
-      z: lookAtGroundPoint.z,
-      w: cameraBasePosition.y,
-      duration: 2,
-      ease: "back.out(1.5)",
-      onUpdate: () => {
-        camera.lookAt(lookAtPoint.x, lookAtPoint.y, lookAtPoint.z);
-        camera.position.y = lookAtPoint.w;
-        camera.updateProjectionMatrix();
-        renderer.render(scene, camera);
-      }
-    });
+    Content.unloadAboutContent();
+    setTimeout(() => {
+      let lookAtPoint = new THREE.Vector4(lookAtSkyPoint.x, lookAtSkyPoint.y, lookAtSkyPoint.z, cameraSkyPosition.y);
+      lookingAt = "ground";
+      gsap.to(lookAtPoint, {
+        x: lookAtGroundPoint.x,
+        y: lookAtGroundPoint.y,
+        z: lookAtGroundPoint.z,
+        w: cameraBasePosition.y,
+        duration: 2,
+        ease: "back.out(1.5)",
+        onUpdate: () => {
+          camera.lookAt(lookAtPoint.x, lookAtPoint.y, lookAtPoint.z);
+          camera.position.y = lookAtPoint.w;
+          camera.updateProjectionMatrix();
+          renderer.render(scene, camera);
+        }
+      });
+    }, 750);
   }
 }
