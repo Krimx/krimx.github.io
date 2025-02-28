@@ -113,14 +113,55 @@ const forest = new BasicMesh(
   {id: "forest"}
 );
 
-const joovieScale = 4;
-const joovie = new BasicMesh(
+const skillScale = 6;
+const skillHeight = -3
+const css = new BasicMesh(
   scene,
-  {filepath: "./recs/models/joovie.glb"},
-  {x:20, y:6, z:0},
-  {x:0, y:0, z:0},
-  {x:joovieScale, y:joovieScale, z:joovieScale},
-  {id: "joovie"}
+  {filepath: "./recs/models/skillStones/css.glb"},
+  {x: 10, y: skillHeight, z: 0},
+  {x: 0, y: 0, z: 0},
+  {x:skillScale, y:skillScale, z:skillScale},
+  {id: "css"}
+);
+const html = new BasicMesh(
+  scene,
+  {filepath: "./recs/models/skillStones/html.glb"},
+  {x: 10, y: skillHeight, z: -15},
+  {x: 0, y: 0, z: 0},
+  {x:skillScale, y:skillScale, z:skillScale},
+  {id: "css"}
+);
+const js = new BasicMesh(
+  scene,
+  {filepath: "./recs/models/skillStones/javascript.glb"},
+  {x: 10, y: skillHeight, z: -30},
+  {x: 0, y: 0, z: 0},
+  {x:skillScale, y:skillScale, z:skillScale},
+  {id: "css"}
+);
+const java = new BasicMesh(
+  scene,
+  {filepath: "./recs/models/skillStones/java.glb"},
+  {x: 10, y: skillHeight, z: -45},
+  {x: 0, y: 0, z: 0},
+  {x:skillScale, y:skillScale, z:skillScale},
+  {id: "css"}
+);
+const vscode = new BasicMesh(
+  scene,
+  {filepath: "./recs/models/skillStones/vscode.glb"},
+  {x: 10, y: skillHeight, z: -60},
+  {x: 0, y: 0, z: 0},
+  {x:skillScale, y:skillScale, z:skillScale},
+  {id: "css"}
+);
+const eclipse = new BasicMesh(
+  scene,
+  {filepath: "./recs/models/skillStones/eclipse.glb"},
+  {x: 10, y: skillHeight, z: -75},
+  {x: 0, y: 0, z: 0},
+  {x:skillScale, y:skillScale, z:skillScale},
+  {id: "css"}
 );
 
 //Lights
