@@ -24,6 +24,7 @@ const cameraSkyPosition = new THREE.Vector3(30,100,30);
 const lookAtSkyPoint = new THREE.Vector3(0,100,0);
 const lookAtGroundPoint = new THREE.Vector3(0,0,0);
 let lookingAt = "ground";
+let hoveringOverCards = false;
 
 //Raycaster stuff
 const mouse = new THREE.Vector2();
@@ -101,16 +102,6 @@ const cuteLilHouse = new BasicMesh(
   {id: "cuteLilHouse", title: "Projects", interactables: interactableMeshes}
 );
 interactableObjects.push(cuteLilHouse);
-
-const treeScale = 2;
-const tree = new BasicMesh(
-  scene,
-  {filepath: "./recs/models/tree.glb"},
-  {x:20, y:6, z:0},
-  {x:0, y:0, z:0},
-  {x:treeScale, y:treeScale, z:treeScale},
-  {id: "tree"}
-);
 
 const forestScale = 2;
 const forest = new BasicMesh(
@@ -323,5 +314,70 @@ window.lookBackDown = function() {
         }
       });
     }, 750);
+  }
+}
+
+let userOS = "";
+async function getOS() {
+  if (navigator.userAgentData) {
+      const data = await navigator.userAgentData.getHighEntropyValues(["platform"]);
+      return data.platform.toLowerCase().includes("mac") ? "macOS" :
+             data.platform.toLowerCase().includes("win") ? "Windows" : "Unknown";
+  } else {
+      return getOSFallback(); // Fallback for older browsers
+  }
+}
+
+getOS().then(os => userOS = os);
+
+let rotation = 0;
+let rotationSpeed = 0.1;
+let rotationInvert = 1;
+window.addEventListener("wheel", (event) => {
+  rotateCardWheel();
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  cardWheelSetup();
+});
+
+function cardWheelSetup() {
+  const parent = document.querySelector(".card-wheel");
+  const children = document.querySelectorAll(".wheel-item");
+
+  const parentSize = parent.clientWidth; // Parent's width/height (since it's a circle)
+  const parentRadius = parentSize / 2;  // Parent's radius
+  const radius = parentRadius - 25;     // Distance from center to child (adjust for better spacing)
+  const angleStep = (2 * Math.PI) / children.length; // Equal spacing for children
+
+  children.forEach((child, index) => {
+      const angle = angleStep * index; // Calculate angle for each child
+      const x = parentRadius + radius * Math.cos(angle) - child.clientWidth / 2;
+      const y = parentRadius + radius * Math.sin(angle) - child.clientHeight / 2;
+
+      child.style.left = `${x}px`;
+      child.style.top = `${y}px`;
+
+      const rotation = angle * (180 / Math.PI);
+
+      child.style.transform = "rotate(" + rotation + "deg)";
+  });
+
+  const wheel = document.querySelector(".card-wheel");
+
+  wheel.addEventListener("mouseenter", () => {
+      hoveringOverCards = true;
+  });
+
+  wheel.addEventListener("mouseleave", () => {
+    hoveringOverCards = false;
+  });
+}
+
+function rotateCardWheel() {
+  if (lookingAt == "sky" && hoveringOverCards) {
+    if (userOS == "macOS") rotationInvert = -1;
+    rotation += event.deltaY * rotationSpeed * rotationInvert;
+    document.getElementById("card-wheel").style.transform = "rotate(" + rotation + "deg)";
   }
 }
