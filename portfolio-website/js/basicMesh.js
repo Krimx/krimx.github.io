@@ -18,42 +18,93 @@ class BasicMesh {
         //When looking at the mesh in your object, make sure to check accordingly if what you are checking is gltf or what is loaded in the above block of code
         //I will be making improvements to this class as time goes on so check with me for any important updates (ill let you know but point still stands)
 
+        /*
+        The commented code was created by me but causes a bug where objects that did not have "interactables" passed in did not cast shadows. I asked chatgpt
+        to rewrite the code to fix this and it did. The resulting code is labeled below
+        */
+
         //if a filepath is clarified, load a mesh from the .glb file (MUST BE .glb!!!!!!!)
+        // if (meshStuff.filepath != null) {
+        //     const loader = new GLTFLoader();
+        //     loader.load(
+        //         meshStuff.filepath,
+        //         (gltf) => {
+        //             this.mesh = gltf.scene;
+                    
+        //             if (!this.mesh) {
+        //                 console.error(`Failed to load model: ${meshStuff.filepath}`);
+        //                 return;
+        //             }
+            
+        //             scene.add(this.mesh);
+                    
+        //             // Ensure properties exist before setting them
+        //             this.initializeMeshProperties(pos, rot, scale, params);
+            
+        //             if (params.interactables) {
+        //                 this.mesh.traverse((child) => {
+        //                     if (child.isMesh) {
+        //                         if (!params.interactables) params.interactables = [];
+        //                         params.interactables.push(child);
+            
+        //                         // Ensure userData exists before accessing it
+        //                         child.userData = child.userData || {};
+        //                         child.userData.parentObject = this.mesh; 
+            
+        //                         // Enable shadows
+        //                         child.castShadow = params.castShadow ?? true;
+        //                         child.receiveShadow = params.receiveShadow ?? true;
+            
+        //                         console.log(`Mesh Loaded: ${child.name}`);
+        //                     }
+        //                 });
+        //             }
+                    
+        //             console.log(`Mesh: ${params.id || 'Unnamed'} - CastShadow: ${this.mesh.castShadow}, ReceiveShadow: ${this.mesh.receiveShadow}`);
+        //         },
+        //         undefined,
+        //         (error) => {
+        //             console.error(`Error loading model: ${meshStuff.filepath}`, error);
+        //         }
+        //     );
+        // }
+
+        //Code refactored by ChatGPT
         if (meshStuff.filepath != null) {
             const loader = new GLTFLoader();
             loader.load(
                 meshStuff.filepath,
                 (gltf) => {
                     this.mesh = gltf.scene;
-                    
+        
                     if (!this.mesh) {
                         console.error(`Failed to load model: ${meshStuff.filepath}`);
                         return;
                     }
-            
+        
                     scene.add(this.mesh);
-                    
+        
                     // Ensure properties exist before setting them
                     this.initializeMeshProperties(pos, rot, scale, params);
-            
-                    if (params.interactables) {
-                        this.mesh.traverse((child) => {
-                            if (child.isMesh) {
-                                if (!params.interactables) params.interactables = [];
+        
+                    // Traverse children (Meshes inside the GLTF file)
+                    this.mesh.traverse((child) => {
+                        if (child.isMesh) {
+                            // Move shadow setting OUTSIDE of interactables check
+                            child.castShadow = params.castShadow ?? true;
+                            child.receiveShadow = params.receiveShadow ?? true;
+        
+                            if (params.interactables) {
                                 params.interactables.push(child);
-            
-                                // Ensure userData exists before accessing it
-                                child.userData = child.userData || {};
-                                child.userData.parentObject = this.mesh; 
-            
-                                // Enable shadows
-                                child.castShadow = params.castShadow ?? true;
-                                child.receiveShadow = params.receiveShadow ?? true;
-            
-                                console.log(`Mesh Loaded: ${child.name}`);
                             }
-                        });
-                    }
+        
+                            // Ensure userData exists before accessing it
+                            child.userData = child.userData || {};
+                            child.userData.parentObject = this.mesh;
+        
+                            console.log(`Mesh Loaded: ${child.name} | CastShadow: ${child.castShadow} | ReceiveShadow: ${child.receiveShadow}`);
+                        }
+                    });
                 },
                 undefined,
                 (error) => {
@@ -61,6 +112,7 @@ class BasicMesh {
                 }
             );
         }
+
     }
 
     //Helper function for initializing mesh properties used after mesh is available

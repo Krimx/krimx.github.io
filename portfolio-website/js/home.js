@@ -80,89 +80,7 @@ const ground = new BasicMesh(
   {castShadow: false, id: "ground", receiveShadow: true}
 );
 
-const houseScale = 10;
-const modernHouse1 = new BasicMesh(
-  scene,
-  {filepath: "./recs/models/modernHouse1.glb"},
-  // {x:-23, y:0, z:-20},
-  {x:0, y:0, z:0},
-  {x:0, y:Math.PI, z:0},
-  {x:houseScale, y:houseScale, z:houseScale},
-  {id: "modernHouse", title: "About", interactables: interactableMeshes}
-);
-interactableObjects.push(modernHouse1);
-
-const cuteLilHouse = new BasicMesh(
-  scene,
-  {filepath: "./recs/models/cuteLilHouse.glb"},
-  // {x:-23, y:0, z:-20},
-  {x:20, y:0, z:-46},
-  {x:0, y:Math.PI / 2, z:0},
-  {x:houseScale, y:houseScale, z:houseScale},
-  {id: "cuteLilHouse", title: "Projects", interactables: interactableMeshes}
-);
-interactableObjects.push(cuteLilHouse);
-
-const forestScale = 2;
-const forest = new BasicMesh(
-  scene,
-  {filepath: "./recs/models/forest.glb"},
-  {x:-150, y:10, z:-70},
-  {x:0, y:.5, z:0},
-  {x:forestScale, y:forestScale, z:forestScale},
-  {id: "forest"}
-);
-
-const skillScale = 6;
-const skillHeight = -3
-const css = new BasicMesh(
-  scene,
-  {filepath: "./recs/models/skillStones/css.glb"},
-  {x: 10, y: skillHeight, z: 0},
-  {x: 0, y: 0, z: 0},
-  {x:skillScale, y:skillScale, z:skillScale},
-  {id: "css"}
-);
-const html = new BasicMesh(
-  scene,
-  {filepath: "./recs/models/skillStones/html.glb"},
-  {x: 10, y: skillHeight, z: -15},
-  {x: 0, y: 0, z: 0},
-  {x:skillScale, y:skillScale, z:skillScale},
-  {id: "css"}
-);
-const js = new BasicMesh(
-  scene,
-  {filepath: "./recs/models/skillStones/javascript.glb"},
-  {x: 10, y: skillHeight, z: -30},
-  {x: 0, y: 0, z: 0},
-  {x:skillScale, y:skillScale, z:skillScale},
-  {id: "css"}
-);
-const java = new BasicMesh(
-  scene,
-  {filepath: "./recs/models/skillStones/java.glb"},
-  {x: 10, y: skillHeight, z: -45},
-  {x: 0, y: 0, z: 0},
-  {x:skillScale, y:skillScale, z:skillScale},
-  {id: "css"}
-);
-const vscode = new BasicMesh(
-  scene,
-  {filepath: "./recs/models/skillStones/vscode.glb"},
-  {x: 10, y: skillHeight, z: -60},
-  {x: 0, y: 0, z: 0},
-  {x:skillScale, y:skillScale, z:skillScale},
-  {id: "css"}
-);
-const eclipse = new BasicMesh(
-  scene,
-  {filepath: "./recs/models/skillStones/eclipse.glb"},
-  {x: 10, y: skillHeight, z: -75},
-  {x: 0, y: 0, z: 0},
-  {x:skillScale, y:skillScale, z:skillScale},
-  {id: "css"}
-);
+setupCuldesac();
 
 //Lights
 const factor = 50;
@@ -171,6 +89,7 @@ const sun1 = new BasicSun(scene, {x:20  * factor, y:100 * factor, z:-20 * factor
 const sun2 = new BasicSun(scene, {x:19  * factor, y:100 * factor, z:-19 * factor}, 0xFFFFEC, 1, sunFrust);
 const sun3 = new BasicSun(scene, {x:-5  * factor, y:100 * factor, z:5   * factor}, 0xFFFFEC, 2, sunFrust);
 const sun4 = new BasicSun(scene, {x:-10 * factor, y:100 * factor, z:20  * factor}, 0xFFFFEC, 2, sunFrust);
+const sun5 = new BasicSun(scene, {x:100 * factor, y:100 * factor, z:200  * factor}, 0xFFFFEC, .3, sunFrust);
 
 //Render loop
 function loop() {
@@ -419,6 +338,113 @@ function rotateCardWheel() {
   if (lookingAt == "sky" && hoveringOverCards) {
     if (userOS == "macOS") rotationInvert = -1;
     rotation += event.deltaY * rotationSpeed * rotationInvert;
+    if (rotation >= 360) rotation -= 360;
+    if (rotation <= -360) rotation += 360;
     document.getElementById("card-wheel").style.transform = "rotate(" + rotation + "deg)";
   }
+}
+
+function setupCuldesac() {
+  const culdesacScale = 65;
+  const culdesac = new BasicMesh(
+    scene,
+    {filepath: "./recs/models/culdesac.glb"},
+    {x: 20, y: 0.001, z: 20},
+    {x: 0, y: 0, z: 0},
+    {x:culdesacScale, y:culdesacScale, z:culdesacScale},
+    {id: "culdesac"}
+  );
+
+  const houseScale = 10;
+  const modernHouse1 = new BasicMesh(
+    scene,
+    {filepath: "./recs/models/modernHouse1.glb"},
+    // {x:-23, y:0, z:-20},
+    {x:-60, y:0, z:0},
+    {x:0, y:Math.PI - .25, z:0},
+    {x:houseScale, y:houseScale, z:houseScale},
+    {id: "modernHouse", title: "About", interactables: interactableMeshes}
+  );
+  interactableObjects.push(modernHouse1);
+  
+  const cuteLilHouse = new BasicMesh(
+    scene,
+    {filepath: "./recs/models/cuteLilHouse.glb"},
+    // {x:-23, y:0, z:-20},
+    {x:0, y:0, z:-61},
+    {x:0, y:Math.PI / 2 + .2, z:0},
+    {x:houseScale, y:houseScale, z:houseScale},
+    {id: "cuteLilHouse", title: "Projects", interactables: interactableMeshes}
+  );
+  interactableObjects.push(cuteLilHouse);
+  
+  const forestScale = 2;
+  const forest = new BasicMesh(
+    scene,
+    {filepath: "./recs/models/forest.glb"},
+    {x:-150, y:10, z:-70},
+    {x:0, y:.5, z:0},
+    {x:forestScale, y:forestScale, z:forestScale},
+    {id: "forest"}
+  );
+
+  placeSkills();
+}
+
+function placeSkills() {
+  const skillScale = 4;
+  const skillHeight = -3
+  const css = new BasicMesh(
+    scene,
+    {filepath: "./recs/models/skillStones/css.glb"},
+    {x: -48, y: skillHeight, z: -22},
+    {x: 0, y: -.5, z: 0},
+    {x:skillScale, y:skillScale, z:skillScale},
+    {id: "css"}
+  );
+
+  const html = new BasicMesh(
+    scene,
+    {filepath: "./recs/models/skillStones/html.glb"},
+    {x: -37, y: skillHeight, z: -36},
+    {x: 0, y: -.8, z: 0},
+    {x:skillScale, y:skillScale, z:skillScale},
+    {id: "html"}
+  );
+
+  const js = new BasicMesh(
+    scene,
+    {filepath: "./recs/models/skillStones/javascript.glb"},
+    {x: -23, y: skillHeight, z: -47},
+    {x: 0, y: -1, z: 0},
+    {x:skillScale, y:skillScale, z:skillScale},
+    {id: "js"}
+  );
+
+  const java = new BasicMesh(
+    scene,
+    {filepath: "./recs/models/skillStones/java.glb"},
+    {x: -58, y: skillHeight, z: 23},
+    {x: 0, y: 0, z: 0},
+    {x:skillScale, y:skillScale, z:skillScale},
+    {id: "java"}
+  );
+
+  const vscode = new BasicMesh(
+    scene,
+    {filepath: "./recs/models/skillStones/vscode.glb"},
+    {x: 16, y: skillHeight, z: -70},
+    {x: 0, y:-1.4, z: 0},
+    {x:skillScale, y:skillScale, z:skillScale},
+    {id: "vscode"}
+  );
+
+  const eclipse = new BasicMesh(
+    scene,
+    {filepath: "./recs/models/skillStones/eclipse.glb"},
+    {x: 27, y: skillHeight, z: -73},
+    {x: 0, y:-1.4, z: 0},
+    {x:skillScale, y:skillScale, z:skillScale},
+    {id: "eclipse"}
+  );
 }
