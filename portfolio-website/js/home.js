@@ -21,8 +21,11 @@ let zooming = false;
 let zoomTween = null;
 const cameraBasePosition = new THREE.Vector3(30,30,30);
 const cameraSkyPosition = new THREE.Vector3(30,100,30);
+const cameraProjectsPosition = new THREE.Vector3(30,60,30);
 const lookAtSkyPoint = new THREE.Vector3(0,100,0);
 const lookAtGroundPoint = new THREE.Vector3(0,0,0);
+const lookAtProjectsPoint = new THREE.Vector3(100,0,100);
+let cameraAngle = new THREE.Euler(0,0,0);
 let lookingAt = "ground";
 let hoveringOverCards = false;
 
@@ -218,7 +221,7 @@ window.addEventListener("mouseup", () => {
     lookUpToSky();
   }
   if (hoveredID == "cuteLilHouse") {
-    // fadeToPage("projects");
+    lookAtProjectsPage();
   }
 });
 
@@ -274,6 +277,27 @@ window.lookBackDown = function() {
         }
       });
     }, 750);
+  }
+  else if (lookingAt == "projects") {
+    Content.unloadAboutContent();
+    setTimeout(() => {
+      let lookAtPoint = new THREE.Vector4(lookAtProjectsPoint.x, lookAtProjectsPoint.y, lookAtProjectsPoint.z, cameraProjectsPosition.y);
+      lookingAt = "ground";
+      gsap.to(lookAtPoint, {
+        x: lookAtGroundPoint.x,
+        y: lookAtGroundPoint.y,
+        z: lookAtGroundPoint.z,
+        w: cameraBasePosition.y,
+        duration: 2,
+        ease: "back.out(1.5)",
+        onUpdate: () => {
+          camera.lookAt(lookAtPoint.x, lookAtPoint.y, lookAtPoint.z);
+          camera.position.y = lookAtPoint.w;
+          camera.updateProjectionMatrix();
+          renderer.render(scene, camera);
+        }
+      });
+    }, 0);
   }
 }
 
@@ -447,4 +471,33 @@ function placeSkills() {
     {x:skillScale, y:skillScale, z:skillScale},
     {id: "eclipse"}
   );
+}
+
+function lookAtProjectsPage () {
+  let lookAtPoint = new THREE.Vector4(lookAtGroundPoint.x, lookAtGroundPoint.y, lookAtGroundPoint.z, cameraBasePosition.y);
+  document.getElementById("objectTitle").remove();
+  lookingAt = "projects";
+
+  const targetQuaternion = new THREE.Quaternion();
+  targetQuaternion.setFromEuler(new THREE.Euler(0, Math.PI, 0));
+
+  // Animate the camera’s quaternion
+  gsap.to(lookAtPoint, {
+    x: lookAtProjectsPoint.x,
+    y: lookAtProjectsPoint.y,
+    z: lookAtProjectsPoint.z,
+    w: cameraProjectsPosition.y,
+    duration: 1.3,
+    ease: "back.in(1.0)",
+    onUpdate: () => {
+      camera.lookAt(lookAtPoint.x, lookAtPoint.y, lookAtPoint.z);
+      camera.position.y = lookAtPoint.w;
+      camera.updateProjectionMatrix();
+      renderer.render(scene, camera);
+    },
+    onComplete: () => {
+      // Content.loadAboutContent();
+      console.log("Passed");
+    }
+  });
 }

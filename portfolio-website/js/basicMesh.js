@@ -101,8 +101,6 @@ class BasicMesh {
                             // Ensure userData exists before accessing it
                             child.userData = child.userData || {};
                             child.userData.parentObject = this.mesh;
-        
-                            console.log(`Mesh Loaded: ${child.name} | CastShadow: ${child.castShadow} | ReceiveShadow: ${child.receiveShadow}`);
                         }
                     });
                 },
