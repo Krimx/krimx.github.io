@@ -223,6 +223,9 @@ window.addEventListener("mouseup", () => {
   if (hoveredID == "cuteLilHouse") {
     lookAtProjectsPage();
   }
+  if (hoveredID == "circuits") {
+    console.log("Passed");
+  }
 });
 
 function fadeToPage(page) {
@@ -413,6 +416,7 @@ function setupCuldesac() {
   );
 
   placeSkills();
+  placeProjects();
 }
 
 function placeSkills() {
@@ -471,6 +475,19 @@ function placeSkills() {
     {x:skillScale, y:skillScale, z:skillScale},
     {id: "eclipse"}
   );
+}
+
+function placeProjects() {
+  const circuitsScale = 10;
+  const circuits = new BasicMesh(
+    scene,
+    {filepath: "./recs/models/projects/circuits.glb"},
+    {x: 100, y: 0, z: 110},
+    {x: 0, y: 3.4, z: 0},
+    {x:circuitsScale, y:circuitsScale, z:circuitsScale},
+    {id: "circuits", title: "Circuits", interactables: interactableMeshes}
+  );
+  interactableObjects.push(circuits);
 }
 
 function lookAtProjectsPage () {
