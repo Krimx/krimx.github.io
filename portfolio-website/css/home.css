@@ -131,6 +131,7 @@ body,html {
   border-radius: 50%;
   transform-origin: center;
   left: -100%;
+  background-color: red;
 }
 .wheel-item {
   position: absolute;

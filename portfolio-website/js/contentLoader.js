@@ -5,7 +5,6 @@ export function loadAboutContent() {
     const aboutBackArrow = document.getElementById("aboutBackArrow");
     const aboutGradBg = document.getElementById("aboutGradBg");
     const cardWheel = document.getElementById("card-wheel");
-    console.log("Passed");
     gsap.to(aboutContent, {
         marginRight: "0%",
         duration: 1,
