@@ -571,7 +571,7 @@ function goToMoreProjects() {
           document.getElementById("fadeOverlay").style.opacity = "" + values.x;
         },
         onComplete: () => {
-          window.location.href = "projects.html";
+          window.location.href = "./projects.html";
         }
       })
     }
