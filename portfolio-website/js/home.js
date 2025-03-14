@@ -28,6 +28,7 @@ const lookAtProjectsPoint = new THREE.Vector3(100,0,100);
 let cameraAngle = new THREE.Euler(0,0,0);
 let lookingAt = "ground";
 let hoveringOverCards = false;
+const moreProjectsPoint = new THREE.Vector3(130, 0.1, 70);
 
 //Raycaster stuff
 const mouse = new THREE.Vector2();
@@ -82,6 +83,7 @@ const ground = new BasicMesh(
   {x:1000, y:1000, z:1},
   {castShadow: false, id: "ground", receiveShadow: true}
 );
+
 
 setupCuldesac();
 
@@ -226,6 +228,9 @@ window.addEventListener("mouseup", () => {
   if (hoveredID == "circuits") {
     console.log("Passed");
   }
+  if (hoveredID == "more") {
+    goToMoreProjects();
+  }
 });
 
 function fadeToPage(page) {
@@ -282,7 +287,7 @@ window.lookBackDown = function() {
     }, 750);
   }
   else if (lookingAt == "projects") {
-    Content.unloadAboutContent();
+    Content.unloadProjectsContent();
     setTimeout(() => {
       let lookAtPoint = new THREE.Vector4(lookAtProjectsPoint.x, lookAtProjectsPoint.y, lookAtProjectsPoint.z, cameraProjectsPosition.y);
       lookingAt = "ground";
@@ -461,8 +466,8 @@ function placeSkills() {
   const vscode = new BasicMesh(
     scene,
     {filepath: "./recs/models/skillStones/vscode.glb"},
-    {x: 16, y: skillHeight, z: -70},
-    {x: 0, y:-1.4, z: 0},
+    {x: 20, y: skillHeight, z: -60},
+    {x: 0, y:-1.5, z: 0},
     {x:skillScale, y:skillScale, z:skillScale},
     {id: "vscode"}
   );
@@ -470,8 +475,8 @@ function placeSkills() {
   const eclipse = new BasicMesh(
     scene,
     {filepath: "./recs/models/skillStones/eclipse.glb"},
-    {x: 27, y: skillHeight, z: -73},
-    {x: 0, y:-1.4, z: 0},
+    {x: 35, y: skillHeight, z: -59},
+    {x: 0, y:-1.7, z: 0},
     {x:skillScale, y:skillScale, z:skillScale},
     {id: "eclipse"}
   );
@@ -488,6 +493,17 @@ function placeProjects() {
     {id: "circuits", title: "Circuits", interactables: interactableMeshes}
   );
   interactableObjects.push(circuits);
+  
+  const moreScale = 10;
+  const more = new BasicMesh(
+    scene,
+    {filepath: "./recs/models/projects/more.glb"},
+    {x: moreProjectsPoint.x, y: moreProjectsPoint.y, z: moreProjectsPoint.z},
+    {x: 0, y: 3.9, z: 0},
+    {x:moreScale, y:moreScale, z:moreScale},
+    {id: "more", title: "More", interactables: interactableMeshes}
+  );
+  interactableObjects.push(more);
 }
 
 function lookAtProjectsPage () {
@@ -513,8 +529,51 @@ function lookAtProjectsPage () {
       renderer.render(scene, camera);
     },
     onComplete: () => {
-      // Content.loadAboutContent();
-      console.log("Passed");
+      Content.loadProjectsContent();
+    }
+  });
+}
+
+function goToMoreProjects() {
+  let lookAtPoint = new THREE.Vector4(lookAtProjectsPoint.x, lookAtProjectsPoint.y, lookAtProjectsPoint.z, cameraBasePosition.y);
+  document.getElementById("objectTitle").remove();
+
+  gsap.to(lookAtPoint, {
+    x: moreProjectsPoint.x,
+    y: moreProjectsPoint.y,
+    z: moreProjectsPoint.z,
+    duration: 1.3,
+    ease: "power2.inOut",
+    onUpdate: () => {
+      camera.lookAt(lookAtPoint.x, lookAtPoint.y, lookAtPoint.z);
+    }
+  });
+  gsap.to(camera.position, {
+    x: moreProjectsPoint.x,
+    z: moreProjectsPoint.z,
+    duration: 1.3,
+    ease: "power2.inOut",
+    onComplete: () => {
+      const transitionTime = 0.9;
+      let values = new THREE.Vector2(camera.zoom, 100);
+      gsap.fromTo(values, 
+        {
+        x: 100,
+        y: camera.zoom
+        },
+        {
+        x: 0,
+        y: 10,
+        duration: transitionTime,
+        ease: "power2.in",
+        onUpdate: () => {
+          camera.zoom = values.y;
+          document.getElementById("fadeOverlay").style.opacity = "" + values.x;
+        },
+        onComplete: () => {
+          window.location.href = "projects.html";
+        }
+      })
     }
   });
 }

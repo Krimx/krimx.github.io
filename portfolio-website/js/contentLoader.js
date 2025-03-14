@@ -75,3 +75,33 @@ export function unloadAboutContent() {
         }
     });
 }
+
+export function loadProjectsContent() {
+    const projectsContent = document.getElementById("projectsContent");
+    const projectsBackArrow = document.getElementById("projectsBackArrow");
+    projectsContent.style.display = "flex";
+
+    gsap.to(projectsBackArrow, {
+        marginBottom: "0%",
+        duration: 1,
+        ease: "back.out(.5)",
+        onUpdate: () => {
+        }
+    });
+}
+
+export function unloadProjectsContent() {
+    const projectsContent = document.getElementById("projectsContent");
+    const projectsBackArrow = document.getElementById("projectsBackArrow");
+
+    gsap.to(projectsBackArrow, {
+        marginBottom: "-100%",
+        duration: 1,
+        ease: "back.in(.5)",
+        onUpdate: () => {
+        },
+        onComplete: () => {
+            projectsContent.style.display = "none";
+        }
+    });
+}

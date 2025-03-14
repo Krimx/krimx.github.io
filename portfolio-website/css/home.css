@@ -145,3 +145,35 @@ body,html {
 
   right: 0;
 }
+
+.projects-content {
+  position: absolute;
+   width: 100vw;
+   height: 100vh;
+   z-index: 6;
+
+   display: none;
+   flex-direction: row;
+   justify-content: end;
+   align-items: end;
+}
+.projects-back-arrow {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 10vw;
+  margin-bottom: -100%;
+  z-index: 3;
+}
+
+.projects-back-arrow > img {
+  width: 100%;
+  height: auto;
+  filter: invert(1);
+
+  transition: transform .5s ease-in-out;
+}
+
+.projects-back-arrow:hover img {
+  transform: translateY(-5%);
+}
