@@ -231,6 +231,9 @@ window.addEventListener("mouseup", () => {
   if (hoveredID == "more") {
     goToMoreProjects();
   }
+  if (hoveredID == "github") {
+    fadeToPageURL("https://github.com/Krimx");
+  }
 });
 
 function fadeToPage(page) {
@@ -238,6 +241,15 @@ function fadeToPage(page) {
       fadeOverlay.style.opacity = "1"; // Start fade to black
       setTimeout(() => {
         window.location.href = "" + page + ".html";
+            }, 1000); // Match the transition time (1s)
+  
+}
+
+function fadeToPageURL(page) {
+  const fadeOverlay = document.getElementById("fadeOverlay");
+      fadeOverlay.style.opacity = "1"; // Start fade to black
+      setTimeout(() => {
+        window.location.href = page;
             }, 1000); // Match the transition time (1s)
   
 }
@@ -422,6 +434,7 @@ function setupCuldesac() {
 
   placeSkills();
   placeProjects();
+  placeLinks();
 }
 
 function placeSkills() {
@@ -576,4 +589,17 @@ function goToMoreProjects() {
       })
     }
   });
+}
+
+function placeLinks() {
+  const linksScale = 3;
+  const github = new BasicMesh(
+    scene,
+    {filepath: "./recs/models/links/github.glb"},
+    {x: 12, y: 1.2, z: -35},
+    {x: 0, y: 1.4, z: 0},
+    {x:linksScale, y:linksScale, z:linksScale},
+    {id: "github", title: "Github", interactables: interactableMeshes}
+  );
+  interactableObjects.push(github);
 }
