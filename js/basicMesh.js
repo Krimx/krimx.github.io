@@ -93,6 +93,22 @@ class BasicMesh {
                             // Move shadow setting OUTSIDE of interactables check
                             child.castShadow = params.castShadow ?? true;
                             child.receiveShadow = params.receiveShadow ?? true;
+
+                            if (child.material) {
+                                // Remove emissive glow
+                                child.material.emissive = new THREE.Color(0x000000);
+                                child.material.emissiveIntensity = 0;
+                            
+                                // Fix unlit materials
+                                if (child.material.isMeshBasicMaterial) {
+                                    const oldColor = child.material.color.clone();
+                                    child.material = new THREE.MeshStandardMaterial({
+                                        color: oldColor,
+                                        roughness: 0.8,
+                                        metalness: 0.2,
+                                    });
+                                }
+                            }
         
                             if (params.interactables) {
                                 params.interactables.push(child);
