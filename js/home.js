@@ -67,7 +67,7 @@ renderer.setSize(scr.width, scr.height);
 renderer.outputColorSpace = THREE.SRGBColorSpace;
 renderer.shadowMap.enabled = true;
 renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-renderer.setPixelRatio(2);
+renderer.setPixelRatio(1.5);
 
 //OrbitControls used for panning
 const minPan = new THREE.Vector3(-1000,0,-1000);
@@ -477,7 +477,7 @@ function setupCuldesac() {
     {x:-150, y:10, z:-70},
     {x:0, y:.5, z:0},
     {x:forestScale, y:forestScale, z:forestScale},
-    {id: "forest"}
+    {id: "forest", castShadow: false}
   );
 
   placeSkills();

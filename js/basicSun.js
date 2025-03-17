@@ -7,8 +7,8 @@ class BasicSun {
 
         this.sun = new THREE.DirectionalLight(color, int);
 
-        this.sun.shadow.mapSize.width = 4096;
-        this.sun.shadow.mapSize.height = 4096;
+        this.sun.shadow.mapSize.width = 1024;
+        this.sun.shadow.mapSize.height = 1024;
 
         this.sun.shadow.camera.left = -frust;
         this.sun.shadow.camera.right = frust;
