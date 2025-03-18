@@ -110,11 +110,11 @@ if (!isDarkMode) {
   const sun5 = new BasicSun(scene, {x:100 * factor, y:100 * factor, z:200 * factor}, sunColor, .3, sunFrust);
 }
 else {
-  const moon1 = new BasicSun(scene, {x:20  * factor, y:100 * factor, z:-20 * factor}, moonColor, 1 * moonIntFactor, moonFrust);
-  const moon2 = new BasicSun(scene, {x:19  * factor, y:100 * factor, z:-19 * factor}, moonColor, 1 * moonIntFactor, moonFrust);
-  const moon3 = new BasicSun(scene, {x:-5  * factor, y:100 * factor, z:5   * factor}, moonColor, 2 * moonIntFactor, moonFrust);
-  const moon4 = new BasicSun(scene, {x:-10 * factor, y:100 * factor, z:20  * factor}, moonColor, 2 * moonIntFactor, moonFrust);
-  const moon5 = new BasicSun(scene, {x:100 * factor, y:100 * factor, z:200 * factor}, moonColor, .3 * moonIntFactor, moonFrust);
+  // const moon1 = new BasicSun(scene, {x:20  * factor, y:100 * factor, z:-20 * factor}, moonColor, 1 * moonIntFactor, moonFrust);
+  // const moon2 = new BasicSun(scene, {x:19  * factor, y:100 * factor, z:-19 * factor}, moonColor, 1 * moonIntFactor, moonFrust);
+  // const moon3 = new BasicSun(scene, {x:-5  * factor, y:100 * factor, z:5   * factor}, moonColor, 2 * moonIntFactor, moonFrust);
+  // const moon4 = new BasicSun(scene, {x:-10 * factor, y:100 * factor, z:20  * factor}, moonColor, 2 * moonIntFactor, moonFrust);
+  // const moon5 = new BasicSun(scene, {x:100 * factor, y:100 * factor, z:200 * factor}, moonColor, .3 * moonIntFactor, moonFrust);
 }
 
 
@@ -294,6 +294,9 @@ window.addEventListener("mouseup", () => {
     }
     if (hoveredID == "github") {
       fadeToPageURL("https://github.com/Krimx");
+    }
+    if (hoveredID == "instagram") {
+      fadeToPageURL("https://www.instagram.com/itskrimx?igsh=MW5seHFlamR4NTZqcQ%3D%3D&utm_source=qr");
     }
   }
 });
@@ -653,6 +656,15 @@ function placeLinks() {
     {id: "github", title: "Github", interactables: interactableMeshes, receiveShadow: true}
   );
   interactableObjects.push(github);
+  const instagram = new BasicMesh(
+    scene,
+    {filepath: "./recs/models/links/instagram.glb"},
+    {x: -30, y: 1.2, z: 10},
+    {x: 0, y: 0, z: 0},
+    {x:linksScale, y:linksScale, z:linksScale},
+    {id: "instagram", title: "Instagram", interactables: interactableMeshes, receiveShadow: true}
+  );
+  interactableObjects.push(instagram);
 }
 
 function placeLamps() {
