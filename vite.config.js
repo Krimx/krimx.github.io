@@ -6,7 +6,8 @@ export default defineConfig({
     rollupOptions: {
       input: {
         main: "index.html",
-        projects: "projects.html"
+        projects: "projects.html",
+        sticky: "sticky.html"
       }
     }
   }
