@@ -286,7 +286,7 @@ window.addEventListener("mouseup", () => {
     }
     if (hoveredID == "circuits") {
       inAnimation = true;
-      console.log("Passed");
+      fadeToPage("circuits");
     }
     if (hoveredID == "more") {
       inAnimation = true;
