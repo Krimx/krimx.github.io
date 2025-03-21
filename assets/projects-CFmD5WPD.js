@@ -1,4 +1,4 @@
-import"./header-Da8osXaj.js";class a extends HTMLElement{constructor(){super(),this.attachShadow({mode:"open"});const t=this.getAttribute("front-image")||"",e=this.getAttribute("back-title")||"Title",i=this.getAttribute("back-body")||"Body text goes here.",r=this.getAttribute("card-height")||"auto";this.shadowRoot.innerHTML=`
+import"./modulepreload-polyfill-B5Qt9EMX.js";/* empty css               */class a extends HTMLElement{constructor(){super(),this.attachShadow({mode:"open"});const t=this.getAttribute("front-image")||"",e=this.getAttribute("back-title")||"Title",i=this.getAttribute("back-body")||"Body text goes here.",r=this.getAttribute("card-height")||"auto";this.shadowRoot.innerHTML=`
             <style>
                 .card {
                     width: 100%;
