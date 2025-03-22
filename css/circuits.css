@@ -38,22 +38,59 @@ video {
 }
 .content > p {
     font-size: 1.2rem;
+    text-wrap: wrap;
+    overflow-x: hidden;
 }
 .links-container {
     margin-top: 5vh;
 }
 .download-jar {
-    background-color: #b6eecd;
-    border-radius: 10px;
-    aspect-ratio: 1/2;
+    font-family: 'Poppins', sans-serif;
     text-decoration: none;
-    color: black;
-    filter: drop-shadow(5px 5px 10px rgba(0,0,0,.3));
-    font-size: 2rem;
+    color: #555;
+    padding: 12px 24px;
+    background: #e0e0e0;
+    border-radius: 15px;
+    box-shadow:  8px 8px 16px #bebebe,
+                 -8px -8px 16px #ffffff;
+    transition: all 0.2s ease-in-out;
+    display: inline-block;
 
-    margin-left: 2%;
-    margin-right: 5%;
+    margin-right: 0%;
 }
-.github-repo-link {
 
+.download-jar:hover {
+    box-shadow:  4px 4px 8px #bebebe,
+                 -4px -4px 8px #ffffff;
+    color: #333;
+}
+
+.download-jar:active {
+    box-shadow: inset 8px 8px 16px #bebebe,
+                inset -8px -8px 16px #ffffff;
+}
+
+.github-repo-link {
+    font-family: 'Poppins', sans-serif;
+    text-decoration: none;
+    color: #555;
+    padding: 10px 22px;
+    border-radius: 15px;
+    background: #e0e0e0;
+    box-shadow: inset 4px 4px 8px #bebebe,
+                inset -4px -4px 8px #ffffff;
+    transition: all 0.2s ease-in-out;
+    display: inline-block;
+}
+
+.github-repo-link:hover {
+    box-shadow: inset 2px 2px 4px #bebebe,
+                inset -2px -2px 4px #ffffff;
+    color: #333;
+}
+
+.github-repo-link:active {
+    box-shadow: inset 8px 8px 16px #bebebe,
+                inset -8px -8px 16px #ffffff;
+    color: #222;
 }

@@ -30,7 +30,7 @@ export function loadAboutContent() {
     });
 
     gsap.to(cardWheel, {
-        left: "-30%",
+        transform: "translateX(-50%)",
         duration: 1,
         ease: "back.out(.5)",
         onUpdate: () => {
@@ -68,7 +68,7 @@ export function unloadAboutContent() {
     });
 
     gsap.to(cardWheel, {
-        left: "-100%",
+        transform: "translateX(-120%)",
         duration: 1,
         ease: "back.out(.5)",
         onUpdate: () => {

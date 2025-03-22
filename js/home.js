@@ -1,12 +1,14 @@
 import '../css/header.css'
 import '../css/home.css'
 import * as THREE from "three";
-import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import gsap from "gsap";
 import {BasicMesh} from "./basicMesh";
 import {BasicSun} from "./basicSun";
 import {Lamp} from "./lamp";
+import { setupSceneObjects } from "./sceneObjects.js";
+import { fadeToPage, fadeToPageURL, lookUpToSky, lookAtProjectsPage, goToMoreProjects, lookBackDown } from "./sceneTransitions.js";
 import * as Content from "./contentLoader.js";
+import * as CardWheel from "./cardWheel.js";
 
 const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
@@ -25,17 +27,22 @@ const cameraZoomBase = 0.8;
 let zooming = false;
 let zoomTween = null;
 const cameraBasePosition = new THREE.Vector3(30,30,30);
-const cameraSkyPosition = new THREE.Vector3(30,100,30);
-const cameraProjectsPosition = new THREE.Vector3(30,60,30);
-const lookAtSkyPoint = new THREE.Vector3(0,100,0);
-const lookAtGroundPoint = new THREE.Vector3(0,0,0);
-const lookAtProjectsPoint = new THREE.Vector3(100,0,100);
-let cameraAngle = new THREE.Euler(0,0,0);
 let lookingAt = "ground";
 let hoveringOverCards = false;
-const moreProjectsPoint = new THREE.Vector3(130, 0.1, 70);
 
-let inAnimation = false;
+
+
+let userOS = "";
+async function getOS() {
+  if (navigator.userAgentData) {
+      const data = await navigator.userAgentData.getHighEntropyValues(["platform"]);
+      return data.platform.toLowerCase().includes("mac") ? "macOS" :
+             data.platform.toLowerCase().includes("win") ? "Windows" : "Unknown";
+  } else {
+      return getOSFallback(); // Fallback for older browsers
+  }
+}
+getOS().then(os => userOS = os);
 
 //Raycaster stuff
 const mouse = new THREE.Vector2();
@@ -45,29 +52,24 @@ const raycaster = new THREE.Raycaster();
 const interactableMeshes = [];
 const interactableObjects = [];
 const scene = new THREE.Scene();
-scene.background = new THREE.Color(0x00000f);
+
+initScene();
+
+const sceneState = {
+  scene: scene,
+  lookingAt: "ground",
+  inAnimation: false
+};
 
 //Camera
 const camera = new THREE.OrthographicCamera(-frustum * aspect, frustum * aspect, frustum, -frustum / aspect, -50, 400);
-// const camera = new THREE.PerspectiveCamera(90, scr.width / scr.height, 0.1, 500);
-camera.position.set(cameraBasePosition.x, cameraBasePosition.y, cameraBasePosition.z);
-camera.lookAt(0,0,0);
-camera.zoom = cameraZoomBase;
-camera.left = -frustum * aspect / camera.zoom;
-camera.right = frustum * aspect / camera.zoom;
-camera.top = frustum / camera.zoom;
-camera.bottom = -frustum / camera.zoom;
-camera.updateProjectionMatrix();
-scene.add(camera);
+initCamera()
 
 //Renderer
 const canvas = document.querySelector('.webgl');
 const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
-renderer.setSize(scr.width, scr.height);
-renderer.outputColorSpace = THREE.SRGBColorSpace;
-renderer.shadowMap.enabled = true;
-renderer.shadowMap.type = THREE.PCFSoftShadowMap;
-renderer.setPixelRatio(1.5);
+
+initRenderer();
 
 //OrbitControls used for panning
 const minPan = new THREE.Vector3(-1000,0,-1000);
@@ -91,8 +93,7 @@ const ground = new BasicMesh(
   {castShadow: false, id: "ground", receiveShadow: true}
 );
 
-
-setupCuldesac();
+setupSceneObjects(scene, interactableMeshes, interactableObjects, isDarkMode);
 
 //Lights
 const factor = 50;
@@ -102,20 +103,7 @@ const sunColor = 0xFFFFEC;
 const moonColor = 0xDDDDFF;
 const moonIntFactor = 0.02;
 
-if (!isDarkMode) {
-  const sun1 = new BasicSun(scene, {x:20  * factor, y:100 * factor, z:-20 * factor}, sunColor, 1, sunFrust);
-  const sun2 = new BasicSun(scene, {x:19  * factor, y:100 * factor, z:-19 * factor}, sunColor, 1, sunFrust);
-  const sun3 = new BasicSun(scene, {x:-5  * factor, y:100 * factor, z:5   * factor}, sunColor, 2, sunFrust);
-  const sun4 = new BasicSun(scene, {x:-10 * factor, y:100 * factor, z:20  * factor}, sunColor, 2, sunFrust);
-  const sun5 = new BasicSun(scene, {x:100 * factor, y:100 * factor, z:200 * factor}, sunColor, .3, sunFrust);
-}
-else {
-  // const moon1 = new BasicSun(scene, {x:20  * factor, y:100 * factor, z:-20 * factor}, moonColor, 1 * moonIntFactor, moonFrust);
-  // const moon2 = new BasicSun(scene, {x:19  * factor, y:100 * factor, z:-19 * factor}, moonColor, 1 * moonIntFactor, moonFrust);
-  // const moon3 = new BasicSun(scene, {x:-5  * factor, y:100 * factor, z:5   * factor}, moonColor, 2 * moonIntFactor, moonFrust);
-  // const moon4 = new BasicSun(scene, {x:-10 * factor, y:100 * factor, z:20  * factor}, moonColor, 2 * moonIntFactor, moonFrust);
-  // const moon5 = new BasicSun(scene, {x:100 * factor, y:100 * factor, z:200 * factor}, moonColor, .3 * moonIntFactor, moonFrust);
-}
+setupLights();
 
 
 //Render loop
@@ -125,6 +113,8 @@ function loop() {
 
   camera.updateProjectionMatrix();
   renderer.render(scene, camera);
+
+  console.log(lookingAt);
 }
 loop();
 
@@ -135,12 +125,7 @@ window.addEventListener("resize", () => {
 
   aspect = scr.width / scr.height;
 
-  camera.left = -frustum * aspect / camera.zoom;
-  camera.right = frustum * aspect / camera.zoom;
-  camera.top = frustum / camera.zoom;
-  camera.bottom = -frustum / camera.zoom / aspect;
-  
-  camera.updateProjectionMatrix();
+  updateCameraFrustum()
   renderer.setSize(scr.width, scr.height);
 })
 
@@ -214,31 +199,15 @@ window.addEventListener("mousemove", (event) => {
   //Dont ask, i need to keep it for later. If i forget to remove it and it stays commented out, dw abt it
   // if (intersects.length == 0) hoveredID = ""; 
 });
-
-let userOS = "";
-async function getOS() {
-  if (navigator.userAgentData) {
-      const data = await navigator.userAgentData.getHighEntropyValues(["platform"]);
-      return data.platform.toLowerCase().includes("mac") ? "macOS" :
-             data.platform.toLowerCase().includes("win") ? "Windows" : "Unknown";
-  } else {
-      return getOSFallback(); // Fallback for older browsers
-  }
-}
-
-getOS().then(os => userOS = os);
-
-let rotation = 0;
-let rotationSpeed = 0.1;
-let rotationInvert = 1;
 window.addEventListener("wheel", (event) => {
-  rotateCardWheel();
+  CardWheel.rotateCardWheel(event, lookingAt, hoveringOverCards, userOS);
 });
 
-document.addEventListener("DOMContentLoaded", () => {
-  cardWheelSetup();
+window.addEventListener("DOMContentLoaded", (event) => {
+  CardWheel.cardWheelSetup((isHovering) => {
+    hoveringOverCards = isHovering;
+  });
 });
-
 /*
 Code generated by ChatGPT to reload page on pageshow (fixes issue with using back arrow)
 */
@@ -248,7 +217,6 @@ window.addEventListener('pageshow', function (event) {
     window.location.reload();
   }
 });
-
 //Code from chatgpt uses gsap to animate changing camera zoom amount
 function zoomCamera(targetZoom, duration) {
   if (zoomTween) {
@@ -259,11 +227,7 @@ function zoomCamera(targetZoom, duration) {
     zoom: targetZoom,
     duration: duration / 1000, // gsap uses seconds
     onUpdate: () => {
-      camera.left = -frustum * aspect / camera.zoom;
-      camera.right = frustum * aspect / camera.zoom;
-      camera.top = frustum / camera.zoom;
-      camera.bottom = -frustum / camera.zoom;
-      camera.updateProjectionMatrix();
+      updateCameraFrustum();
     },
     onComplete: () => {
       zooming = false;
@@ -272,404 +236,76 @@ function zoomCamera(targetZoom, duration) {
 
   zooming = true;
 }
-
 window.addEventListener("mouseup", () => {
-  if (!inAnimation) {
-    //Makes camera look up into sky when about house is clicked
-    if (hoveredID == "modernHouse") {
-      inAnimation = true;
-      lookUpToSky();
-    }
-    if (hoveredID == "cuteLilHouse") {
-      inAnimation = true;
-      lookAtProjectsPage();
-    }
-    if (hoveredID == "circuits") {
-      inAnimation = true;
-      fadeToPage("circuits");
-    }
-    if (hoveredID == "more") {
-      inAnimation = true;
-      goToMoreProjects();
-    }
-    if (hoveredID == "github") {
-      fadeToPageURL("https://github.com/Krimx");
-    }
-    if (hoveredID == "instagram") {
-      fadeToPageURL("https://www.instagram.com/itskrimx?igsh=MW5seHFlamR4NTZqcQ%3D%3D&utm_source=qr");
+  if (!sceneState.inAnimation) {
+    switch (hoveredID) {
+      case "modernHouse":
+        sceneState.inAnimation = true;
+        lookUpToSky(camera, renderer, sceneState);
+        break;
+      case "cuteLilHouse":
+        sceneState.inAnimation = true;
+        lookAtProjectsPage(camera, renderer, sceneState);
+        break;
+      case "circuits":
+        sceneState.inAnimation = true;
+        fadeToPage("circuits");
+        break;
+      case "more":
+        sceneState.inAnimation = true;
+        goToMoreProjects(camera, renderer, sceneState);
+        break;
+      case "github":
+        fadeToPageURL("https://github.com/Krimx");
+        break;
+      case "instagram":
+        fadeToPageURL("https://www.instagram.com/itskrimx?igsh=MW5seHFlamR4NTZqcQ%3D%3D&utm_source=qr");
+        break;
     }
   }
 });
+window.lookBackDown = () => lookBackDown(camera, renderer, sceneState);
 
-function fadeToPage(page) {
-  const fadeOverlay = document.getElementById("fadeOverlay");
-      fadeOverlay.style.opacity = "1"; // Start fade to black
-      setTimeout(() => {
-        window.location.href = "" + page + ".html";
-            }, 1000); // Match the transition time (1s)
-  
+// home.js
+function initScene() {
+  scene.background = new THREE.Color(0x00000f);
 }
 
-function fadeToPageURL(page) {
-  const fadeOverlay = document.getElementById("fadeOverlay");
-      fadeOverlay.style.opacity = "1"; // Start fade to black
-      setTimeout(() => {
-        window.location.href = page;
-            }, 1000); // Match the transition time (1s)
-  
+function initCamera() {
+  camera.position.copy(cameraBasePosition);
+  camera.lookAt(0, 0, 0);
+  camera.zoom = cameraZoomBase;
+  updateCameraFrustum();
+  scene.add(camera);
 }
 
-function lookUpToSky() {
-  let lookAtPoint = new THREE.Vector4(lookAtGroundPoint.x, lookAtGroundPoint.y, lookAtGroundPoint.z, cameraBasePosition.y);
-  document.getElementById("objectTitle").remove();
-  lookingAt = "sky";
-  gsap.to(lookAtPoint, {
-    x: lookAtSkyPoint.x,
-    y: lookAtSkyPoint.y,
-    z: lookAtSkyPoint.z,
-    w: cameraSkyPosition.y,
-    duration: 1.3,
-    ease: "back.in(1.0)",
-    onUpdate: () => {
-      camera.lookAt(lookAtPoint.x, lookAtPoint.y, lookAtPoint.z);
-      camera.position.y = lookAtPoint.w;
-      camera.updateProjectionMatrix();
-      renderer.render(scene, camera);
-    },
-    onComplete: () => {
-      Content.loadAboutContent();
-      inAnimation = false;
-    }
-  });
+function initRenderer() {
+  renderer.setSize(scr.width, scr.height);
+  renderer.outputColorSpace = THREE.SRGBColorSpace;
+  renderer.shadowMap.enabled = true;
+  renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+  renderer.setPixelRatio(1.5);
 }
-window.lookBackDown = function() {
-  if (!inAnimation) {
-    inAnimation = true;
-    if (lookingAt == "sky") {
-      Content.unloadAboutContent();
-      setTimeout(() => {
-        let lookAtPoint = new THREE.Vector4(lookAtSkyPoint.x, lookAtSkyPoint.y, lookAtSkyPoint.z, cameraSkyPosition.y);
-        lookingAt = "ground";
-        gsap.to(lookAtPoint, {
-          x: lookAtGroundPoint.x,
-          y: lookAtGroundPoint.y,
-          z: lookAtGroundPoint.z,
-          w: cameraBasePosition.y,
-          duration: 2,
-          ease: "back.out(1.5)",
-          onUpdate: () => {
-            camera.lookAt(lookAtPoint.x, lookAtPoint.y, lookAtPoint.z);
-            camera.position.y = lookAtPoint.w;
-            camera.updateProjectionMatrix();
-            renderer.render(scene, camera);
-          },
-          onComplete: () => {
-            inAnimation = false;
-          }
-        });
-      }, 750);
-    }
-    else if (lookingAt == "projects") {
-      Content.unloadProjectsContent();
-      setTimeout(() => {
-        let lookAtPoint = new THREE.Vector4(lookAtProjectsPoint.x, lookAtProjectsPoint.y, lookAtProjectsPoint.z, cameraProjectsPosition.y);
-        lookingAt = "ground";
-        gsap.to(lookAtPoint, {
-          x: lookAtGroundPoint.x,
-          y: lookAtGroundPoint.y,
-          z: lookAtGroundPoint.z,
-          w: cameraBasePosition.y,
-          duration: 2,
-          ease: "back.out(1.5)",
-          onUpdate: () => {
-            camera.lookAt(lookAtPoint.x, lookAtPoint.y, lookAtPoint.z);
-            camera.position.y = lookAtPoint.w;
-            camera.updateProjectionMatrix();
-            renderer.render(scene, camera);
-          },
-          onComplete: () => {
-            inAnimation = false;
-          }
-        });
-      }, 0);
-    }
+
+function updateCameraFrustum() {
+  camera.left = -frustum * aspect / camera.zoom;
+  camera.right = frustum * aspect / camera.zoom;
+  camera.top = frustum / camera.zoom;
+  camera.bottom = -frustum / camera.zoom;
+  camera.updateProjectionMatrix();
+}
+
+function setupLights() {
+  if (!isDarkMode) {
+    const sunPositions = [
+      { x: 20, y: 100, z: -20 },
+      { x: 19, y: 100, z: -19 },
+      { x: -5, y: 100, z: 5 },
+      { x: -10, y: 100, z: 20 },
+      { x: 100, y: 100, z: 200 }
+    ];
+    sunPositions.forEach(pos => {
+      new BasicSun(scene, {x: pos.x * factor, y: pos.y * factor, z: pos.z * factor}, sunColor, 1, sunFrust);
+    });
   }
-}
-
-function cardWheelSetup() {
-  const parent = document.querySelector(".card-wheel");
-  const children = document.querySelectorAll(".wheel-item");
-
-  const parentSize = parent.clientWidth; // Parent's width/height (since it's a circle)
-  const parentRadius = parentSize / 2;  // Parent's radius
-  const radius = parentRadius - 25;     // Distance from center to child (adjust for better spacing)
-  const angleStep = (2 * Math.PI) / children.length; // Equal spacing for children
-
-  children.forEach((child, index) => {
-      const angle = angleStep * index; // Calculate angle for each child
-      const x = parentRadius + radius * Math.cos(angle) - child.clientWidth / 2;
-      const y = parentRadius + radius * Math.sin(angle) - child.clientHeight / 2;
-
-      child.style.left = `${x}px`;
-      child.style.top = `${y}px`;
-
-      const rotation = angle * (180 / Math.PI);
-
-      child.style.transform = "rotate(" + rotation + "deg)";
-  });
-
-  const wheel = document.querySelector(".card-wheel");
-
-  wheel.addEventListener("mouseenter", () => {
-      hoveringOverCards = true;
-  });
-
-  wheel.addEventListener("mouseleave", () => {
-    hoveringOverCards = false;
-  });
-}
-
-function rotateCardWheel() {
-  if (lookingAt == "sky" && hoveringOverCards) {
-    if (userOS == "macOS") rotationInvert = -1;
-    rotation += event.deltaY * rotationSpeed * rotationInvert;
-    if (rotation >= 360) rotation -= 360;
-    if (rotation <= -360) rotation += 360;
-    document.getElementById("card-wheel").style.transform = "rotate(" + rotation + "deg)";
-  }
-}
-
-function setupCuldesac() {
-  const culdesacScale = 65;
-  const culdesac = new BasicMesh(
-    scene,
-    {filepath: "./recs/models/culdesac.glb"},
-    {x: 20, y: 0.001, z: 20},
-    {x: 0, y: 0, z: 0},
-    {x:culdesacScale, y:culdesacScale, z:culdesacScale},
-    {id: "culdesac"}
-  );
-
-  const houseScale = 10;
-  const modernHouse1 = new BasicMesh(
-    scene,
-    {filepath: "./recs/models/modernHouse1.glb"},
-    // {x:-23, y:0, z:-20},
-    {x:-60, y:0, z:0},
-    {x:0, y:Math.PI - .25, z:0},
-    {x:houseScale, y:houseScale, z:houseScale},
-    {id: "modernHouse", title: "About", interactables: interactableMeshes}
-  );
-  interactableObjects.push(modernHouse1);
-  
-  const cuteLilHouse = new BasicMesh(
-    scene,
-    {filepath: "./recs/models/cuteLilHouse.glb"},
-    // {x:-23, y:0, z:-20},
-    {x:0, y:0, z:-61},
-    {x:0, y:Math.PI / 2 + .2, z:0},
-    {x:houseScale, y:houseScale, z:houseScale},
-    {id: "cuteLilHouse", title: "Projects", interactables: interactableMeshes}
-  );
-  interactableObjects.push(cuteLilHouse);
-  
-  const forestScale = 2;
-  const forest = new BasicMesh(
-    scene,
-    {filepath: "./recs/models/forest.glb"},
-    {x:-150, y:10, z:-70},
-    {x:0, y:.5, z:0},
-    {x:forestScale, y:forestScale, z:forestScale},
-    {id: "forest", castShadow: false}
-  );
-
-  placeSkills();
-  placeProjects();
-  placeLinks();
-  placeLamps();
-}
-
-function placeSkills() {
-  const skillScale = 4;
-  const skillHeight = -3
-  const css = new BasicMesh(
-    scene,
-    {filepath: "./recs/models/skillStones/css.glb"},
-    {x: -48, y: skillHeight, z: -22},
-    {x: 0, y: -.5, z: 0},
-    {x:skillScale, y:skillScale, z:skillScale},
-    {id: "css"}
-  );
-
-  const html = new BasicMesh(
-    scene,
-    {filepath: "./recs/models/skillStones/html.glb"},
-    {x: -37, y: skillHeight, z: -36},
-    {x: 0, y: -.8, z: 0},
-    {x:skillScale, y:skillScale, z:skillScale},
-    {id: "html"}
-  );
-
-  const js = new BasicMesh(
-    scene,
-    {filepath: "./recs/models/skillStones/javascript.glb"},
-    {x: -23, y: skillHeight, z: -47},
-    {x: 0, y: -1, z: 0},
-    {x:skillScale, y:skillScale, z:skillScale},
-    {id: "js"}
-  );
-
-  const java = new BasicMesh(
-    scene,
-    {filepath: "./recs/models/skillStones/java.glb"},
-    {x: -58, y: skillHeight, z: 23},
-    {x: 0, y: 0, z: 0},
-    {x:skillScale, y:skillScale, z:skillScale},
-    {id: "java"}
-  );
-
-  const vscode = new BasicMesh(
-    scene,
-    {filepath: "./recs/models/skillStones/vscode.glb"},
-    {x: 20, y: skillHeight, z: -60},
-    {x: 0, y:-1.5, z: 0},
-    {x:skillScale, y:skillScale, z:skillScale},
-    {id: "vscode"}
-  );
-
-  const eclipse = new BasicMesh(
-    scene,
-    {filepath: "./recs/models/skillStones/eclipse.glb"},
-    {x: 35, y: skillHeight, z: -59},
-    {x: 0, y:-1.7, z: 0},
-    {x:skillScale, y:skillScale, z:skillScale},
-    {id: "eclipse"}
-  );
-}
-
-function placeProjects() {
-  const circuitsScale = 10;
-  const circuits = new BasicMesh(
-    scene,
-    {filepath: "./recs/models/projects/circuits.glb"},
-    {x: 100, y: 0, z: 110},
-    {x: 0, y: 3.4, z: 0},
-    {x:circuitsScale, y:circuitsScale, z:circuitsScale},
-    {id: "circuits", title: "Circuits", interactables: interactableMeshes}
-  );
-  interactableObjects.push(circuits);
-  
-  const moreScale = 10;
-  const more = new BasicMesh(
-    scene,
-    {filepath: "./recs/models/projects/more.glb"},
-    {x: moreProjectsPoint.x, y: moreProjectsPoint.y, z: moreProjectsPoint.z},
-    {x: 0, y: 3.9, z: 0},
-    {x:moreScale, y:moreScale, z:moreScale},
-    {id: "more", title: "More", interactables: interactableMeshes}
-  );
-  interactableObjects.push(more);
-}
-
-function lookAtProjectsPage () {
-  let lookAtPoint = new THREE.Vector4(lookAtGroundPoint.x, lookAtGroundPoint.y, lookAtGroundPoint.z, cameraBasePosition.y);
-  document.getElementById("objectTitle").remove();
-  lookingAt = "projects";
-
-  const targetQuaternion = new THREE.Quaternion();
-  targetQuaternion.setFromEuler(new THREE.Euler(0, Math.PI, 0));
-
-  // Animate the camera’s quaternion
-  gsap.to(lookAtPoint, {
-    x: lookAtProjectsPoint.x,
-    y: lookAtProjectsPoint.y,
-    z: lookAtProjectsPoint.z,
-    w: cameraProjectsPosition.y,
-    duration: 1.3,
-    ease: "back.in(1.0)",
-    onUpdate: () => {
-      camera.lookAt(lookAtPoint.x, lookAtPoint.y, lookAtPoint.z);
-      camera.position.y = lookAtPoint.w;
-      camera.updateProjectionMatrix();
-      renderer.render(scene, camera);
-    },
-    onComplete: () => {
-      Content.loadProjectsContent();
-      inAnimation = false;
-    }
-  });
-}
-
-function goToMoreProjects() {
-  let lookAtPoint = new THREE.Vector4(lookAtProjectsPoint.x, lookAtProjectsPoint.y, lookAtProjectsPoint.z, cameraBasePosition.y);
-  document.getElementById("objectTitle").remove();
-
-  gsap.to(lookAtPoint, {
-    x: moreProjectsPoint.x,
-    y: moreProjectsPoint.y,
-    z: moreProjectsPoint.z,
-    duration: 1.3,
-    ease: "power2.inOut",
-    onUpdate: () => {
-      camera.lookAt(lookAtPoint.x, lookAtPoint.y, lookAtPoint.z);
-    }
-  });
-  gsap.to(camera.position, {
-    x: moreProjectsPoint.x,
-    z: moreProjectsPoint.z,
-    duration: 1.3,
-    ease: "power2.inOut",
-    onComplete: () => {
-      const transitionTime = 0.9;
-      let values = new THREE.Vector2(camera.zoom, 100);
-      gsap.fromTo(values, 
-        {
-        x: 100,
-        y: camera.zoom
-        },
-        {
-        x: 0,
-        y: 10,
-        duration: transitionTime,
-        ease: "power2.in",
-        onUpdate: () => {
-          camera.zoom = values.y;
-          document.getElementById("fadeOverlay").style.opacity = "" + values.x;
-        },
-        onComplete: () => {
-          window.location.href = "./projects.html";
-          inAnimation = false;
-        }
-      })
-    }
-  });
-}
-
-function placeLinks() {
-  const linksScale = 3;
-  const github = new BasicMesh(
-    scene,
-    {filepath: "./recs/models/links/github.glb"},
-    {x: 12, y: 1.2, z: -35},
-    {x: 0, y: 1.4, z: 0},
-    {x:linksScale, y:linksScale, z:linksScale},
-    {id: "github", title: "Github", interactables: interactableMeshes, receiveShadow: true}
-  );
-  interactableObjects.push(github);
-  const instagram = new BasicMesh(
-    scene,
-    {filepath: "./recs/models/links/instagram.glb"},
-    {x: -30, y: 1.2, z: 10},
-    {x: 0, y: 0, z: 0},
-    {x:linksScale, y:linksScale, z:linksScale},
-    {id: "instagram", title: "Instagram", interactables: interactableMeshes, receiveShadow: true}
-  );
-  interactableObjects.push(instagram);
-}
-
-function placeLamps() {
-  const lamp1 = new Lamp(scene, {x:-14,y:0,z:-50}, isDarkMode);
-  const lamp2 = new Lamp(scene, {x:-53,y:0,z:40}, isDarkMode);
-  const lamp3 = new Lamp(scene, {x:-15,y:0,z:95}, isDarkMode);
-  const lamp4 = new Lamp(scene, {x:55,y:0,z:95}, isDarkMode);
 }

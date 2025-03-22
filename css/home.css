@@ -130,7 +130,9 @@ body,html {
   aspect-ratio: 1/1;
   border-radius: 50%;
   transform-origin: center;
-  left: -100%;
+  left: 0;
+  transform: translateX(-120%);
+  background-color: red;
 }
 .wheel-item {
   position: absolute;
@@ -141,8 +143,6 @@ body,html {
   display: flex;
   justify-content: center;
   align-items: center;
-
-  right: 0;
 }
 
 .projects-content {
