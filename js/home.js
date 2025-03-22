@@ -1,5 +1,4 @@
-import '../css/header.css'
-import '../css/home.css'
+import '../css/main.css';
 import * as THREE from "three";
 import gsap from "gsap";
 import {BasicMesh} from "./basicMesh";
