@@ -7,7 +7,6 @@ export default defineConfig({
       input: {
         main: "index.html",
         projects: "projects.html",
-        sticky: "sticky.html",
         circuits: "circuits.html"
       }
     }

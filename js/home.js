@@ -70,11 +70,6 @@ const renderer = new THREE.WebGLRenderer({ canvas, antialias: true });
 
 initRenderer();
 
-//OrbitControls used for panning
-const minPan = new THREE.Vector3(-1000,0,-1000);
-const maxPan = new THREE.Vector3(1000,0,1000);
-const _v = new THREE.Vector3(); 
-
 //Materials
 const grassMat = new THREE.MeshStandardMaterial({
   color: "#75d327",
@@ -94,39 +89,36 @@ const ground = new BasicMesh(
 
 setupSceneObjects(scene, interactableMeshes, interactableObjects, isDarkMode);
 
-//Lights
-const factor = 50;
-const sunFrust = 1000;
-const moonFrust = 500;
-const sunColor = 0xFFFFEC;
-const moonColor = 0xDDDDFF;
-const moonIntFactor = 0.02;
-
 setupLights();
 
+setTimeout(() => {
+  render();
+}, 1000);
 
-//Render loop
+let iter = 0;
 function loop() {
   requestAnimationFrame(loop);
-  renderer.clear();
 
-  camera.updateProjectionMatrix();
-  renderer.render(scene, camera);
-
-  console.log(lookingAt);
+  //For the first 100 render loop frames, rerender the scene to have the fade in look good
+  iter++;
+  if (iter < 100) {
+    console.log(iter);
+    renderer.clear();
+    render();
+  }
 }
 loop();
+
 
 //Resize scene on window resize
 window.addEventListener("resize", () => {
   scr.width = window.innerWidth;
   scr.height = window.innerHeight;
-
   aspect = scr.width / scr.height;
-
-  updateCameraFrustum()
+  updateCameraFrustum();
   renderer.setSize(scr.width, scr.height);
-})
+  render();
+});
 
 //Mouse raycasting bs
 window.addEventListener("mousemove", (event) => {
@@ -227,6 +219,7 @@ function zoomCamera(targetZoom, duration) {
     duration: duration / 1000, // gsap uses seconds
     onUpdate: () => {
       updateCameraFrustum();
+      render();
     },
     onComplete: () => {
       zooming = false;
@@ -295,6 +288,10 @@ function updateCameraFrustum() {
 }
 
 function setupLights() {
+  const factor = 50;
+  const sunFrust = 1000;
+  const sunColor = 0xFFFFEC;
+
   if (!isDarkMode) {
     const sunPositions = [
       { x: 20, y: 100, z: -20 },
@@ -307,4 +304,9 @@ function setupLights() {
       new BasicSun(scene, {x: pos.x * factor, y: pos.y * factor, z: pos.z * factor}, sunColor, 1, sunFrust);
     });
   }
+}
+
+function render() {
+  camera.updateProjectionMatrix();
+  renderer.render(scene, camera);
 }

@@ -120,6 +120,8 @@ export function goToMoreProjects(camera, renderer, sceneState) {
     ease: "power2.inOut",
     onUpdate: () => {
       camera.lookAt(lookAtPoint.x, lookAtPoint.y, lookAtPoint.z);
+      camera.updateProjectionMatrix();
+      renderer.render(sceneState.scene, camera);
     }
   });
 
@@ -144,6 +146,7 @@ export function goToMoreProjects(camera, renderer, sceneState) {
             camera.zoom = values.y;
             camera.updateProjectionMatrix();
             document.getElementById("fadeOverlay").style.opacity = values.x.toString();
+            renderer.render(sceneState.scene, camera);
           },
           onComplete: () => {
             window.location.href = "./projects.html";
