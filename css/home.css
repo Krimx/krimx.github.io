@@ -132,7 +132,6 @@ body,html {
   transform-origin: center;
   left: 0;
   transform: translateX(-120%);
-  background-color: red;
 }
 .wheel-item {
   position: absolute;

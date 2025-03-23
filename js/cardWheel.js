@@ -35,7 +35,7 @@ export function rotateCardWheel(event, lookingAt, hoveringOverCards, userOS) {
     const rotationSpeed = 0.1;
     let rotationInvert = 1;
 
-    if (lookingAt === "sky" && hoveringOverCards) {
+    if (hoveringOverCards) {
         if (userOS === "macOS") rotationInvert = -1;
 
         rotation += event.deltaY * rotationSpeed * rotationInvert;
