@@ -27,7 +27,7 @@ body,html {
 }
 
 .objectTitle {
-  z-index: 2;
+  z-index: 5;
   animation: revealTitle 1s ease-out;
   transform: translate(-50%, -60%);
 

@@ -36,11 +36,16 @@ function placeSkills(scene) {
 }
 
 function placeProjects(scene, interactableMeshes, interactableObjects) {
-  const projectsScale = 10;
-  const circuits = new BasicMesh(scene, { filepath: "./recs/models/projects/circuits.glb" }, { x: 100, y: 0, z: 110 }, { x: 0, y: 3.4, z: 0 }, { x: projectsScale, y: projectsScale, z: projectsScale }, { id: "circuits", title: "Circuits", interactables: interactableMeshes });
+  const circuitsScale = 10;
+  const circuits = new BasicMesh(scene, { filepath: "./recs/models/projects/circuits.glb" }, { x: 100, y: 0, z: 110 }, { x: 0, y: 3.4, z: 0 }, { x: circuitsScale, y: circuitsScale, z: circuitsScale }, { id: "circuits", title: "Circuits", interactables: interactableMeshes });
   interactableObjects.push(circuits);
 
-  const more = new BasicMesh(scene, { filepath: "./recs/models/projects/more.glb" }, { x: 130, y: 0.1, z: 70 }, { x: 0, y: 3.9, z: 0 }, { x: projectsScale, y: projectsScale, z: projectsScale }, { id: "more", title: "More", interactables: interactableMeshes });
+  const gldScale = 7;
+  const gld = new BasicMesh(scene, { filepath: "./recs/models/projects/green_light_district.glb" }, { x: 150, y: 0, z: 130 }, { x: 0, y: 4.0, z: 0 }, { x: gldScale, y: gldScale, z: gldScale }, { id: "gld", title: "The Green Light District", interactables: interactableMeshes });
+  interactableObjects.push(gld);
+
+  const moreScale = 10;
+  const more = new BasicMesh(scene, { filepath: "./recs/models/projects/more.glb" }, { x: 130, y: 0.1, z: 70 }, { x: 0, y: 3.9, z: 0 }, { x: moreScale, y: moreScale, z: moreScale }, { id: "more", title: "More", interactables: interactableMeshes });
   interactableObjects.push(more);
 }
 
