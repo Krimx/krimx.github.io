@@ -16,15 +16,24 @@
     <link rel="stylesheet" crossorigin href="/assets/main-Bk5dWfRM.css">
   </head>
   <body>
-    <div class="header">
+    <noscript>
+      <style>
+        /* Any element with the 'js-only' class will be hidden if JavaScript is off */
+        .js-only {
+          display: none;
+        }
+      </style>
+      <p>Sorry, this website requires JavaScript to run. Please enable JavaScript to experience the 3D portfolio.</p>
+    </noscript>
+    <div class="header js-only">
       <img src="./recs/logo256white.png">
       <div class="header-links">
         <a href="#" onclick="lookBackDown()">Home</a>
         <a href="./">Contact</a>
       </div>
     </div>
-    <div id="fadeOverlay"></div>
-    <div class="about-content">
+    <div id="fadeOverlay js-only"></div>
+    <div class="about-content js-only">
       <div class="about-text-parent" id="aboutContentParent">
         <p class="about-text">
           Hey there — I'm Joshua Hanna, a software engineering student at York College of Pennsylvania with an endless curiosity for how digital experiences are crafted. I find beauty in logic, and joy in turning abstract ideas into something real, something you can click, play, or feel.
@@ -50,7 +59,7 @@
       </a>
       <div class="about-grad-bg" id="aboutGradBg"></div>
     </div>
-    <div class="projects-content" id="projectsContent">
+    <div class="projects-content js-only" id="projectsContent">
       <a href="#" class="projects-back-arrow" id="projectsBackArrow" onclick="lookBackDown()">
         <img src="https://www.svgrepo.com/show/80156/down-arrow.svg">
       </a>
