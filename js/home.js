@@ -23,6 +23,7 @@ let hoveredID = "";
 const cameraZoomTime = 500;
 const cameraZoomAmount = 0.85;
 const cameraZoomBase = 0.8;
+const zoomTitleFactor = 20;
 let zooming = false;
 let zoomTween = null;
 const cameraBasePosition = new THREE.Vector3(30,30,30);
@@ -158,7 +159,7 @@ window.addEventListener("mousemove", (event) => {
         }
         else {
           //If cursor is hovering over this one, do stuff accordingly
-          obj.showTitle(obj.getScreenPosition(camera, renderer).x, obj.getHighestScreenPixel(camera, renderer).y);
+          obj.showTitle(obj.getScreenPosition(camera, renderer).x, obj.getHighestScreenPixel(camera, renderer).y + (camera.zoom * zoomTitleFactor));
           hoveredID = obj.id;
           zoomCamera(hoveredID == "" ? cameraZoomBase : cameraZoomAmount, cameraZoomTime);
         }
