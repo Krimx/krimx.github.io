@@ -23,7 +23,7 @@ let hoveredID = "";
 const cameraZoomTime = 500;
 const cameraZoomAmount = 0.85;
 const cameraZoomBase = 0.8;
-const zoomTitleFactor = 20;
+const zoomTitleFactor = 50;
 let zooming = false;
 let zoomTween = null;
 const cameraBasePosition = new THREE.Vector3(30,30,30);
@@ -77,6 +77,11 @@ const grassMat = new THREE.MeshStandardMaterial({
   roughness: 0.9,
   side: THREE.DoubleSide,
 });
+
+const glowMat = new THREE.MeshStandardMaterial({
+  emissive: "#FFD700",
+  emmissiveIntensity: 1
+})
 
 //Basic Objects
 const ground = new BasicMesh(
@@ -160,6 +165,7 @@ window.addEventListener("mousemove", (event) => {
         else {
           //If cursor is hovering over this one, do stuff accordingly
           obj.showTitle(obj.getScreenPosition(camera, renderer).x, obj.getHighestScreenPixel(camera, renderer).y + (camera.zoom * zoomTitleFactor));
+          obj.mesh.material = glowMat;
           hoveredID = obj.id;
           zoomCamera(hoveredID == "" ? cameraZoomBase : cameraZoomAmount, cameraZoomTime);
         }
@@ -181,6 +187,7 @@ window.addEventListener("mousemove", (event) => {
         else {
           //If cursor is hovering over this one, do stuff accordingly
           obj.showTitle(obj.getScreenPosition(camera, renderer).x, obj.getHighestScreenPixel(camera, renderer).y, {ratio: renderer.pixelRatio});
+          obj.mesh.material = glowMat;
           hoveredID = obj.id;
           zoomCamera(hoveredID == "" ? 1 : cameraZoomAmount, cameraZoomTime);
         }
@@ -191,6 +198,7 @@ window.addEventListener("mousemove", (event) => {
   //Dont ask, i need to keep it for later. If i forget to remove it and it stays commented out, dw abt it
   // if (intersects.length == 0) hoveredID = ""; 
 });
+
 window.addEventListener("wheel", (event) => {
   CardWheel.rotateCardWheel(event, lookingAt, hoveringOverCards, userOS);
 });

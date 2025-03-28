@@ -7,7 +7,8 @@ export default defineConfig({
       input: {
         main: "index.html",
         projects: "projects.html",
-        circuits: "circuits.html"
+        circuits: "circuits.html",
+        tbag: "tbag.html"
       }
     }
   }
