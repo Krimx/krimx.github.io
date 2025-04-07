@@ -1,9 +1,9 @@
 import '../css/main.css';
 import * as THREE from "three";
 import gsap from "gsap";
-import {BasicMesh} from "./basicMesh";
-import {BasicSun} from "./basicSun";
-import {Lamp} from "./lamp";
+import {BasicMesh} from "./basicMesh.js";
+import {BasicSun} from "./basicSun.js";
+import {Lamp} from "./lamp.js";
 import { setupSceneObjects } from "./sceneObjects.js";
 import { fadeToPage, fadeToPageURL, lookUpToSky, lookAtProjectsPage, goToMoreProjects, lookBackDown } from "./sceneTransitions.js";
 import * as Content from "./contentLoader.js";
@@ -29,6 +29,22 @@ let zoomTween = null;
 const cameraBasePosition = new THREE.Vector3(30,30,30);
 let lookingAt = "ground";
 let hoveringOverCards = false;
+
+let mouseX = 0;
+let mouseY = 0;
+let cursorX = 0;
+let cursorY = 0;
+let lastMouseX = 0;
+let lastMouseY = 0;
+let velocity = 0;
+let lastMouseMoveTime = Date.now();
+let cursorIdleCheckInterval = null;
+let lastAngle = 0;
+let lastScale = 1;
+
+const cursorSize = ["2.2rem", "2.8rem"];
+const cursorColors = ["#C2FFD9","#FFE9B1"];
+const cursorOpacities = [".7","1"];
 
 
 
@@ -101,9 +117,47 @@ setTimeout(() => {
   render();
 }, 1000);
 
+function hideSystemCursorEverywhere() {
+  document.querySelectorAll("body, html, canvas, .webgl, header, main, *").forEach(el => {
+    el.style.cursor = "none";
+  });
+}
+
+let fpsCounter = document.createElement('div');
+fpsCounter.style.position = 'fixed';
+fpsCounter.style.top = '10px';
+fpsCounter.style.left = '10px';
+fpsCounter.style.color = '#fff';
+fpsCounter.style.background = 'rgba(0,0,0,0.5)';
+fpsCounter.style.padding = '4px 8px';
+fpsCounter.style.fontFamily = 'monospace';
+fpsCounter.style.fontSize = '14px';
+fpsCounter.style.zIndex = '10000';
+document.body.appendChild(fpsCounter);
+
+let frames = 0;
+let lastTime = performance.now();
+
+function trackFPS() {
+  frames++;
+  const now = performance.now();
+  const delta = now - lastTime;
+
+  if (delta >= 1000) {
+    const fps = Math.round((frames * 1000) / delta);
+    fpsCounter.textContent = `FPS: ${fps}`;
+    frames = 0;
+    lastTime = now;
+  }
+
+  requestAnimationFrame(trackFPS);
+}
+trackFPS();
+
 let iter = 0;
 function loop() {
   requestAnimationFrame(loop);
+  hideSystemCursorEverywhere();
 
   //For the first 100 render loop frames, rerender the scene to have the fade in look good
   iter++;
@@ -128,6 +182,8 @@ window.addEventListener("resize", () => {
 
 //Mouse raycasting bs
 window.addEventListener("mousemove", (event) => {
+  const cursorBlob = document.getElementById("cursorBlob");
+
   // Convert Mouse Position to Normalized Device Coordinates (-1 to +1)
   mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
   mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
@@ -139,7 +195,6 @@ window.addEventListener("mousemove", (event) => {
 
   //Change cursor if hovering over an interactable
   if (intersects.length > 0) {
-    document.body.style.cursor = "pointer";
     hoveredID = "";
   }
   if (intersects.length == 0) {
@@ -152,7 +207,6 @@ window.addEventListener("mousemove", (event) => {
     if (obj.mesh.userData) {
       //If no interactables, run some resets (could be optimized but there wont be that much to iterate over)
       if (intersects.length == 0) {
-        document.body.style.cursor = "default"; // Reset cursor
         obj.hideTitle();
         zoomCamera(hoveredID == "" ? cameraZoomBase : cameraZoomAmount, cameraZoomTime);
       }
@@ -174,7 +228,6 @@ window.addEventListener("mousemove", (event) => {
     else {
       //If no interactables, run some resets (could be optimized but there wont be that much to iterate over)
       if (intersects.length == 0) {
-        document.body.style.cursor = "default"; // Reset cursor
         obj.hideTitle();
         zoomCamera(hoveredID == "" ? 1 : cameraZoomAmount, cameraZoomTime);
       }
@@ -195,9 +248,74 @@ window.addEventListener("mousemove", (event) => {
     }
   });
 
-  //Dont ask, i need to keep it for later. If i forget to remove it and it stays commented out, dw abt it
-  // if (intersects.length == 0) hoveredID = ""; 
+  if (intersects.length > 0) {
+    cursorBlob.style.width = cursorSize[1]
+    cursorBlob.style.backgroundColor = cursorColors[1];
+    cursorBlob.style.opacity = cursorOpacities[1];
+  }
+  else {
+    cursorBlob.style.width = cursorSize[0];
+    cursorBlob.style.backgroundColor = cursorColors[0];
+    cursorBlob.style.opacity = cursorOpacities[0];
+  }
+  
+  const dx = event.clientX - lastMouseX;
+  const dy = event.clientY - lastMouseY;
+  const velocity = Math.sqrt(dx * dx + dy * dy);
+  const angle = Math.atan2(dy, dx) * 180 / Math.PI;
+  const scale = Math.min(1 + velocity * 0.02, 1.5);
+
+  const blurAmount = Math.min(velocity * 0.15, 6);
+  cursorBlob.style.filter = `blur(${blurAmount}px)`;
+
+  cursorBlob.style.transform = `
+    translate(${event.clientX}px, ${event.clientY}px)
+    rotate(${angle}deg)
+    scale(${scale}, ${2 - scale})
+  `;
+
+  lastMouseX = event.clientX;
+  lastMouseY = event.clientY;
+
+  mouseX = event.clientX - cursorWidth / 2;
+  mouseY = event.clientY - cursorWidth / 2;
+
+  lastMouseMoveTime = Date.now();
 });
+
+function animateCursor() {
+  const cursorBlob = document.getElementById("cursorBlob");
+  const cursorWidth = cursorBlob.offsetWidth;
+  const cursorHeight = cursorBlob.offsetHeight;
+
+
+  cursorX += (mouseX - cursorX - (cursorWidth / 2)) * 0.15;
+  cursorY += (mouseY - cursorY - (cursorWidth / 2)) * 0.15;
+
+  cursorBlob.style.left = `${cursorX}px`;
+  cursorBlob.style.top = `${cursorY}px`;
+
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+
+cursorIdleCheckInterval = setInterval(() => {
+  const now = Date.now();
+  const timeSinceMove = now - lastMouseMoveTime;
+
+  if (timeSinceMove > 150) {
+    const cursorBlob = document.getElementById("cursorBlob");
+
+    cursorBlob.style.transform = `
+      translate(${lastMouseX}px, ${lastMouseY}px)
+      rotate(0deg)
+      scale(1, 1)
+    `;
+    cursorBlob.style.filter = 'blur(0px)';
+  }
+}, 50);
+
+
 
 window.addEventListener("wheel", (event) => {
   CardWheel.rotateCardWheel(event, lookingAt, hoveringOverCards, userOS);

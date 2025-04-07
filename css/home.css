@@ -2,6 +2,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  cursor: none !important;
 }
 
 body,html {
@@ -22,14 +23,14 @@ body,html {
   }
   to {
     opacity: 1;
-    transform: translate(-50%, -60%);
+    transform: translate(-50%, -80%);
   }
 }
 
 .objectTitle {
   z-index: 5;
   animation: revealTitle 1s ease-out;
-  transform: translate(-50%, -60%);
+  transform: translate(-50%, -80%);
 
   font-size: 3rem;
   color: white;
@@ -71,7 +72,6 @@ body,html {
    position: absolute;
    width: 100vw;
    height: 100vh;
-   z-index: 6;
 
    display: flex;
    flex-direction: row;
@@ -175,3 +175,17 @@ body,html {
 .projects-back-arrow:hover img {
   transform: translateY(-5%);
 }
+
+.cursorBlob {
+  opacity: .5;
+  width: 2.2rem;
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 2;
+
+  transition: width .5s ease-in-out, background-color .5s ease-in-out;
+}
+
