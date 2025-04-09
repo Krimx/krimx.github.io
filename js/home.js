@@ -133,7 +133,6 @@ fpsCounter.style.padding = '4px 8px';
 fpsCounter.style.fontFamily = 'monospace';
 fpsCounter.style.fontSize = '14px';
 fpsCounter.style.zIndex = '10000';
-document.body.appendChild(fpsCounter);
 
 let frames = 0;
 let lastTime = performance.now();
@@ -315,8 +314,6 @@ cursorIdleCheckInterval = setInterval(() => {
   }
 }, 50);
 
-
-
 window.addEventListener("wheel", (event) => {
   CardWheel.rotateCardWheel(event, lookingAt, hoveringOverCards, userOS);
 });
@@ -366,10 +363,14 @@ window.addEventListener("mouseup", () => {
         sceneState.inAnimation = true;
         lookAtProjectsPage(camera, renderer, sceneState);
         break;
-      case "circuits":
-        sceneState.inAnimation = true;
-        fadeToPage("circuits");
-        break;
+        case "circuits":
+          sceneState.inAnimation = true;
+          fadeToPage("circuits");
+          break;
+        case "gld":
+          sceneState.inAnimation = true;
+          fadeToPage("tbag");
+          break;
       case "more":
         sceneState.inAnimation = true;
         goToMoreProjects(camera, renderer, sceneState);
@@ -436,4 +437,8 @@ function setupLights() {
 function render() {
   camera.updateProjectionMatrix();
   renderer.render(scene, camera);
+}
+
+function mailto() {
+  window.open('mailto:23jlhanna@gmail.com', '_blank');
 }

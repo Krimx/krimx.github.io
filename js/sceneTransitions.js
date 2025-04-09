@@ -159,7 +159,8 @@ export function goToMoreProjects(camera, renderer, sceneState) {
 }
 
 export function lookBackDown(camera, renderer, sceneState) {
-    if (!sceneState.inAnimation) {
+    if (!sceneState.inAnimation && sceneState.lookingAt == "sky") {
+      console.log("eshfuishfiusr")
       sceneState.inAnimation = true;
   
       if (sceneState.lookingAt === "sky") {
@@ -222,5 +223,8 @@ export function lookBackDown(camera, renderer, sceneState) {
           });
         }, 0);
       }
+    }
+    else {
+      console.log("Waka waka");
     }
   }
