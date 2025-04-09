@@ -159,7 +159,7 @@ export function goToMoreProjects(camera, renderer, sceneState) {
 }
 
 export function lookBackDown(camera, renderer, sceneState) {
-    if (!sceneState.inAnimation && sceneState.lookingAt == "sky") {
+    if (!sceneState.inAnimation && (sceneState.lookingAt == "sky" || sceneState.lookingAt == "projects")) {
       console.log("eshfuishfiusr")
       sceneState.inAnimation = true;
   
