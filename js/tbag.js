@@ -75,5 +75,3 @@ function parseCommand(command) {
 
     }
 }
-
-parseCommand("passy");

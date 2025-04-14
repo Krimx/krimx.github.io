@@ -1,0 +1,3 @@
+-insert color at selection method (takes color param)
+-create new loreline input method
+--parse commands method (should be easy if we just iterate over everything, maybe a mutable array of strings to iterate over for generating all the copyable fields)

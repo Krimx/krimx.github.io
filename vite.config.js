@@ -8,7 +8,8 @@ export default defineConfig({
         main: "index.html",
         projects: "projects.html",
         circuits: "circuits.html",
-        tbag: "tbag.html"
+        tbag: "tbag.html",
+        sc_rename: "sc-rename-gen/sc-rename.html"
       }
     }
   }

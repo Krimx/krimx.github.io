@@ -1,0 +1,354 @@
+:root {
+    --black-bg: #292929;
+    --neu-highlight: #2f2f2f;
+    --neu-shadow: #202020;
+    --color-active-shadow: rgba(50,50,50,.5);
+    --color-active-highlight: rgba(255,255,255,.3);
+
+    --f: #ffffff;
+    --1: #0000af;
+    --2: #00ac00;
+    --3: #00aeaa;
+    --4: #c90000;
+    --5: #c900b4;
+    --6: #ff9e00;
+    --7: #a8a8a8;
+    --8: #545454;
+    --9: #5454ff;
+    --e: #fcfc00;
+    --d: #ff1cff;
+    --c: #ff1c41;
+    --b: #00ffff;
+    --a: #00ff00;
+    --0: #000000;
+
+    --22: #007f00;
+    --zz: #e341b8;
+    --j1: #ff9442;
+    --swan1: #ffbf00;
+    --d1: #ffb8ff;
+    --d2: #fa1be2;
+    --b1: #98fffe;
+    --b2: #00dad6;
+    --potato: #b942b9;
+    --91: #9999ff;
+    --92: #4646dc;
+    --71: #dadada;
+    --72: #8d8d8d;
+    --51: #cc85bf;
+    --52: #a30092;
+    --31: #69c9c7;
+    --32: #007d7b;
+    --11: #9494d5;
+    --12: #1b1b85;
+    --g: #ff5ac0;
+    --j: #ff4400;
+    --e1: #fff59b;
+    --e2: #dddd00;
+    --c1: #ffa9ae;
+    --c2: #f71236;
+    --a1: #91ffb1;
+    --p: #ff0000;
+    --a2: #00bb00;
+    --q: #bc4300;
+    --s: #e55200;
+    --t: #cc6cff;
+    --u: #ff0067;
+    --v: #a4ff3b;
+    --w: #ffb876;
+    --81: #8a8a8a;
+    --y: #00ffb6;
+    --82: #494949;
+    --z: #81002f;
+    --61: #ffdb92;
+    --62: #f28700;
+    --41: #e08e93;
+    --42: #bb182c;
+    --21: #6ec787;
+}
+
+* {
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+
+    font-family: "Poiret One", sans-serif;
+    font-weight: 800;
+    font-style: normal;
+}
+
+.break {
+    flex-basis: 100%;
+    height: 0;
+    width: 100%;
+    margin-bottom: 2.5rem;
+}
+
+.colors-form {
+    text-align: center;
+}
+
+.color-option {
+    display: none;
+}
+
+.color-button {
+    display: inline-block;
+    background-color: var(--black-bg);
+    padding: 5px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 4px 4px 10px var(--neu-shadow), -4px -4px 10px var(--neu-highlight);
+    cursor: pointer;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+    color: white;
+}
+.color-button:hover {
+    box-shadow: 8px 8px 20px var(--neu-shadow), -8px -8px 20px var(--neu-highlight);
+}
+.color-button:active {
+    box-shadow: inset 4px 4px 10px var(--color-active-shadow), inset -4px -4px 10px var(--color-active-highlight);
+}
+
+.color-f-button {
+    background-color: var(--f);
+    color: black;
+}
+.color-1-button {
+    background-color: var(--1);
+    color: white;
+}
+.color-2-button {
+    background-color: var(--2);
+    color: black;
+}
+.color-3-button {
+    background-color: var(--3);
+    color: black;
+}
+.color-4-button {
+    background-color: var(--4);
+    color: white;
+}
+.color-5-button {
+    background-color: var(--5);
+    color: black;
+}
+.color-6-button {
+    background-color: var(--6);
+    color: black;
+}
+.color-7-button {
+    background-color: var(--7);
+    color: black;
+}
+.color-8-button {
+    background-color: var(--8);
+    color: white;
+}
+.color-9-button {
+    background-color: var(--9);
+    color: black;
+}
+.color-e-button {
+    background-color: var(--e);
+    color: black;
+}
+.color-d-button {
+    background-color: var(--d);
+    color: black;
+}
+.color-c-button {
+    background-color: var(--c);
+    color: black;
+}
+.color-b-button {
+    background-color: var(--b);
+    color: black;
+}
+.color-a-button {
+    background-color: var(--a);
+    color: black;
+}
+.color-0-button {
+    background-color: var(--f0);
+    color: white;
+}
+
+
+
+.color-22-button {
+    background-color: var(--22);
+    color: white;
+}
+.color-zz-button {
+    background-color: var(--zz);
+    color: white;
+}
+.color-j1-button {
+    background-color: var(--j1);
+    color: white;
+}
+.color-swan1-button {
+    background-color: var(--swan1);
+    color: black;
+}
+.color-d1-button {
+    background-color: var(--d1);
+    color: black;
+}
+.color-d2-button {
+    background-color: var(--d2);
+    color: white;
+}
+.color-b1-button {
+    background-color: var(--b1);
+    color: black;
+}
+.color-b2-button {
+    background-color: var(--b2);
+    color: black;
+}
+.color-potato-button {
+    background-color: var(--potato);
+    color: white;
+}
+.color-91-button {
+    background-color: var(--91);
+    color: white;
+}
+.color-92-button {
+    background-color: var(--92);
+    color: white;
+}
+.color-71-button {
+    background-color: var(--71);
+    color: black;
+}
+.color-72-button {
+    background-color: var(--72);
+    color: white;
+}
+.color-51-button {
+    background-color: var(--51);
+    color: white;
+}
+.color-52-button {
+    background-color: var(--52);
+    color: white;
+}
+.color-31-button {
+    background-color: var(--31);
+    color: white;
+}
+.color-32-button {
+    background-color: var(--32);
+    color: white;
+}
+.color-11-button {
+    background-color: var(--11);
+    color: white;
+}
+.color-12-button {
+    background-color: var(--12);
+    color: white;
+}
+.color-g-button {
+    background-color: var(--g);
+    color: white;
+}
+.color-j-button {
+    background-color: var(--j);
+    color: white;
+}
+.color-e1-button {
+    background-color: var(--e1);
+    color: black;
+}
+.color-e2-button {
+    background-color: var(--e2);
+    color: black;
+}
+.color-c1-button {
+    background-color: var(--c1);
+    color: black;
+}
+.color-c2-button {
+    background-color: var(--c2);
+    color: white;
+}
+.color-a1-button {
+    background-color: var(--a1);
+    color: black;
+}
+.color-p-button {
+    background-color: var(--p);
+    color: white;
+}
+.color-a2-button {
+    background-color: var(--a2);
+    color: white;
+}
+.color-q-button {
+    background-color: var(--q);
+    color: white;
+}
+.color-s-button {
+    background-color: var(--s);
+    color: white;
+}
+.color-t-button {
+    background-color: var(--t);
+    color: white;
+}
+.color-u-button {
+    background-color: var(--u);
+    color: white;
+}
+.color-v-button {
+    background-color: var(--v);
+    color: black;
+}
+.color-w-button {
+    background-color: var(--0);
+    color: white;
+}
+.color-81-button {
+    background-color: var(--81);
+    color: white;
+}
+.color-y-button {
+    background-color: var(--y);
+    color: black;
+}
+.color-82-button {
+    background-color: var(--82);
+    color: white;
+}
+.color-z-button {
+    background-color: var(--z);
+    color: white;
+}
+.color-61-button {
+    background-color: var(--61);
+    color: black;
+}
+.color-62-button {
+    background-color: var(--62);
+    color: white;
+}
+.color-41-button {
+    background-color: var(--41);
+    color: white;
+}
+.color-42-button {
+    background-color: var(--42);
+    color: white;
+}
+.color-21-button {
+    background-color: var(--21);
+    color: white;
+}

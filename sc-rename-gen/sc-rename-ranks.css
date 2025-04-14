@@ -1,0 +1,159 @@
+:root {
+    --black-bg: #292929;
+    --neu-highlight: #2f2f2f;
+    --neu-shadow: #202020;
+    
+    --guest-bg: linear-gradient(145deg, #ffffff, #e6e6e6);
+    --guest-color: #ffffff;
+
+    --citizen-bg: linear-gradient(145deg, #f8acac, #d19191);
+    --novice-bg: linear-gradient(145deg, #4c8da9, #40778e);
+    --apprentice-bg: linear-gradient(145deg, #eb8dc0, #c677a1);
+    --veteran-bg: linear-gradient(145deg, #80a7f2, #6c8ccb);
+    --captain-bg: linear-gradient(145deg, #b57183, #985f6e);
+    --hero-bg: linear-gradient(145deg, #3c9e42, #328538);
+    --eternal-bg: linear-gradient(145deg, #60d9e2, #51b7be);
+    --divine-bg: linear-gradient(145deg, #e8d765, #c3b555);
+
+    --mystic-bg: linear-gradient(145deg, #f1e457, #cbc049);
+    --elite-bg: linear-gradient(145deg, #f1c25c, #cba34d);
+    --legend-bg: linear-gradient(145deg, #b161ba, #95529d);
+    --overlord-bg: linear-gradient(145deg, #bb524b, #9e453f);
+    --alpha-bg: linear-gradient(145deg, #5df85a, #4ed14c);
+    --celestial-bg: linear-gradient(145deg, #f277b8, #cb649b);
+
+    --citizen-color: #f8acac;
+    --novice-color: #4c8da9;
+    --apprentice-color: #eb8dc0;
+    --veteran-color: #80a7f2;
+    --captain-color: #b57183;
+    --hero-color: #3c9e42;
+    --eternal-color: #60d9e2;
+    --divine-color: #e8d765;
+
+    --mystic-color: #f1e457;
+    --elite-color: #f1c25c;
+    --legend-color: #b161ba;
+    --overlord-color: #bb524b;
+    --alpha-color: #5df85a;
+    --celestial-color: #f277b8;
+}
+
+* {
+    margin:0;
+    padding:0;
+    box-sizing: border-box;
+
+    font-family: "Poiret One", sans-serif;
+    font-weight: 800;
+    font-style: normal;
+}
+
+.ranks {
+    width: 100vw;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+}
+.rank-selections {
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 2%;
+}
+.rank-option {
+    display: none;
+}
+.rank-label {
+    background-color: var(--black-bg);
+    padding: 5px;
+    border-radius: 10px;
+    box-shadow: 4px 4px 10px var(--neu-shadow), -4px -4px 10px var(--neu-highlight);
+    cursor: pointer;
+    margin-left: 5px;
+    margin-right: 5px;
+    color: white;
+}
+
+.rank-label:hover {
+    box-shadow: 8px 8px 20px var(--neu-shadow), -8px -8px 20px var(--neu-highlight);
+}
+.rank-label:active {
+    box-shadow: inset 4px 4px 5px var(--neu-shadow), inset -4px -4px 5px var(--neu-highlight);
+}
+
+.rank-option:checked + .rank-label {
+    color: black;
+}
+
+.guest-option:checked + .guest-label {
+    background: var(--guest-bg);
+    box-shadow: 0 0 10px var(--guest-color);
+}
+.citizen-option:checked + .citizen-label {
+    background: var(--citizen-bg);
+    box-shadow: 0 0 10px var(--citizen-color);
+}
+.novice-option:checked + .novice-label {
+    background: var(--novice-bg);
+    box-shadow: 0 0 10px var(--novice-color);
+}
+.apprentice-option:checked + .apprentice-label {
+    background: var(--apprentice-bg);
+    box-shadow: 0 0 10px var(--apprentice-color);
+}
+.veteran-option:checked + .veteran-label {
+    background: var(--veteran-bg);
+    box-shadow: 0 0 10px var(--veteran-color);
+}
+.captain-option:checked + .captain-label {
+    background: var(--captain-bg);
+    box-shadow: 0 0 10px var(--captain-color);
+}
+.hero-option:checked + .hero-label {
+    background: var(--hero-bg);
+    box-shadow: 0 0 10px var(--hero-color);
+}
+.eternal-option:checked + .eternal-label {
+    background: var(--eternal-bg);
+    box-shadow: 0 0 10px var(--eternal-color);
+}
+.divine-option:checked + .divine-label {
+    background: var(--divine-bg);
+    box-shadow: 0 0 10px var(--divine-color);
+}
+
+
+.mystic-option:checked + .mystic-label {
+    background: var(--mystic-bg);
+    box-shadow: 0 0 10px var(--mystic-color);
+}
+
+.elite-option:checked + .elite-label {
+    background: var(--elite-bg);
+    box-shadow: 0 0 10px var(--elite-color);
+}
+
+.legend-option:checked + .legend-label {
+    background: var(--legend-bg);
+    box-shadow: 0 0 10px var(--legend-color);
+}
+
+.overlord-option:checked + .overlord-label {
+    background: var(--overlord-bg);
+    box-shadow: 0 0 10px var(--overlord-color);
+}
+
+.alpha-option:checked + .alpha-label {
+    background: var(--alpha-bg);
+    box-shadow: 0 0 10px var(--alpha-color);
+}
+
+.celestial-option:checked + .celestial-label {
+    background: var(--celestial-bg);
+    box-shadow: 0 0 10px var(--celestial-color);
+}
