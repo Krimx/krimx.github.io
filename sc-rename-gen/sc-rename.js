@@ -25,6 +25,15 @@ function insertColorAtSelection(color) {
     const valueWithColor = valueBefore + color + valueAfter;
 
     activeInput.value = valueWithColor;
+
+    console.log(activeInput);
+
+    activeInput.focus();
+
+    setTimeout(() => {
+      activeInput.focus();
+      activeInput.setSelectionRange(end + color.length, end + color.length);
+    }, 100);
 }
 
 function getLorelineIndices() {
@@ -186,14 +195,15 @@ function generateDisplay() {
     nameDisplay.classList.add("display-text");
     nameDisplay.id = "displayText";
 
-    const nameBreak = document.createElement("br");
-    container.appendChild(nameBreak);
-
     // console.log(wrapColorSectionsWithSpans(nameInput.value));
     
     nameDisplay.innerHTML = wrapColorSectionsWithSpans(nameInput.value)
 
     container.appendChild(nameDisplay);
+
+    const nameBreak = document.createElement("br");
+    nameBreak.id = "displayText";
+    container.appendChild(nameBreak);
 
     for (let i = 0; i < lorelineInputs.length; i++) {
         const text = wrapColorSectionsWithSpans(lorelineInputs[i].value);
