@@ -9,7 +9,8 @@ export default defineConfig({
         projects: "projects.html",
         circuits: "circuits.html",
         tbag: "tbag.html",
-        sc_rename: "sc-rename-gen/sc-rename.html"
+        sc_rename: "sc-rename-gen/sc-rename.html",
+        glass: "glassmorphism-learning/glass.html"
       }
     }
   }

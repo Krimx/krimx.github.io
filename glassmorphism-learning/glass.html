@@ -1,0 +1,41 @@
+<!--
+Idea: Lorem Ipsum generator
+Features: Custom word/character counts, font selector, font-size selector
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krimx | Lorem Ipsum</title>
+    <link rel="stylesheet" href="./glass.css">
+</head>
+<body>
+    <section class="landing">
+        <div class="bg">
+            <div class="bg-rect"></div>
+            <div class="bg-rect"></div>
+            <div class="bg-rect"></div>
+            <div class="bg-rect"></div>
+        </div>
+
+        <div class="box glassmorphic">
+            <div class="inputs">
+                <input type="number" class="word-count-input glassmorphic" placeholder="Word Count">
+                <input type="number" class="font-size-input glassmorphic" placeholder="Font Size" value="12">
+
+                <select id="fontSelector" class="font-selector glassmorphic">
+                    <option value="Arial">Arial</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="'Courier New'">Courier New</option>
+                    <option value="'Times New Roman'">Times New Roman</option>
+                    <option value="'Comic Sans MS'">Comic Sans</option>
+                  </select>
+            </div>
+        </div>
+    </section>
+    
+    <script src="./glass.js" type="module"></script>
+</body>
+</html>
