@@ -5,24 +5,25 @@
     --third-bg-color: rgba(0,0,255, var(--bg-rect-opacity));
     --fourth-bg-color: rgba(0,255,0, var(--bg-rect-opacity));
     --bg-rect-blur: 60vw;
+
+    --glass-bg-color: rgba(255,255,255,.2);
+    --glass-bg-color-hover: rgba(100,100,100,.3);
 }
 
 * {
     margin:0;
     padding:0;
     box-sizing: border-box;
-}
 
-body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow: hidden;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    color: white;
+    text-shadow: 0 0 10px rgba(0,0,0,.1);
+
+    outline: none;
 }
 
 .glassmorphic {
-    background-color: rgba(255,255,255,.2);
+    background-color: var(--glass-bg-color);
     backdrop-filter: blur(50px);
     -webkit-backdrop-filter: blur(400px);
     box-shadow: 0 0 10px rgba(0,0,0,0.08);
@@ -30,6 +31,24 @@ body {
     border: 1px solid rgba(255,255,255,0.5);
     border-right: 1px solid rgba(255,255,255,0.2);
     border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+.glassmorphic-interactable {
+    cursor: pointer;
+    transition: all .7s ease-in-out;
+}
+.glassmorphic-interactable:hover {
+    background-color: var(--glass-bg-color-hover);
+    backdrop-filter: blur(50px);
+    -webkit-backdrop-filter: blur(400px);
+    box-shadow: 0 0 10px rgba(0,0,0,0.08);
+
+    border: 1px solid rgba(200,200,200,0.5);
+    border-right: 1px solid rgba(200,200,200,0.2);
+    border-bottom: 1px solid rgba(200,200,200,0.2);
+}
+.glassmorphic-interactable:active {
+    transition: none;
+    box-shadow: none;
 }
 
 .landing {
@@ -75,9 +94,9 @@ body {
 }
 
 .box {
-    position: absolute;
+    position: relative;
     width: 80vh;
-    aspect-ratio: 4/3;
+    aspect-ratio: 3/1;
 
     top: 50%;
     left: 50%;
@@ -87,7 +106,7 @@ body {
 
     display: flex;
     flex-direction: column;
-    justify-content: start;
+    justify-content: space-between;
     align-items: center;
 
     padding-top: 5%;
@@ -146,4 +165,55 @@ body {
     font-size: 1rem;
     color: white;
     border-radius: 1000px;
+}
+
+.outputs {
+    position: absolute;
+    width: 90%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    top: 100%;
+    margin-top: -10%;
+}
+
+.text-output {
+    width: 100%;
+    height: auto;
+    font-size: 1.2rem;
+    color: white;
+    border-radius: 20px;
+    padding: .5rem;
+}
+
+.copy-button {
+    width: auto;
+    aspect-ratio: 3/1;
+    font-size: 1.2rem;
+    padding: .3rem;
+    border-radius: 1000px;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+@keyframes copyPin {
+    from {
+      opacity: 1;
+      bottom: 100%;
+    }
+    to {
+        opacity: 0;
+        bottom: 130%;
+    }
+  }
+
+.copy-pin {
+    position: absolute;
+    bottom: 100%;
+    opacity: 100%;
+
+    animation: copyPin 2s ease-out forwards;
 }
