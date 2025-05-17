@@ -1,0 +1,15 @@
+@media (orientation: landscape) {
+    .row {
+        flex-direction: row;
+    }
+  }
+  
+  @media (orientation: portrait) {
+    .row {
+        flex-direction: column;
+    }
+    .card {
+        height: auto;
+        margin-top: 5%;
+    }
+  }

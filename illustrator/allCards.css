@@ -1,0 +1,74 @@
+@import url(./cardsOrientation.css);
+:root {
+    --download-button-bg-color-dark: #0c5f5b;
+    --download-button-bg-color-hover-dark: #117c77;
+    --download-button-text-color-dark: #fff;
+    --download-button-bg-color-light: #0a524f;
+    --download-button-bg-color-hover-light: #176561;
+    --download-button-text-color-light: #fff;
+
+    --card-height: 20rem;
+    
+    --bg-color-light: #93d2ce;
+    --bg-color-dark: #011716;
+
+    --card-color-light: #226f68;
+    --card-color-dark:#053c39;
+
+    --text-color-dark:#fff;
+    --text-color-light: #fbfbfb;
+
+    color-scheme: light dark;
+}
+
+.nubia-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    
+    width: 100%;
+    height: 100%;
+}
+.nubia-text-content {
+    display: flex;
+    flex-direction: column;
+    margin: 0 2%;
+}
+.nubia-thumbnail {
+    height: 90%;
+    border-radius: 10px;
+    margin-right: 5%;
+}
+.nubia-title {
+    font-size: 4rem;
+}
+.nubia-desc {
+    font-size: 1.5rem;
+}
+
+.beach-pills-content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    
+    width: 100%;
+    height: 100%;
+}
+.beach-pills-text-content {
+    display: flex;
+    flex-direction: column;
+    margin: 0 2%;
+}
+.beach-pills-thumbnail {
+    height: 80%;
+    border-radius: 10px;
+    margin-right: 5%;
+}
+.beach-pills-title {
+    font-size: 3rem;
+}
+.beach-pills-desc {
+    font-size: 1.5rem;
+}
