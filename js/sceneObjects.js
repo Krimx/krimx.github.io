@@ -56,6 +56,9 @@ function placeLinks(scene, interactableMeshes, interactableObjects) {
 
   const instagram = new BasicMesh(scene, { filepath: "./recs/models/links/instagram.glb" }, { x: -30, y: 1.2, z: 10 }, { x: 0, y: 0, z: 0 }, { x: linksScale, y: linksScale, z: linksScale }, { id: "instagram", title: "Instagram", interactables: interactableMeshes, receiveShadow: true });
   interactableObjects.push(instagram);
+
+  const wpp = new BasicMesh(scene, { filepath: "./recs/models/links/instagram.glb" }, { x: 50, y: 1.2, z: -25 }, { x: 0, y: 1, z: 0 }, { x: linksScale, y: linksScale, z: linksScale }, { id: "wallpapers", title: "Wallpapers", interactables: interactableMeshes, receiveShadow: true });
+  interactableObjects.push(wpp);
 }
 
 function placeLamps(scene, isDarkMode) {

@@ -378,9 +378,12 @@ window.addEventListener("mouseup", () => {
       case "github":
         fadeToPageURL("https://github.com/Krimx");
         break;
-      case "instagram":
-        fadeToPageURL("https://www.instagram.com/itskrimx?igsh=MW5seHFlamR4NTZqcQ%3D%3D&utm_source=qr");
-        break;
+        case "instagram":
+          fadeToPageURL("https://www.instagram.com/itskrimx?igsh=MW5seHFlamR4NTZqcQ%3D%3D&utm_source=qr");
+          break;
+        case "wallpapers":
+          fadeToPageURL("./illustrator/ill.html");
+          break;
     }
   }
 });

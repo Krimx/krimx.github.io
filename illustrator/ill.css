@@ -30,7 +30,7 @@
     background-color: light-dark(var(--bg-color-light), var(--bg-color-dark));
   }
   h1,p {
-    color: light-dark(var(--text-color-light), var(--text-color-dark))
+    color: light-dark(var(--text-color-light), var(--text-color-dark));
   }
 
 .landing {
@@ -179,3 +179,6 @@
     }
   }
 
+.header-links > a{
+    color: light-dark(var(--text-color-light), var(--text-color-dark));
+}
