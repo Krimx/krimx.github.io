@@ -10,7 +10,8 @@ export default defineConfig({
         circuits: "circuits.html",
         tbag: "tbag.html",
         sc_rename: "sc-rename-gen/sc-rename.html",
-        glass: "glassmorphism-learning/glass.html"
+        glass: "glassmorphism-learning/glass.html",
+        illustrator: "illustrator/ill.html"
       }
     }
   }
