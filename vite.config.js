@@ -11,7 +11,8 @@ export default defineConfig({
         tbag: "tbag.html",
         sc_rename: "sc-rename-gen/sc-rename.html",
         glass: "glassmorphism-learning/glass.html",
-        illustrator: "illustrator/ill.html"
+        illustrator: "illustrator/ill.html",
+        mobile: "mobile.html"
       }
     }
   }

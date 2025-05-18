@@ -9,6 +9,8 @@ import { fadeToPage, fadeToPageURL, lookUpToSky, lookAtProjectsPage, goToMorePro
 import * as Content from "./contentLoader.js";
 import * as CardWheel from "./cardWheel.js";
 
+
+
 const isDarkMode = window.matchMedia('(prefers-color-scheme: dark)').matches;
 
 console.log('Dark mode?', window.matchMedia('(prefers-color-scheme: dark)').matches);
@@ -156,6 +158,11 @@ trackFPS();
 let iter = 0;
 function loop() {
   requestAnimationFrame(loop);
+  
+  if (/Mobi|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    window.location.href = "/mobile.html";
+  }
+
   hideSystemCursorEverywhere();
 
   //For the first 100 render loop frames, rerender the scene to have the fade in look good

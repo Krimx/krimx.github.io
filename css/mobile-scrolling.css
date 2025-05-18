@@ -1,0 +1,64 @@
+.skills {
+    width: 100dvw;
+    overflow: hidden;
+}
+
+.skills-row.languages {
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+.skills-row p {
+    font-size: 1.2rem;
+}
+
+#languages {
+    display: flex;
+    white-space: nowrap;
+    will-change: transform;
+}
+
+.scroll-text {
+white-space: nowrap;
+}   
+
+
+@keyframes scroll-left {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+.skills-row.software {
+    overflow: hidden;
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    position: relative;
+  }
+  
+  #software {
+    display: flex;
+    white-space: nowrap;
+    transform: translateX(-50%); /* start halfway to make 2nd copy visible */
+    animation: scroll-right 20s linear infinite;
+    will-change: transform;
+  }
+  
+  .scroll-text {
+    white-space: nowrap;
+  }
+
+  @keyframes scroll-right {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
