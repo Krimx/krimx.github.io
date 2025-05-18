@@ -10,9 +10,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&family=Monoton&display=swap" rel="stylesheet">
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <link rel="stylesheet" crossorigin href="/assets/illustrator-CiI2Nb3u.css">
-  <link rel="stylesheet" crossorigin href="/assets/header-D3eR9gTD.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="./ill.js" defer></script>
+  <link rel="stylesheet" crossorigin href="/assets/illustrator-Die5bPwx.css">
 </head>
 <body>
     <section class="landing">
@@ -22,33 +22,31 @@
               <a class="lexend-regular" href="../index.html">Home</a>
             </div>
           </div>
+          <h1 class="landing-title lexend-regular">
+            I like making desktop and phone wallpapers. Have some!
+          </h1>
     </section>
     <section class="content">
         <div class="row">
-            <div class="card">
-                <div class="card-bg">
-                    <div class="nubia-content">
-                        <div class="nubia-text-content">
-                            <h1 class="nubia-title monoton-regular">Nubia</h1>
-                            <p class="nubia-desc lexend-regular">A set of phone wallpapers based on the design of the Nubia Music 2.</p>
-                            <a href="./recs/Nubia-Wallpapers.zip" download="Nubia-Wallpapers" class="download-button"><i class="fas fa-download download-icon"></i><p class="lexend-regular">Download</p></a>
-                        </div>
-                        <img src="/assets/nubia-standard-Dv0oqP9b.png" alt="Nubia-Themed Phone Wallpapers" class="nubia-thumbnail">
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-bg">
-                    <div class="beach-pills-content">
-                        <div class="beach-pills-text-content">
-                            <h1 class="beach-pills-title monoton-regular">Beachy Capsules</h1>
-                            <p class="beach-pills-desc lexend-regular">Some calming colors for your desktop</p>
-                            <a href="./recs/beach-pills.png" download="beach-capsules" class="download-button"><i class="fas fa-download download-icon"></i><p class="lexend-regular">Download</p></a>
-                        </div>
-                        <img src="/assets/beach-pills-CYcBaL-d.png" alt="Beach Pills" class="beach-pills-thumbnail">
-                    </div>
-                </div>
-            </div>
+            <card-preview
+                layout="vertical"
+                title="Nubia"
+                description="A set of phone wallpapers based on the design of the Nubia Music 2."
+                image="./thumbnails/nubia-standard.png"
+                alt="Nubia-Themed Phone Wallpapers"
+                download-name="Nubia-Wallpapers"
+                download-link="./recs/Nubia-Wallpapers.zip"
+            ></card-preview>
+
+            <card-preview
+                layout="horizontal"
+                title="Beachy Capsules"
+                description="Some calming colors for your desktop"
+                image="./thumbnails/beach-pills.png"
+                alt="Beach Pills"
+                download-name="beach-capsules"
+                download-link="./recs/beach-pills.png"
+            ></card-preview>
         </div>
     </section>
 </body>
