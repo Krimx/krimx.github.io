@@ -1,1 +1,0 @@
-import"./modulepreload-polyfill-B5Qt9EMX.js";window.addEventListener("beforeunload",()=>{window.scrollTo(0,0)});window.addEventListener("load",()=>{window.scrollTo(0,0),setTimeout(()=>window.scrollTo(0,0),50)});window.addEventListener("DOMContentLoaded",()=>{document.querySelectorAll(".logo-cell > div").forEach((o,e)=>{o.style.animationDelay=`${e*.05}s`})});
