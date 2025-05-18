@@ -12,4 +12,18 @@
         height: auto;
         margin-top: 5%;
     }
+    .nubia-content {
+        flex-direction: column;
+    }
+    .nubia-thumbnail {
+        width: 80%;
+        margin-right: 0;
+    }
+    .beach-pills-content {
+        flex-direction: column;
+    }
+    .beach-pills-thumbnail {
+        width: 80%;
+        margin-right: 0;
+    }
   }
