@@ -147,6 +147,7 @@ body {
 }
 .header-logo-container {
     width: 10dvw;
+    aspect-ratio: 3/5;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(5, 1fr);
