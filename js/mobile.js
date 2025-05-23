@@ -24,42 +24,41 @@ window.addEventListener("DOMContentLoaded", () => {
       cell.style.animationDelay = `${i * 0.05}s`; // stagger by 0.1s
     });
 
-    requestIdleCallback(() => {
-        // Setup language marquee
-        const langContainer = document.getElementById("languages");
-        const scrollText = langContainer?.querySelector(".scroll-text");
+    setTimeout(() => {
+      const repeatCount = 4;
+
+      // LANGUAGES
+      const langElem = document.getElementById("languages");
+      const langText = langElem.innerText;
     
-        if (langContainer && scrollText) {
-          const clone = scrollText.cloneNode(true);
-          langContainer.appendChild(clone);
+      const langClone = langElem.cloneNode(true);
+      langClone.innerText = langText;
+      langClone.style.position = "absolute";
+      langClone.style.visibility = "hidden";
+      langClone.style.whiteSpace = "nowrap";
+      document.body.appendChild(langClone);
     
-          requestAnimationFrame(() => {
-            const scrollWidth = scrollText.offsetWidth;
-            const speed = 100; // px/s
-            const duration = scrollWidth / speed;
+      const langWidth = langClone.getBoundingClientRect().width;
+      document.body.removeChild(langClone);
     
-            langContainer.style.animation = `scroll-left ${duration}s linear infinite`;
-          });
-        }
+      document.documentElement.style.setProperty('--langScrollWidth', `-${langWidth}px`);
+      langElem.innerText = langText.repeat(repeatCount);
     
-        // Setup software marquee (rightward)
-        const softwareContainer = document.getElementById("software");
-        const softwareText = softwareContainer?.querySelector(".scroll-text");
+      // SOFTWARE
+      const softElem = document.getElementById("software");
+      const softText = softElem.innerText;
     
-        if (softwareContainer && softwareText) {
-          const clones = softwareContainer.querySelectorAll(".scroll-text");
+      const softClone = softElem.cloneNode(true);
+      softClone.innerText = softText;
+      softClone.style.position = "absolute";
+      softClone.style.visibility = "hidden";
+      softClone.style.whiteSpace = "nowrap";
+      document.body.appendChild(softClone);
     
-          if (clones.length === 2 && !clones[1].textContent.trim()) {
-            clones[1].textContent = clones[0].textContent;
-          }
+      const softWidth = softClone.getBoundingClientRect().width;
+      document.body.removeChild(softClone);
     
-          requestAnimationFrame(() => {
-            const width = softwareText.offsetWidth;
-            const speed = 100;
-            const duration = width / speed;
-    
-            softwareContainer.style.animationDuration = `${duration}s`;
-          });
-        }
-      });
-});
+      document.documentElement.style.setProperty('--softScrollWidth', `-${softWidth}px`);
+      softElem.innerText = softText.repeat(repeatCount);
+    }, 500);
+  });

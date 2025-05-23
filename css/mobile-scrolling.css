@@ -1,3 +1,9 @@
+:root {
+  --langScrollWidth: -100rem;
+  --softScrollWidth: -100rem;
+  --scrollAnimationTime: 5s;
+}
+
 .skills {
     width: 100dvw;
     overflow: hidden;
@@ -10,19 +16,19 @@
     align-items: center;
     position: relative;
 }
+
 .skills-row p {
-    font-size: 1.2rem;
+  display: inline-block;
+  white-space: nowrap;
+  will-change: transform;
 }
 
-#languages {
-    display: flex;
-    white-space: nowrap;
-    will-change: transform;
+.skills-row.languages p {
+    animation: scroll-left var(--scrollAnimationTime) linear infinite;
 }
-
-.scroll-text {
-white-space: nowrap;
-}   
+.skills-row.software p {
+    animation: scroll-right var(--scrollAnimationTime) linear infinite;
+}
 
 
 @keyframes scroll-left {
@@ -30,35 +36,15 @@ white-space: nowrap;
         transform: translateX(0);
     }
     to {
-        transform: translateX(-50%);
+        transform: translateX(var(--langScrollWidth));
     }
 }
 
-.skills-row.software {
-    overflow: hidden;
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    position: relative;
+@keyframes scroll-right {
+  from {
+    transform: translateX(var(--softScrollWidth));
   }
-  
-  #software {
-    display: flex;
-    white-space: nowrap;
-    transform: translateX(-50%); /* start halfway to make 2nd copy visible */
-    animation: scroll-right 20s linear infinite;
-    will-change: transform;
+  to {
+    transform: translateX(0);
   }
-  
-  .scroll-text {
-    white-space: nowrap;
-  }
-
-  @keyframes scroll-right {
-    from {
-      transform: translateX(-50%);
-    }
-    to {
-      transform: translateX(0);
-    }
-  }
+}
