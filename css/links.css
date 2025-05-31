@@ -1,5 +1,13 @@
-:root {
+@import url("./logo-load.css");
 
+:root {
+    --bg-color-light: rgba(229, 229, 229, 1);
+    --bg-color-dark: rgba(35, 35, 35, 1);
+
+    --text-color-light: rgba(35, 35, 35, 1);
+    --text-color-dark: rgba(229, 229, 229, 1);
+
+    color-scheme: light dark;
 }
 
 * {
@@ -8,6 +16,10 @@
     box-sizing: border-box;
 }
 
+body {
+    background-color: light-dark(var(--bg-color-light), var(--bg-color-dark));
+    /* overflow-x: hidden; */
+}
 
 .lexend {
   font-family: "Lexend", sans-serif;
@@ -22,17 +34,17 @@
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 3rem;
 }
 
 .wpp_link > p {
     font-size: 2rem;
-    color: black;
+    color: light-dark(var(--text-color-light), var(--text-color-dark));;
     transition: all .6s ease-in-out;
+    margin: 2rem;
 }
 
-.paint_rolling {
-    height: 15em;
+.link_tn {
+    width: 40dvw;
     /* Square-shaped radial gradient mask */
   -webkit-mask-image: radial-gradient(
     closest-side at center,
@@ -55,9 +67,29 @@
   transition: all .6s ease-in-out;
 }
 
-.wpp_link:hover .paint_rolling {
-    height: 16rem;
+.wpp_link:hover .link_tn {
+    width: 45dvw;
 }
 .wpp_link:hover p {
     font-size: 2.2rem;
+}
+
+.logo-container {
+    width: 40dvw;
+    margin: 2rem 30dvw;
+}
+
+@media (orientation: landscape) {
+    .logo-container {
+        height: 30dvh;
+        width: auto;
+        margin: 2rem 2rem;
+    }
+
+    .wpp_link > p {
+        font-size: 6rem;
+    }
+    .wpp_link:hover p {
+        font-size: 6.6rem;
+    }
 }

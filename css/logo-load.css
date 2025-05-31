@@ -1,0 +1,46 @@
+:root {
+    --offwhite: #e5e5e5;
+    --offblack: #171717;
+    --logo-filled-color-light: var(--offblack);
+    --logo-filled-color-dark: var(--offwhite);
+
+    color-scheme: light dark;
+}
+
+.logo-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(5, 1fr);
+    gap: 0;
+    
+    width: 30dvw;
+    aspect-ratio: 3/5;
+}
+
+.logo-cell {
+    width: 100%;
+    aspect-ratio: 1/1;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logo-cell > div {
+    width: 0;
+    aspect-ratio: 1/1;
+    background-color: light-dark(var(--logo-filled-color-light), var(--logo-filled-color-dark));
+    animation: logo-load 1.2s ease-in-out forwards;
+}
+
+@keyframes logo-load {
+    0% {
+        width: 0;
+    }
+    40% {
+        width: 0;
+    }
+    100% {
+        width: 100%;
+    }
+}
