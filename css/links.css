@@ -1,0 +1,63 @@
+:root {
+
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.lexend {
+  font-family: "Lexend", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.wpp_link {
+    text-decoration: none;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 3rem;
+}
+
+.wpp_link > p {
+    font-size: 2rem;
+    color: black;
+    transition: all .6s ease-in-out;
+}
+
+.paint_rolling {
+    height: 15em;
+    /* Square-shaped radial gradient mask */
+  -webkit-mask-image: radial-gradient(
+    closest-side at center,
+    rgba(0, 0, 0, 1) 90%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  -webkit-mask-repeat: no-repeat;
+  -webkit-mask-size: 100% 100%;
+  -webkit-mask-position: center;
+
+  mask-image: radial-gradient(
+    closest-side at center,
+    rgba(0, 0, 0, 1) 80%,
+    rgba(0, 0, 0, 0) 100%
+  );
+  mask-repeat: no-repeat;
+  mask-size: 100% 100%;
+  mask-position: center;
+
+  transition: all .6s ease-in-out;
+}
+
+.wpp_link:hover .paint_rolling {
+    height: 16rem;
+}
+.wpp_link:hover p {
+    font-size: 2.2rem;
+}
