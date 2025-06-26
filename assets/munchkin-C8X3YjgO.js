@@ -1,0 +1,1 @@
+import"./modulepreload-polyfill-B5Qt9EMX.js";let e=[0,0,0,0];function r(o){e[o-1]<10&&e[o-1]++,c(o),n()}function d(o){e[o-1]>0&&e[o-1]--,c(o),n()}function n(){console.log(e[0]+", "+e[1]+", "+e[2]+", "+e[3])}function c(o){const t="player"+o+"Icon",i=document.getElementById(t);let s=(e[o-1]*10).toString()+"%";i.style.bottom=s}window.increaseScore=r;window.decreaseScore=d;
