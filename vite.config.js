@@ -13,7 +13,8 @@ export default defineConfig({
         glass: "glassmorphism-learning/glass.html",
         illustrator: "illustrator/ill.html",
         mobile: "mobile.html",
-        links: "links.html"
+        links: "links.html",
+        munchkin: "munchkin/munchkin.html"
       }
     }
   }

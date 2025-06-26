@@ -1,4 +1,4 @@
-let players = [0,0,0,0];
+let players = [1,1,1,1];
 
 function increaseScore(playerNum) {
     if (players[playerNum - 1] < 10) players[playerNum - 1]++;
@@ -6,7 +6,7 @@ function increaseScore(playerNum) {
     outputScores();
 }
 function decreaseScore(playerNum) {
-    if (players[playerNum - 1] > 0) players[playerNum - 1]--;
+    if (players[playerNum - 1] > 1) players[playerNum - 1]--;
     moveIcon(playerNum);
     outputScores();
 }
@@ -18,7 +18,7 @@ function outputScores() {
 function moveIcon(playerNum) {
     const playerId = "player" + playerNum + "Icon";
     const playerIcon = document.getElementById(playerId);
-    let position = ((players[playerNum - 1] * 10)).toString() + "%";
+    let position = ((players[playerNum - 1] - 1) * 10).toString() + "%";
     playerIcon.style.bottom = position;
 }
 
