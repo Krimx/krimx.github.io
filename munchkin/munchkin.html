@@ -7,9 +7,12 @@
     <!--
     <a href="https://www.flaticon.com/free-icons/down-arrow" title="down arrow icons">Down arrow icons created by Vector Squad - Flaticon</a>
     -->
-  <script type="module" crossorigin src="/assets/munchkin-CxXDFXgc.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lacquer&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="/assets/munchkin-gAEQ1v9t.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
-  <link rel="stylesheet" crossorigin href="/assets/munchkin-l4yTDGWV.css">
+  <link rel="stylesheet" crossorigin href="/assets/munchkin-ChrLW-7c.css">
 </head>
 <body>
     <section class="scoreboard">
@@ -45,6 +48,7 @@
                 <button class="decrease" type="button" onclick="decreaseScore(1)">
                     <img src="/assets/arrow-down-DJWzyflq.png" class="button_icon">
                 </button>
+                <p id="player1Score" class="counter">1</p>
             </div>
         </div>
         <div class="score2 score">
@@ -79,6 +83,7 @@
                 <button class="decrease" type="button" onclick="decreaseScore(2)">
                     <img src="/assets/arrow-down-DJWzyflq.png" class="button_icon">
                 </button>
+                <p id="player2Score" class="counter">1</p>
             </div>
         </div>
         <div class="score3 score">
@@ -113,6 +118,7 @@
                 <button class="decrease" type="button" onclick="decreaseScore(3)">
                     <img src="/assets/arrow-down-DJWzyflq.png" class="button_icon">
                 </button>
+                <p id="player3Score" class="counter">1</p>
             </div>
         </div>
         <div class="score4 score">
@@ -147,6 +153,7 @@
                 <button class="decrease" type="button" onclick="decreaseScore(4)">
                     <img src="/assets/arrow-down-DJWzyflq.png" class="button_icon">
                 </button>
+                <p id="player4Score" class="counter">1</p>
             </div>
         </div>
     </section>
@@ -203,10 +210,9 @@
             <br>
             <h1 id="turnPhases">Turn Phases</h1>
             <p><tab-in></tab-in>Your turn begins as soon as the previous player’s turn ends. When your cards are arranged the way you want, go to phase 1.
-            <br>
-            <br>
+            <br><br>
             <b>(1) Kick Open The Door</b>: Draw one card from the Door deck and turn it face up. If it’s a monster, you must fight it. See Combat, p. 3. If the card is a curse – see Curses, p. 5 – it applies to you immediately (if it can) and is discarded (unless it has a persistent effect you keep the card as a reminder of an upcoming effect). If you draw any other card, you may either put it in your hand or play it immediately.
-            <br>
+            <br><br>
             <b>(2) Look For Trouble/Loot The Room</b>: If you fought a monster in phase 1, skip this phase and go to phase 3. If you did NOT draw a monster when you first opened the door, you have two choices: either Look For Trouble or Loot The Room.
             <br><br>
             <b>Look For Trouble</b>: Play a monster from your hand and fight it, just as if you had found it when you kicked open the door. Don’t play a monster you can’t handle, unless you’re sure you can count on getting help (see p. 4)!
@@ -290,6 +296,34 @@
             manage 2,000 worth, you can go up two levels at once, and so
             on. You may sell Items from your hand as well as those you are
             carrying. You may not sell Items to go to Level 10.</p>
+            <br><br>
+            <h1 id="combat">Combat</h1>
+            <p><tab-in></tab-in>To fight a monster, compare its combat strength to yours. Combat
+            strength is the total of Level plus all modifiers – positive or negative –
+            given by Items and other cards. If the monster’s combat strength is
+            equal to yours, or greater, you lose the combat and must Run
+            Away (see p. 5). If your combat strength totals more than the
+            monster’s – note that monsters win ties! – you kill it and go up a
+            level (two levels for some big monsters). You’ll also get the number
+            of Treasures shown on its card.
+            <br>
+            <tab-in></tab-in>Sometimes a card will let you get rid of the monster without
+            killing it. This is still “winning,” but you don’t get a level. Unless
+            the ability says otherwise, you don’t get the Treasures, either. If the
+            last monster is removed from a combat, it ends instantly.
+            Some monster cards have special powers that affect combat
+            – a bonus against a Race or Class, for instance. Be sure to
+            check these!
+            <br>
+            <tab-in></tab-in>You and the other players may play one-shot Treasures or use Class or
+            Race abilities to help or harm you in your combat. Some Door cards may
+            also be played into a combat, such as monster enhancers (see below).
+            If you kill a monster (or monsters!), discard the monster(s) and any other
+            cards played, and claim your rewards. But note: someone may play a hostile
+            card on you, or use a special power, just as you think you have won. When you
+            kill a monster, you must wait a reasonable time, defined as about 2.6 seconds,
+            for anyone else to speak up. After that, you have really killed the monster, and
+            you really get the level(s) and Treasures, though they can still whine and argue.</p>
         </div>
         <div class="div2 rule_div">
             <h1 id="characterCreation">Character Creation</h1>
@@ -405,6 +439,87 @@
             aren’t that Super! If you play Super Munchkin while you have two
             Classes, you have all the normal advantages and disadvantages of both
             Classes. (All of the above is also true for Half-Breed, just for Races.)</p>
+            <br><br>
+            <h1>Treasures</h1>
+            <p><tab-in></tab-in>Treasure cards include permanent and “one-shot” cards. Any
+            Treasure card may be played to the table as soon as you get it, or at
+            any time on your own turn except during combat (unless the rules
+            below or the card itself says otherwise).</p>
+            <br><br>
+            <h1 id="items">Items</h1>
+            <p><tab-in></tab-in>Most Treasures are Items. Items have a Gold Piece value. “No Value” is
+            equivalent to zero Gold Pieces, and a “No Value” card is considered an Item.
+            All Items you have in play are considered “carried.” Items that are actually
+            giving you a bonus are “equipped.” You should indicate Items that are not
+            equipped by turning the cards sideways. You may not alter the status of your
+            Items during a combat or while running away.
+            <br>
+            <tab-in></tab-in>Anyone can carry any Item (except for extra Big items; see below), but you
+            may equip only one Headgear, one suit of Armor, one pair of Footgear, and
+            two “1 Hand” Items (or one “2 Hands” Item) . . . unless you have a card that
+            lets you ignore these limits, such as Hireling or Cheat!, or unless one of
+            the cards says otherwise. If you are carrying two Headgear cards, for instance,
+            you can equip only one of them at a time.
+            <br>
+            <tab-in></tab-in>Likewise, some Items have restrictions: for instance, the Mace of
+            Sharpness can only be wielded by a Cleric. Its bonus only counts for
+            someone who is, at the moment, a Cleric.
+            You cannot discard Item cards “just because.” You may sell Items for a
+            level, trade Items with other players, or give an Item to another player who
+            wants it (see below). You may discard Items to power certain Class and Race
+            abilities. And a Curse or a monster’s Bad Stuff (see p. 5) may force you to
+            get rid of something!
+            <br>
+            <tab-in></tab-in><b>Big Items:</b> You may carry any number of Small items, but only one Big
+            one. (Any item not marked Big is considered Small.) You may not discard
+            one Big item to play another; you must sell the first Item, trade it, lose it to a
+            Curse or Bad Stuff, or discard it to power a Class or Race ability.
+            If something lets you have more than one Big item (for instance, the
+            Dwarf race) and you lose that ability, you must either correct the problem
+            immediately or get rid of all but one Big item. If it’s your turn and you’re
+            not in combat, you can sell the excess Big items (as long as you have at least 
+            1,000 Gold Pieces of Items to sell). Otherwise, you must give them to the
+            lowest-Level player(s) who can carry them! If any Big items are still left over,
+            discard them.
+            <br>
+            <tab-in></tab-in><b>Trading:</b> You may trade Items (but no other cards) with other players.
+            You may only trade Items from the table – not from your hand. You
+            may trade at any time except when you or your trading partner are in
+            combat – in fact, the best time to trade is when it’s not your turn. Any
+            Item you receive in a trade must remain in play.
+            <br>
+            <tab-in></tab-in>You may also give Items away without a trade, to bribe other players –
+            “I’ll give you my Flaming Armor if you won’t help Bob fight that dragon!”
+            You may show your hand to others. Like we could stop you.
+            Selling Items for Levels: At any point during your turn except
+            during combat or Running Away, you may discard Items worth a total of
+            at least 1,000 Gold Pieces and immediately go up one level. (“No Value”
+            cards are the same as zero Gold Pieces.) If you discard (for instance)
+            1,100 Gold Pieces worth, you don’t get change. But if you can
+            manage 2,000 worth, you can go up two levels at once, and so
+            on. You may sell Items from your hand as well as those you are
+            carrying. You may not sell Items to go to Level 10.</p>
+            <br><br>
+            <h1>“One-Shot” Treasures</h1>
+            <p><tab-in></tab-in>A Treasure card that says “Usable once only” is often called a “one-shot”
+            Treasure. Most of these are used during combat to strengthen the munchkins
+            or the monsters, and may be played from your hand or from the table. Some
+            have other effects, however, so read the card carefully! Discard these cards as
+            soon as the combat is over or their effect is resolved.
+            <br>
+            <tab-in></tab-in>One-shot Items with a Gold Piece value may be sold for levels, just like
+            other Items.</p>
+            <br><br>
+            <h1>Other Treasures</h1>
+            <p><tab-in></tab-in>Other Treasure cards (like Go Up a Level cards) are not Items. Most of
+            these cards say when they can be played, and whether they stay in play or are
+            discarded. A couple of specific examples:
+            <br>
+            <tab-in></tab-in>Go Up a Level cards may be played on yourself or any other player at any
+            time, even during combat. Discard them once they are played. Exception:
+            You cannot play a Go Up a Level card to give a player the winning level!
+            Hireling may be played at any time, on any turn. You cannot give a
+            Hireling an Item to carry while you are in combat, however.</p>
         </div>
     </section>
     <footer>
