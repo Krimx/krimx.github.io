@@ -4,9 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <title>Munchkin Scoreboard</title>
-  <script type="module" crossorigin src="/assets/munchkin-D-_SsrHU.js"></script>
+    <!--
+    <a href="https://www.flaticon.com/free-icons/down-arrow" title="down arrow icons">Down arrow icons created by Vector Squad - Flaticon</a>
+    -->
+  <script type="module" crossorigin src="/assets/munchkin-CxXDFXgc.js"></script>
   <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
-  <link rel="stylesheet" crossorigin href="/assets/munchkin-BMycYg46.css">
+  <link rel="stylesheet" crossorigin href="/assets/munchkin-l4yTDGWV.css">
 </head>
 <body>
     <section class="scoreboard">
@@ -36,8 +39,12 @@
                 <img src="/assets/Kin_Unnatural_Axe_Character_Web-B8ND6Rv3.webp" id="player1Icon">
             </div>
             <div class="controls">
-                <button class="increase" type="button" onclick="increaseScore(1)">^</button>
-                <button class="decrease" type="button" onclick="decreaseScore(1)">v</button>
+                <button class="increase" type="button" onclick="increaseScore(1)">
+                    <img src="/assets/arrow-down-DJWzyflq.png" class="button_icon">
+                </button>
+                <button class="decrease" type="button" onclick="decreaseScore(1)">
+                    <img src="/assets/arrow-down-DJWzyflq.png" class="button_icon">
+                </button>
             </div>
         </div>
         <div class="score2 score">
@@ -66,8 +73,12 @@
                 <img src="/assets/Kin_Unnatural_Axe_Character_Web-B8ND6Rv3.webp" id="player2Icon">
             </div>
             <div class="controls">
-                <button class="increase" type="button" onclick="increaseScore(2)">^</button>
-                <button class="decrease" type="button" onclick="decreaseScore(2)">v</button>
+                <button class="increase" type="button" onclick="increaseScore(2)">
+                    <img src="/assets/arrow-down-DJWzyflq.png" class="button_icon">
+                </button>
+                <button class="decrease" type="button" onclick="decreaseScore(2)">
+                    <img src="/assets/arrow-down-DJWzyflq.png" class="button_icon">
+                </button>
             </div>
         </div>
         <div class="score3 score">
@@ -96,8 +107,12 @@
                 <img src="/assets/Kin_Unnatural_Axe_Character_Web-B8ND6Rv3.webp" id="player3Icon">
             </div>
             <div class="controls">
-                <button class="increase" type="button" onclick="increaseScore(3)">^</button>
-                <button class="decrease" type="button" onclick="decreaseScore(3)">v</button>
+                <button class="increase" type="button" onclick="increaseScore(3)">
+                    <img src="/assets/arrow-down-DJWzyflq.png" class="button_icon">
+                </button>
+                <button class="decrease" type="button" onclick="decreaseScore(3)">
+                    <img src="/assets/arrow-down-DJWzyflq.png" class="button_icon">
+                </button>
             </div>
         </div>
         <div class="score4 score">
@@ -126,10 +141,274 @@
                 <img src="/assets/Kin_Unnatural_Axe_Character_Web-B8ND6Rv3.webp" id="player4Icon">
             </div>
             <div class="controls">
-                <button class="increase" type="button" onclick="increaseScore(4)">^</button>
-                <button class="decrease" type="button" onclick="decreaseScore(4)">v</button>
+                <button class="increase" type="button" onclick="increaseScore(4)">
+                    <img src="/assets/arrow-down-DJWzyflq.png" class="button_icon">
+                </button>
+                <button class="decrease" type="button" onclick="decreaseScore(4)">
+                    <img src="/assets/arrow-down-DJWzyflq.png" class="button_icon">
+                </button>
             </div>
         </div>
     </section>
+    <section class="rules">
+        <div class="div1 rule_div">
+            <p id="intro"><tab-in></tab-in>Munchkin brings you the essence of the dungeon-crawling experience
+            . . . without all that messy roleplaying!
+            This game includes 168 cards, one six-sided die, and these rules. Three to
+            six can play. You will need 10 tokens (coins, poker chips, whatever – or any
+            gadget that counts to 10) for each player</p>
+            <h1 id="setup">Setup</h1>
+            <p><tab-in></tab-in>Divide the cards into the Door deck and the Treasure deck. Shuffle both
+            decks. Deal four cards from each deck to each player.</p>
+            <h1>Card Management</h1>
+            <p><tab-in></tab-in>Keep separate face-up discard piles for the two decks. You may not look
+            through the discards unless you play a card that allows you to! When a deck
+            runs out, reshuffle its discards.
+            <br>
+            <b><tab-in></tab-in>In Play:</b> These are the cards on the table in front of you, showing your
+            Race and Class (if any) and the Items you are carrying. Continuing Curses
+            and some other cards also stay on the table after you play them. Cards in play
+            are public information and must be visible to the other players.</p>
+            <div class="special">
+                <h1 id="conflicts">Conflicts Between Cards and Rules</h1>
+                <p><tab-in></tab-in>This rulesheet gives the general rules. Many cards add special rules,
+                so in most cases when the rulesheet disagrees with a card, follow the
+                card. However, ignore any card effect that might seem to contradict one
+                of the rules listed below unless the card explicitly says it supersedes
+                that rule!
+                <br><br>
+                <ol>
+                    <li>Nothing can reduce a player below Level 1, although card effects
+                might reduce a player’s or a monster’s combat strength <a href="#combat">(p. 3)</a> below 1.</li>
+                    <li>You go up a level after combat only if you kill a monster.</li>
+                    <li>You cannot collect rewards for defeating a monster (e.g., Treasure,
+                levels) in the middle of a combat. You must finish the fight before
+                gaining any rewards.</li>
+                    <li>You must kill a monster to reach Level 10, and you cannot force
+                another player to help you do it.</li>
+                </ol>
+                <br>
+                <tab-in></tab-in>Any other disputes should be settled by loud arguments, with the
+                owner of the game having the last word. You could also read the
+                Munchkin FAQ and errata pages at munchkin.game, or start a
+                discussion at forums.sjgames.com/munchkin . . . unless it’s more
+                fun to argue.</p>
+            </div>
+            <p><b><tab-in></tab-in>Your Hand:</b> Cards in your hand are not in play. They don’t help you, but
+            they can’t be taken away except by cards that specifically affect “your hand.”
+            At the end of your turn, you may have no more than five cards in your hand
+            (see Charity, p. 2).
+            Cards in play may not be returned to your hand – they must be discarded
+            or traded if you want to get rid of them.</p>
+            <br>
+            <h1 id="turnPhases">Turn Phases</h1>
+            <p><tab-in></tab-in>Your turn begins as soon as the previous player’s turn ends. When your cards are arranged the way you want, go to phase 1.
+            <br>
+            <br>
+            <b>(1) Kick Open The Door</b>: Draw one card from the Door deck and turn it face up. If it’s a monster, you must fight it. See Combat, p. 3. If the card is a curse – see Curses, p. 5 – it applies to you immediately (if it can) and is discarded (unless it has a persistent effect you keep the card as a reminder of an upcoming effect). If you draw any other card, you may either put it in your hand or play it immediately.
+            <br>
+            <b>(2) Look For Trouble/Loot The Room</b>: If you fought a monster in phase 1, skip this phase and go to phase 3. If you did NOT draw a monster when you first opened the door, you have two choices: either Look For Trouble or Loot The Room.
+            <br><br>
+            <b>Look For Trouble</b>: Play a monster from your hand and fight it, just as if you had found it when you kicked open the door. Don’t play a monster you can’t handle, unless you’re sure you can count on getting help (see p. 4)!
+            <br>
+            <b>Loot The Room</b>: Draw a second card from the Door deck, face down,
+            and place it in your hand.
+            <br><br>
+            <b>(3) Charity</b>: If you have more than five cards in your hand, you must play
+            enough cards to get you to five or below – for instance, you can play Curses,
+            sell Items from your hand, or play Items to the table. If you cannot reduce
+            your hand to five cards, or do not want to, you must give the excess cards to
+            the player with the lowest Level. If players are tied for lowest, divide the cards
+            as evenly as possible, but it’s up to you who gets the bigger set(s) of leftovers.
+            If YOU are the lowest or tied for lowest, just discard the excess.
+            As soon as you are finished with Charity, the next player’s turn begins.</p>
+            <br>
+            <h1 id="treasures">Treasures</h1>
+            <p><tab-in></tab-in>Treasure cards include permanent and “one-shot” cards. Any
+            Treasure card may be played to the table as soon as you get it, or at
+            any time on your own turn except during combat (unless the rules
+            below or the card itself says otherwise).</p>
+            <br>
+            <h1 id="items">Items</h1>
+            <p><tab-in></tab-in>Most Treasures are Items. Items have a Gold Piece value. “No Value” is
+            equivalent to zero Gold Pieces, and a “No Value” card is considered an Item.
+            <br>
+            <tab-in></tab-in>All Items you have in play are considered “carried.” Items that are actually
+            giving you a bonus are “equipped.” You should indicate Items that are not
+            equipped by turning the cards sideways. You may not alter the status of your
+            Items during a combat or while running away.
+            <br>
+            <tab-in></tab-in>
+            Anyone can carry any Item (except for extra Big items; see below), but you
+            may equip only one Headgear, one suit of Armor, one pair of Footgear, and
+            two “1 Hand” Items (or one “2 Hands” Item) . . . unless you have a card that
+            lets you ignore these limits, such as Hireling or Cheat!, or unless one of
+            the cards says otherwise. If you are carrying two Headgear cards, for instance,
+            you can equip only one of them at a time.
+            <br>
+            <tab-in></tab-in>
+            Likewise, some Items have restrictions: for instance, the Mace of
+            Sharpness can only be wielded by a Cleric. Its bonus only counts for
+            someone who is, at the moment, a Cleric.
+            <br>
+            <tab-in></tab-in>
+            You cannot discard Item cards “just because.” You may sell Items for a
+            level, trade Items with other players, or give an Item to another player who
+            wants it (see below). You may discard Items to power certain Class and Race
+            abilities. And a Curse or a monster’s Bad Stuff (see p. 5) may force you to
+            get rid of something!
+            <br><br>
+            <tab-in></tab-in>
+            <b>Big Items:</b> You may carry any number of Small items, but only one Big
+            one. (Any item not marked Big is considered Small.) You may not discard
+            one Big item to play another; you must sell the first Item, trade it, lose it to a
+            Curse or Bad Stuff, or discard it to power a Class or Race ability.
+            If something lets you have more than one Big item (for instance, the
+            Dwarf race) and you lose that ability, you must either correct the problem
+            immediately or get rid of all but one Big item. If it’s your turn and you’re
+            not in combat, you can sell the excess Big items (as long as you have at least
+            1,000 Gold Pieces of Items to sell). Otherwise, you must give them to the
+            lowest-Level player(s) who can carry them! If any Big items are still left over,
+            discard them.
+            <br><br>
+            <tab-in></tab-in>
+            <b>Trading:</b> You may trade Items (but no other cards) with other players.
+            You may only trade Items from the table – not from your hand. You
+            may trade at any time except when you or your trading partner are in
+            combat – in fact, the best time to trade is when it’s not your turn. Any
+            Item you receive in a trade must remain in play.
+            You may also give Items away without a trade, to bribe other players –
+            “I’ll give you my Flaming Armor if you won’t help Bob fight that dragon!”
+            You may show your hand to others. Like we could stop you.
+            <br><br>
+            <tab-in></tab-in>
+            <b>Selling Items for Levels:</b> At any point during your turn except
+            during combat or Running Away, you may discard Items worth a total of
+            at least 1,000 Gold Pieces and immediately go up one level. (“No Value”
+            cards are the same as zero Gold Pieces.) If you discard (for instance)
+            1,100 Gold Pieces worth, you don’t get change. But if you can
+            manage 2,000 worth, you can go up two levels at once, and so
+            on. You may sell Items from your hand as well as those you are
+            carrying. You may not sell Items to go to Level 10.</p>
+        </div>
+        <div class="div2 rule_div">
+            <h1 id="characterCreation">Character Creation</h1>
+            <p><tab-in></tab-in>Everyone starts as a Level 1 human with no class. (Heh, heh.) Munchkin
+            characters may be either male or female. Your character’s sex is the same as
+            your own at the start of the game, unless you declare otherwise.
+            <br>
+            <tab-in></tab-in>Look at your initial eight cards. If you have any Race or Class cards, you
+            may (if you like) play one of each type by placing it in front of you. If you
+            have any usable Items <a href="#items">(p. 3)</a>, you may play them by placing
+            them in front of you. If you have any doubt about whether you should play a card,
+            you could read below, or you could just charge ahead and do it.</p>
+            <h1 id="startingGame">Starting and Finishing the Game</h1>
+            <p>Decide who goes first by rolling the dice and arguing about the results and
+            the meaning of this sentence and whether the fact that a word seems to be
+            missing any effect.
+            <br>
+            <tab-in></tab-in>Play proceeds in turns, each with several phases <a href="#turnPhases">(see p. 2)</a>. When the first
+            player finishes a turn, the player to the left takes a turn, and so on.
+            The first player to reach Level 10 wins . . . but you must reach Level 10 by
+            killing a monster, unless a card specifically allows you to win another way</p>
+            <div class="special">
+                <h1 id="whenTakeActions">When You May Take Actions</h1>
+                <br>
+                <p>You may perform these actions at any time:</p>
+                <ul>
+                    <li>Discard a Class or Race.</li>
+                    <li>Play a Go Up a Level or Hireling</li>
+                    <li>Play a Curse.</li>
+                </ul>
+                <br>
+                <p>You may perform these actions at any time, as long as you are not in combat:</p>
+                <ul>
+                    <li>Trade an Item with another player (the other player may not be in combat, either).</li>
+                    <li>Change which Items you have equipped.</li>
+                    <li>Play a card that you have just received (some cards may be played even during combat; see above).</li>
+                </ul>
+                <br>
+                <p>You may perform these actions on your own turn:</p>
+                <ul>
+                    <li>Play a new Class or Race card (at any time).</li>
+                    <li>Sell Items for levels (except when you are in combat).</li>
+                    <li>Play an Item (most Items cannot be played during combat, but some<br>one-shot Items can; <a href="#items">see p. 3</a>).</li>
+                </ul>
+            </div>
+            <div class="special">
+                <h1 class="combatBasic">Combat: Basic Rules</h1>
+                <p>When you fight a monster, you compare your combat strength
+                (your Level plus any bonuses or penalties) against the monster’s
+                combat strength. If your combat strength is greater, you win! If it is
+                tied or lower, the monster wins.
+                <br>
+                For the full explanation, see <a href="#combat">Combat, p. 3</a>.</p>
+            </div>
+            <h1 id="characterStats">Character Stats</h1>
+            <p><tab-in></tab-in>Each character is basically a collection of weapons, armor, and magic items,
+            with three stats: Level, Race, and Class. For instance, you might describe
+            your character as a “Level 8 Elf Wizard with Boots of Butt-Kicking,
+            a Staff of Napalm, and the Kneepads of Allure.”
+            <br>
+            <b><tab-in></tab-in>Level:</b> This is a measure of how generally buff and studly you are. When
+            the rules or cards refer to your Level, capitalized, they mean this number.
+            You gain a level when you kill a monster, or when a card says that you do.
+            You can also sell Items to buy levels <a href="#items">(see Items)</a>.
+            <br>
+            <tab-in></tab-in>You lose a level when a card says you do. Your Level can
+            never go below 1. However, your combat strength can be
+            negative, if you get hit by a Curse or suffer some other
+            kind of penalty.
+            <br><br>
+            <b><tab-in></tab-in>Class:</b> Characters may be Warriors, Wizards, Thieves, or
+            Clerics. If you have no Class card in front of you, you have no class.
+            Yeah, I know, we did that one already.
+            <br>
+            <tab-in></tab-in>Each Class has special abilities, shown on the cards. You gain the
+            abilities of a Class the moment you play its card in front of you, and
+            lose them as soon as you discard that card. Some Class abilities are
+            powered by discards. You may discard any card, in play or in your
+            hand, to power a special ability.
+            <br>
+            <tab-in></tab-in>See the Class cards for when abilities can be used. Note
+            that a Thief cannot steal while he or the target is fighting –
+            and as soon as a monster is revealed, the fight is on!
+            You can discard a Class card at any time, even in
+            combat: “I don’t wanna be a wizard anymore.” When you discard a Class
+            card, you become classless until you play another Class card.
+            You may not belong to more than one class at once unless you play the
+            Super Munchkin card.
+            <br><br>
+            <b><tab-in></tab-in>Race:</b> Characters may be Humans, Elves, Dwarves, or Halflings. If you
+            have no Race card in front of you, you are human.
+            <br>
+            Humans have no special abilities. The rules for Classes, above, also apply
+            to Races.
+            <br>
+            You may not belong to more than one race at once
+            unless you play the Half-Breed card.</p>
+            <br><br>
+            <h1 class="superMunchkinAndHalfBreed">Super Munchkin and Half-Breed</h1>
+            <p><tab-in></tab-in>These cards may be played whenever
+            it is legal to play a Class or Race, as
+            long as you have an appropriate card
+            (Class for Super Munchkin, Race for
+            Half-Breed) to attach it to. You cannot have more than one of the same
+            Class or Race card in play at once.
+            <br>
+            <tab-in></tab-in>If you play Super Munchkin with one Class, you get all the advantages
+            of being that Class (the ability to equip Class-only Items, monsters with
+            penalties against that Class suffer those penalties) and none of the
+            disadvantages (you can equip Items forbidden to that Class, and
+            monsters do not get bonuses because of your Class). If the Class
+            has an ability that has a cost, however, you must still pay it – you
+            aren’t that Super! If you play Super Munchkin while you have two
+            Classes, you have all the normal advantages and disadvantages of both
+            Classes. (All of the above is also true for Half-Breed, just for Races.)</p>
+        </div>
+    </section>
+    <footer>
+        <a href="https://www.flaticon.com/free-icons/down-arrow" title="down arrow icons">Down arrow icons created by Vector Squad - Flaticon</a>
+    </footer>
 </body>
 </html>
