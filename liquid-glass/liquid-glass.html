@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Liquid Glass</title>
 
-  <link rel="stylesheet" crossorigin href="/assets/liquid_glass-CqaKGmKu.css">
+  <link rel="stylesheet" crossorigin href="/assets/liquid_glass-b9enesst.css">
 </head>
 <body>
     <!--
@@ -28,5 +28,27 @@
             
         </div>
     </div>
+
+    <script>
+        const userAgent = navigator.userAgent;
+        const vendor = navigator.vendor;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const onSafari = vendor && vendor.indexOf('Apple') > -1 &&
+            userAgent && userAgent.indexOf('Safari') > -1
+
+
+            if (!onSafari) {
+                document.querySelectorAll('.liquid_glass').forEach(el => {
+                    el.classList.add('has_displacement');
+                });
+            }
+            else {
+                document.querySelectorAll('.liquid_glass').forEach(el => {
+                    el.classList.add('no_displacement');
+                });
+            }
+        });
+    </script>
 </body>
 </html>
