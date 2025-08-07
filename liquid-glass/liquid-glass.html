@@ -13,7 +13,7 @@
     -->
     <svg style="display:none;">
         <filter id="displacementFilter">
-            <feImage href="./displacement-map.png"
+            <feImage href="/recs/liquid-glass-displacement-map.png"
                 preserveAspectRatio="none"
             />
     
@@ -28,5 +28,27 @@
             
         </div>
     </div>
+
+    <script>
+        const userAgent = navigator.userAgent;
+        const vendor = navigator.vendor;
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const onSafari = vendor && vendor.indexOf('Apple') > -1 &&
+            userAgent && userAgent.indexOf('Safari') > -1
+
+
+            if (!onSafari) {
+                document.querySelectorAll('.liquid_glass').forEach(el => {
+                    el.classList.add('has_displacement');
+                });
+            }
+            else {
+                document.querySelectorAll('.liquid_glass').forEach(el => {
+                    el.classList.add('no_displacement');
+                });
+            }
+        });
+    </script>
 </body>
 </html>
