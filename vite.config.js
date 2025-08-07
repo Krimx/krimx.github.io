@@ -14,7 +14,8 @@ export default defineConfig({
         illustrator: "illustrator/ill.html",
         mobile: "mobile.html",
         links: "links.html",
-        munchkin: "munchkin/munchkin.html"
+        munchkin: "munchkin/munchkin.html",
+        liquid_glass: "liquid-glass/liquid-glass.html"
       }
     }
   }
