@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Liquid Glass</title>
+
+  <link rel="stylesheet" crossorigin href="/assets/liquid_glass-DowxdFpx.css">
+</head>
+<body>
+    <!--
+        This svg is important for making the liquid glass effect actually show (displacement map)
+    -->
+    <svg style="display:none;">
+        <filter id="displacementFilter">
+            <feImage href="./displacement-map.png"
+                preserveAspectRatio="none"
+            />
+    
+            <feDisplacementMap in="SourceGraphic"
+                scale="200" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+    </svg>
+    <img class="bg_image" src="/assets/bg-image-CT_r04Bp.jpg">
+
+    <div class="nav_container">
+        <div class="navbar liquid_glass">
+            
+        </div>
+    </div>
+</body>
+</html>
