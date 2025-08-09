@@ -59,8 +59,8 @@ body {
         url(#displacementFilter);
 }
 .no_displacement {
-    -webkit-backdrop-filter: blur(20px);
-    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
 
     /* Secret invisible drop shadow to please the Apple overlords and make it look at least halfway right */
     -webkit-filter: drop-shadow(0 0 0 rgba(0,0,0,0));

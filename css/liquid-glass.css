@@ -1,0 +1,31 @@
+.liquid_glass {
+    filter: drop-shadow(-8px -10px 46px #00005f);
+
+    /*Testing different emboss styles*/
+
+    /*More rounded, light at top left, dark at bottom right*/
+    /* -webkit-box-shadow: inset -3px -3px 4px -2px rgba(0,0,0,0.2), inset 3px 3px 4px -2px rgba(255,255,255,.2);
+    box-shadow: inset -3px -3px 4px -2px rgba(0,0,0,0.2), inset 3px 3px 4px -2px rgba(255,255,255,.2); */
+
+    /*Consistent white outline (similar to what apple uses)*/
+    -webkit-box-shadow: inset 1px 1px 1px 1px rgba(255,255,255,0.2), inset -1px -1px 1px 1px rgba(255,255,255,0.2); 
+    box-shadow: inset 1px 1px 1px 1px rgba(255,255,255,0.2), inset -1px -1px 1px 1px rgba(255,255,255,0.2);
+
+    background-color: rgba(255, 255, 255, 0.1);
+
+    background-clip: padding-box;
+}
+
+.has_displacement {
+    backdrop-filter:
+        blur(3px)
+        url(#displacementFilter);
+}
+.no_displacement {
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+
+    /* Secret invisible drop shadow to please the Apple overlords and make it look at least halfway right */
+    -webkit-filter: drop-shadow(0 0 0 rgba(0,0,0,0));
+    filter: drop-shadow(0 0 0 rgba(0,0,0,0));
+}

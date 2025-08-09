@@ -1,0 +1,157 @@
+:root {
+    --not-hovered-nav: rgba(0,0,0,0.0);
+    --hovered-nav: rgba(0,0,0,0.2);
+    /* --selected-color: rgb(36, 71, 128); */
+    --selected-color: rgba(0,0,0,0.0);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-image: url("https://image.slidesdocs.com/responsive-images/background/geometric-colorful-for-website-powerpoint-background_8ef0125b21__960_540.jpg");
+}
+
+p {
+    font-family: "Quicksand", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+}
+
+.sidebar {
+    position: fixed;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 95dvh;
+    width: auto;
+
+    border-radius: 30px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    padding: 1% 0;
+
+    transition: all .2s ease-out;
+}
+
+.sidebar:hover {
+    animation: squash .4s ease;
+    padding: 1% 2%;
+}
+
+@keyframes squash {
+    0% {
+        height: 95dvh;
+    }
+    30% {
+        height: 92dvh;
+    }
+    70% {
+        height: 96dvh;
+    }
+    100% {
+        height: 95dvh;
+    }
+}
+
+.nav_button {
+    height: 48px;
+    width: calc(32px + .8rem);
+    padding: 0 .4rem;
+    margin-bottom: .5rem;
+    border-radius: 500px;
+    background-color: var(--not-hovered-nav);
+
+    display: flex;
+    justify-content: start;
+    align-items: center;
+
+    cursor: pointer;
+
+    transition: all .2s ease-in-out;
+}
+.nav_button.selected {
+    background-color: var(--not-hovered-nav);
+}
+.sidebar:hover .nav_button {
+    width: auto;
+}
+.nav_button:hover {
+    background-color: var(--hovered-nav);
+}
+.nav_button.selected:hover {
+    background-color: var(--not-hovered-nav);
+}
+
+.nav_button_icon {
+    height: 32px;
+    aspect-ratio: 1/1;
+}
+
+.nav_button_text {
+    visibility: hidden;
+    opacity: 0;
+    margin-left: .3rem;
+    font-size: 1.2rem;
+
+    color: white;
+
+    transform: translateX(-100%);
+
+    transition: all .4s ease;
+}
+.sidebar:hover .nav_button_text {
+    visibility: visible;
+    opacity: 100%;
+    transform: translateX(0%);
+    transition-delay: .2s;
+}
+
+.select_highlight {
+    position: absolute;
+    width: 200px;
+    height: 48px;
+    background-color: rgba(255,255,255,0.3);
+    border-radius: 500px;
+    opacity: 0;
+
+    transition: top 0.3s ease, left 0.3s ease, width 0.3s ease, height 0.3s ease, opacity .3s ease;
+    
+}
+@keyframes selectHighlightLeap {
+  0% {
+    top: var(--old-top);
+    left: var(--old-left);
+    width: var(--old-width);
+    border-radius: 50%;
+  }
+  50% {
+    /* shrink to center */
+    width: calc(var(--old-width) * 0.5);
+    left: calc(var(--old-left) + (var(--old-width) - var(--old-width) * 0.5) / 2);
+    border-radius: 50% / 60%;
+  }
+  100% {
+    top: var(--new-top);
+    left: var(--new-left);
+    width: var(--new-width);
+    border-radius: 500px;
+  }
+}
+.select_highlight.animate {
+    animation: selectHighlightLeap .2s ease forwards;
+}
+.select_highlight > p {
+    display: none;
+}
+
+.sidebar:hover .select_highlight {
+    opacity: 1;
+}
