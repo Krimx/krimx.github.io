@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Krimx | Home</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap" rel="stylesheet">
+  <script type="module" crossorigin src="/assets/liquid_glass_index-a0gU01lg.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/modulepreload-polyfill-B5Qt9EMX.js">
+  <link rel="stylesheet" crossorigin href="/assets/liquid_glass_index-CEI2dvEf.css">
+</head>
+<body>
+    <!--Needed for liquid glass to work-->
+    <svg style="display:none;">
+        <filter id="displacementFilter">
+            <feImage href="/recs/liquid-glass-displacement-map.png"
+                preserveAspectRatio="none"
+            />
+    
+            <feDisplacementMap in="SourceGraphic"
+                scale="200" xChannelSelector="R" yChannelSelector="G" />
+        </filter>
+    </svg>
+
+    <div class="sidebar liquid_glass">
+        <div class="select_highlight" id="selectHighlight"><p>a</p></div>
+        <div class="nav_button selected">
+            <img src="/recs/icons/home.png" class="nav_button_icon home_icon">
+            <p class="nav_button_text">Home</p>
+        </div>
+        <div class="nav_button">
+            <img src="/recs/icons/projects.png" class="nav_button_icon projects_icon">
+            <p class="nav_button_text">Projects</p>
+        </div>
+        <div class="nav_button">
+            <img src="/recs/icons/contact.png" class="nav_button_icon contact_icon">
+            <p class="nav_button_text">Contact</p>
+        </div>
+    </div>
+</body>
+</html>
