@@ -11,6 +11,27 @@
     box-sizing: border-box;
 }
 
+.puff {
+    backdrop-filter: blur(10px);
+    box-shadow: inset -5px -5px 20px -3px rgba(0,0,0,.5), inset 5px 5px 20px -3px rgba(255,255,255,.5), 0 0 20px -3px rgba(0,0,0, 0.5);
+    background-color: rgba(255,255,255,0.2);
+}
+.nav_button {
+    backdrop-filter: none;
+    box-shadow: none;
+    background-color: none;
+    transition: all 2s ease forwards;
+}
+.nav_button:active {
+    box-shadow: inset 5px 5px 20px -3px rgba(0,0,0,.5), inset -5px -5px 20px -3px rgba(255,255,255,.5);
+    transition: all 2s ease forwards;
+}
+.nav_button.selected {
+    box-shadow: inset -5px -5px 20px -3px rgba(0,0,0,.5), inset 5px 5px 20px -3px rgba(255,255,255,.5), 0 0 20px -3px rgba(50,50,50, 0.3);
+    background-color: rgba(255,255,255,0.3);
+    transition: all 2s ease forwards;
+}
+
 body {
     background-image: url("https://image.slidesdocs.com/responsive-images/background/geometric-colorful-for-website-powerpoint-background_8ef0125b21__960_540.jpg");
 }
@@ -83,12 +104,6 @@ p {
 .sidebar:hover .nav_button {
     width: auto;
 }
-.nav_button:hover {
-    background-color: var(--hovered-nav);
-}
-.nav_button.selected:hover {
-    background-color: var(--not-hovered-nav);
-}
 
 .nav_button_icon {
     height: 32px;
@@ -112,46 +127,4 @@ p {
     opacity: 100%;
     transform: translateX(0%);
     transition-delay: .2s;
-}
-
-.select_highlight {
-    position: absolute;
-    width: 200px;
-    height: 48px;
-    background-color: rgba(255,255,255,0.3);
-    border-radius: 500px;
-    opacity: 0;
-
-    transition: top 0.3s ease, left 0.3s ease, width 0.3s ease, height 0.3s ease, opacity .3s ease;
-    
-}
-@keyframes selectHighlightLeap {
-  0% {
-    top: var(--old-top);
-    left: var(--old-left);
-    width: var(--old-width);
-    border-radius: 50%;
-  }
-  50% {
-    /* shrink to center */
-    width: calc(var(--old-width) * 0.5);
-    left: calc(var(--old-left) + (var(--old-width) - var(--old-width) * 0.5) / 2);
-    border-radius: 50% / 60%;
-  }
-  100% {
-    top: var(--new-top);
-    left: var(--new-left);
-    width: var(--new-width);
-    border-radius: 500px;
-  }
-}
-.select_highlight.animate {
-    animation: selectHighlightLeap .2s ease forwards;
-}
-.select_highlight > p {
-    display: none;
-}
-
-.sidebar:hover .select_highlight {
-    opacity: 1;
 }
