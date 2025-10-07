@@ -16,7 +16,8 @@ export default defineConfig({
         links: "links.html",
         munchkin: "munchkin/munchkin.html",
         liquid_glass: "liquid-glass/liquid-glass.html",
-        liquid_glass_index: "liquid-glass-index.html"
+        liquid_glass_index: "liquid-glass-index.html",
+        kircuits: "kirc_docs/kirc_docs.html"
       }
     }
   }

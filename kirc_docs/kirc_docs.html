@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kircuits Docs</title>
+    <link rel="stylesheet" href="./kirc_docs.css">
+</head>
+<body>
+    <div class="super_container">
+        <div class="navbar">
+            <a class="navbar_link" href="#summary">Summary</a>
+            <a class="navbar_link" href="#howToUse">How To Use</a>
+            <a class="navbar_link" href="#nodes">Nodes</a>
+            <a class="navbar_link" href="#nodeTypes">Node Types</a>
+            <a class="navbar_link" href="#connections">Connections</a>
+            <a class="navbar_link" href="#connectionRanges">Connection Ranges</a>
+            <a class="navbar_link" href="#fileManagement">File Management</a>
+            <a class="navbar_link" href="#advancedInformation">Advanced Information</a>
+        </div>
+        <div class="content">
+            <h1 id="summary" class="main_title">Kircuits</h1>
+            <p>
+                This project is for CS340 (Programming Language and Design) in York College of Pennsylvania's Computer Science/Software Engineering course with Dean Zeller. It is an extention of a previous personal project with refinments to the codebase and structure, and modifications to fit the requirements of the course. The project itself is a digital circuits simulator that uses a custom programming language to use.
+                <br><br>
+                This webpage is the documentation for the language. It will outline how to use the IDE program and the language itself. On the left is a navigation bar that leads to different sections of the docs.
+            </p>
+            <br>
+            <h1 id="howToUse">How To Use</h1>
+            <p>
+                The program window is split into 3 parts: the text editor, the rendering window, and the error trace. The text editor is where code is written. The rendering window is where nodes are drawn based on the written code. Nodes can be interacted with by the user; this will be explained farther down. The error trace window is located at the bottom and will describe what errors are found in the code. Lines with errors will be highlighted in red in the text editor as well.
+                <br><br>
+                The rendering window can be panned around by left-clicking and dragging with the mouse. This is done to allow the user to see all of the nodes. The different areas can also be resized. Window resizing and area resizing are saved upon closing the program.
+            </p>
+            <br>
+            <h1 id="nodes">Nodes</h1>
+            <p>
+                Nodes are the core function of Kircuits. Each one has three components: inputs, body, and outputs. Inputs and outputs are made up of an array of <a href="#connections">connections</a>. The body of the node is where the data for said node is stored and also where the processing between the inputs and outputs occurs. Each node represents a type of logic gate or system such as an and-gate or a 4-bit-adder. Some nodes can be interacted with by the user such as inputs. Nodes are created by typing the node type in title case, then the name that the node will be referred to as in the code, and then an x and y position for it to be located.
+                <br><br>
+                Example: And andgate 100 100
+                <br><br>
+                In the above example, an And node is being created with the name "andgate" at the position (100, 100). Once the line is fully written, the node will appear in the graphics pane. It will be rendered as a box with the name inside of it and the appropriate connections drawn on its sides.
+            </p>
+            <br>
+            <h1 id="nodeTypes">Node Types</h1>
+            <p>
+                There are plenty of different types of nodes. The most important ones are the Switch and the Light as they act as inputs and outputs. There are several standard logic nodes as well including but not limited to: and, or, not, etc. Lastly, there are 4-bit nodes for then they are necessary for use.
+                <br>
+                <h2>Switch</h2>
+                The Switch node has no inputs and 1 output. When it is created, it can be clicked on with the mouse to switch its state between on and off.
+                <br>
+                <h2>Light</h2>
+                The Light node has 1 input and no outputs. It switches between on and off depending on what is fed into its input. For example, if a switch was connected to it, when the switch is on, the light is on.
+                <br>
+                <h2>And</h2>
+                The And node has 2 inputs and 1 output. It performs the "and" boolean operation.
+                <br>
+                <h2>Or</h2>
+                The Or node has 2 inputs and 1 output. It performs the "or" boolean operation.
+                <br>
+                <h2>Not</h2>
+                The Not node has 1 input and 1 output. It performs the "not" or "invert" boolean operation.
+                <br>
+                <h2>Nor</h2>
+                The Nor node has 2 inputs and 1 output. It performs the "nor" boolean operation.
+                <br>
+                <h2>Xor</h2>
+                The Xor node has 2 inputs and 1 output. It performs the "xor" boolean operation.
+                <br>
+                <h2>Nand</h2>
+                The Nand node has 2 inputs and 1 output. It performs the "nand" boolean operation.
+                <br>
+                <h2>FourBitInput</h2>
+                The FourBitInput node has no inputs and 4 outputs. The user can hover over it with the mouse and use the up and down arrow keys to increase or decrease the number it outputs. It will then output the number in binary with the least significant bit at the top and most significant bit at the bottom.
+                <br>
+                <h2>FourBitAdder</h2>
+                The FourBitAdder node has no 10 and 5 outputs. The first 4 inputs are for the first input number, and the next 4 inputs are for the second input number. The least significant bit is located at the uppermost input for both input numbers. The 9th input is the subtract bit. When enabled, it will switch the adder from add mode to subtract mode. The last input is for carry-in. The first 4 outputs are for the sum/difference, and the 5th output is for carry-out.
+                <br>
+                <h2>FourBitOutput</h2>
+                The FourBitOutput node has 4 inputs and no outputs. It displays the boolean 4-bit input as a decimal number.
+            </p>
+            <br>
+            <h1 id="connections">Connections</h1>
+            <p>
+                Node outputs connect to node inputs. The inputs are outputs are counted starting at 0 (the first input/output is index 0). Syntactically, connections are established using dot notation.
+
+                Example: input.0 output.0
+
+                In the above example, a node named "input" is having its first output connected to the first input of a node called "output". The index used can only be within the range of inputs/outputs that a node has. So, for example, a FourBitInput can only have indexes 0 through 3 used because it only has four outputs.
+            </p>
+            <br>
+            <h1 id="connectionRanges">Connection Ranges</h1>
+            <p>
+                In certain cases, it may be useful to be able to take a range of outputs and connect them to a range of inputs. For example, connecting a FourBitInput to a FourBitAdder. In cases like this, one can use connection ranges to avoid writing multiple lines for a simple task. Connection ranges are declared by replacing the dot notation of a standard connection with square brackets and listing the input/output indexes to be used, separated by commas.
+                <br><br>
+                Example: fourBitInput[0,1,2,3] fourBitAdder[0,1,2,3]
+                <br><br>
+                In the above example, the first, second, third, and fourth output of a node named "fourBitInput" are being connected to the first, second, third, and fourth input of a node named "fourBitAdder". Notice how there are no spaces between numbers and commas. This is a bug and will be fixed in due time.
+                <br><br>
+                An important note about connection ranges is index matching. This means that the placement of the index of the connection in the range matters because it dictates what it will be connected to. An output listed in the first position of a range will be connected to the input listed at the first position of the connecting range. In the above example, fourBitInput's first output is connected to fourBitAdder's first input. However, in the below example, fourBitInput's last output is connected to fourBitAdder's first input.
+                <br><br>
+                Example: fourBitInput(3,2,1,0) fourBitAdder(0,1,2,3)
+            </p>
+            <br>
+            <h1 id="fileManagement">File Management</h1>
+            <p>
+                In the top left of the program window, a context menu labeled "file" can be clicked to reveal a dropdown with two options. The first option is to save your current circuit to a file. Clicking that will open a file explorer window which will allow you to choose where to save the file and what name to give it. It will be saved with the .kirc file extension. The second option is to open a .kirc file. This will open a file explorer menu to select a file to open. Doing so will replace whcode is currently written with the contents of the file you choose. These menus can also be opened used CMD or CTRL + S or O respectively.
+            </p>
+            <br>
+            <h1 id="advancedInformation">Advanced Information</h1>
+            <p>
+                This section covers more lower-level information about the program itself and is not necessary for use.
+                <br><br>
+                The program runs on 3 separate threads: one for program logic, one for rendering, and one for circuit logic. The rendering is at a strict 30 fps because no more is needed. Program logic runs at 30 tps to match the rendering cycle. Circuit logic is run at 10 tps in order to reduce cpu load.
+            </p>
+        </div>
+    </div>
+</body>
+</html>
