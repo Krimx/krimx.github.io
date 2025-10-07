@@ -15,6 +15,7 @@
             <a class="navbar_link" href="#nodeTypes">Node Types</a>
             <a class="navbar_link" href="#connections">Connections</a>
             <a class="navbar_link" href="#connectionRanges">Connection Ranges</a>
+            <a class="navbar_link" href="#operations">Operations</a>
             <a class="navbar_link" href="#fileManagement">File Management</a>
             <a class="navbar_link" href="#advancedInformation">Advanced Information</a>
         </div>
@@ -23,8 +24,10 @@
             <p>
                 This project is for CS340 (Programming Language and Design) in York College of Pennsylvania's Computer Science/Software Engineering course with Dean Zeller. It is an extention of a previous personal project with refinments to the codebase and structure, and modifications to fit the requirements of the course. The project itself is a digital circuits simulator that uses a custom programming language to use.
                 <br><br>
-                This webpage is the documentation for the language. It will outline how to use the IDE program and the language itself. On the left is a navigation bar that leads to different sections of the docs.
+                This webpage is the documentation for the language. It will outline how to use the IDE program and the language itself. On the left is a navigation bar that leads to different sections of the docs. A download for various runnable versions of the project is provided below.
             </p>
+            <br>
+            <a download="Kircuits.jar" href="recs/downloads/Kircuits.jar">Download Runnable Jar</a>
             <br>
             <h1 id="howToUse">How To Use</h1>
             <p>
@@ -95,11 +98,22 @@
                 <br><br>
                 Example: fourBitInput[0,1,2,3] fourBitAdder[0,1,2,3]
                 <br><br>
-                In the above example, the first, second, third, and fourth output of a node named "fourBitInput" are being connected to the first, second, third, and fourth input of a node named "fourBitAdder". Notice how there are no spaces between numbers and commas. This is a bug and will be fixed in due time.
+                In the above example, the first, second, third, and fourth output of a node named "fourBitInput" are being connected to the first, second, third, and fourth input of a node named "fourBitAdder".
                 <br><br>
                 An important note about connection ranges is index matching. This means that the placement of the index of the connection in the range matters because it dictates what it will be connected to. An output listed in the first position of a range will be connected to the input listed at the first position of the connecting range. In the above example, fourBitInput's first output is connected to fourBitAdder's first input. However, in the below example, fourBitInput's last output is connected to fourBitAdder's first input.
                 <br><br>
                 Example: fourBitInput(3,2,1,0) fourBitAdder(0,1,2,3)
+            </p>
+            <br>
+            <h1 id="operations">Operations</h1>
+            <p>
+                Interactable nodes (Switch, FourBitInput, etc) can be manually set in the code. The syntax has two parts: node name, and value to set to. Each type of node that can be set has a different value that it can be set to.
+                <h2>Switch</h2>
+                Switches can either be set to "on" or "off".
+                <h2>FourBitInput</h2>
+                FourBitInputs can be set to any integer value from 0 to 15. Any value below or above that is considered invalid and will throw an error.
+                <br><br>
+                Manually set nodes can still be interacted with in real time. However, interactions will be reset any time the code is updated.
             </p>
             <br>
             <h1 id="fileManagement">File Management</h1>
