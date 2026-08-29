@@ -17,7 +17,8 @@ export default defineConfig({
         munchkin: "munchkin/munchkin.html",
         liquid_glass: "liquid-glass/liquid-glass.html",
         liquid_glass_index: "liquid-glass-index.html",
-        kircuits: "kirc_docs/kirc_docs.html"
+        kircuits: "kirc_docs/kirc_docs.html",
+        minecraft_rehaul: "minecraft_rehaul.html"
       }
     }
   }
